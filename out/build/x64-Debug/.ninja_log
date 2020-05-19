@@ -1,0 +1,20 @@
+# ninja log v5
+0	472	611544164	CMakeFiles/adcgl.dir/src/tensor/TensorArray.cpp.obj	630b992246478948
+3	483	611544164	CMakeFiles/adcgl.dir/src/tensor/Shape.cpp.obj	1cb7c35fed4c21c0
+0	227	611544713	CMakeFiles/adcgl.dir/src/tensor/Shape.cpp.obj	1cb7c35fed4c21c0
+4	398	611544713	CMakeFiles/adcgl.dir/src/main.cpp.obj	5167e3fed8746994
+399	1196	611544713	adcgl.exe	60271dc78ea6ed08
+0	384	611544773	CMakeFiles/adcgl.dir/src/main.cpp.obj	5167e3fed8746994
+384	1022	611544773	adcgl.exe	60271dc78ea6ed08
+1	557	611545068	CMakeFiles/adcgl.dir/src/main.cpp.obj	5167e3fed8746994
+558	1222	611545068	adcgl.exe	60271dc78ea6ed08
+1	415	611546167	CMakeFiles/adcgl.dir/src/main.cpp.obj	5167e3fed8746994
+416	989	611546167	adcgl.exe	60271dc78ea6ed08
+1	516	611546187	CMakeFiles/adcgl.dir/src/main.cpp.obj	5167e3fed8746994
+516	1196	611546187	adcgl.exe	60271dc78ea6ed08
+0	644	611547066	CMakeFiles/adcgl.dir/src/main.cpp.obj	5167e3fed8746994
+644	1314	611547066	adcgl.exe	60271dc78ea6ed08
+1	550	611547554	CMakeFiles/adcgl.dir/src/main.cpp.obj	5167e3fed8746994
+551	1400	611547554	adcgl.exe	60271dc78ea6ed08
+0	383	611547568	CMakeFiles/adcgl.dir/src/main.cpp.obj	5167e3fed8746994
+383	997	611547568	adcgl.exe	60271dc78ea6ed08
