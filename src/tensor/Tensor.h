@@ -13,9 +13,9 @@ namespace Tensor {
 	class Tensor {
 		private:
 
-			size_t size;
+			size_t size; // total number of elements in the Tensor
 
-			T* iterable;
+			T* iterable; // contents
 
 			Shape shape;
 
@@ -24,12 +24,12 @@ namespace Tensor {
 			Tensor()
 				: size(1),
 				  iterable(new T[1]),
-				  Shape(1) {}
+				  shape(1) {}
 
 			Tensor(size_t size)
 				: size(size),
 				  iterable(new T[size]),
-				  Shape(size) {}
+				  shape(size) {}
 
 			Tensor(Shape shape)
 				: size(shape.get_size()),

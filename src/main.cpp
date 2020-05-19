@@ -5,6 +5,8 @@
 
 #include "tensor/Shape.h"
 
+#include "tensor/TensorArray.h"
+
 int main() {
 
 	std::cout << "word\n";
@@ -17,7 +19,13 @@ int main() {
 
 	Tensor::Tensor<int> t2(a);
 
-	std::cout << s.get_size() << " " << t2.get_size();
+	Tensor::TensorArray<int> ar1;
+
+	ar1.push_back(t1);
+
+	ar1.push_back(t2);
+
+	std::cout << ar1[1] << " " << &t2;
 
 	return 0;
 }

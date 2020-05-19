@@ -52,13 +52,6 @@ build CMakeFiles\adcgl.dir\src\tensor\Shape.cpp.obj: CXX_COMPILER__adcgl ..\..\.
   TARGET_COMPILE_PDB = CMakeFiles\adcgl.dir\
   TARGET_PDB = adcgl.pdb
 
-build CMakeFiles\adcgl.dir\src\tensor\TensorArray.cpp.obj: CXX_COMPILER__adcgl ..\..\..\src\tensor\TensorArray.cpp || cmake_object_order_depends_target_adcgl
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  OBJECT_DIR = CMakeFiles\adcgl.dir
-  OBJECT_FILE_DIR = CMakeFiles\adcgl.dir\src\tensor
-  TARGET_COMPILE_PDB = CMakeFiles\adcgl.dir\
-  TARGET_PDB = adcgl.pdb
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target adcgl
@@ -67,7 +60,7 @@ build CMakeFiles\adcgl.dir\src\tensor\TensorArray.cpp.obj: CXX_COMPILER__adcgl .
 #############################################
 # Link the executable adcgl.exe
 
-build adcgl.exe: CXX_EXECUTABLE_LINKER__adcgl CMakeFiles\adcgl.dir\src\main.cpp.obj CMakeFiles\adcgl.dir\src\tensor\Shape.cpp.obj CMakeFiles\adcgl.dir\src\tensor\TensorArray.cpp.obj
+build adcgl.exe: CXX_EXECUTABLE_LINKER__adcgl CMakeFiles\adcgl.dir\src\main.cpp.obj CMakeFiles\adcgl.dir\src\tensor\Shape.cpp.obj
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

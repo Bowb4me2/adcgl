@@ -53,8 +53,7 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1,
-				2
+				1
 			]
 		}
 	],
@@ -92,8 +91,7 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1,
-				2
+				1
 			]
 		}
 	],
@@ -109,12 +107,6 @@
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
 			"path" : "src/tensor/Shape.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 2,
-			"compileGroupIndex" : 0,
-			"path" : "src/tensor/TensorArray.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
