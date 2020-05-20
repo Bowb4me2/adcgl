@@ -23,12 +23,12 @@ namespace Tensor {
 
 		public:
 
-			Tensor<T>* operator[](int index) {
+			Tensor<T>& operator[](int index) {
 				if (index >= this->size) {
-					return nullptr;
+					throw std::out_of_range("you done goofed");
 				}
 
-				return &iterable[index];
+				return this->iterable[index];
 			}
 
 			TensorArray() 
@@ -50,7 +50,14 @@ namespace Tensor {
 						arr[i] = this->iterable[i];
 					}
 
-					this->iterable = new Tensor<T>[this->size * 2];
+					if (this->max == 0) {
+						this->max++;
+					} else {
+						this->max *= 2;
+					}
+
+
+					this->iterable = new Tensor<T>[(this->max)];
 
 					for (size_t i = 0; i < this->size; i++) {
 						this->iterable[i] = arr[i];
@@ -58,16 +65,13 @@ namespace Tensor {
 
 					delete[] arr;
 					
-					if (this->max != 0) {
-						this->max *= 2;
-					}else {
-						this->max++;
-					}
 				}
 
-				this->size++;
 
-				iterable[this->size] = item;
+				this->iterable[this->size] = item;
+
+
+				this->size++;
 
 			}
 
@@ -75,6 +79,10 @@ namespace Tensor {
 				for (size_t i = 0; i < tensor_array.size; i++) {
 					push_back(tensor_array[i]);
 				}
+			}
+
+			size_t get_size() {
+				return this->size;
 			}
 
 	}; // class Tensor::TensorArray

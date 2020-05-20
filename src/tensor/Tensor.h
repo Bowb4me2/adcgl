@@ -7,6 +7,8 @@
 
 #include "Shape.h"
 
+#include <iostream>
+
 namespace Tensor {
 
 	template<typename T>
@@ -20,6 +22,13 @@ namespace Tensor {
 			Shape shape;
 
 		public:
+
+			T& operator[](int index) {
+				if (index >= this->size) {
+					throw std::out_of_range("you done goofed");
+				}
+				return this->iterable[index];
+			}
 
 			Tensor()
 				: size(1),
@@ -50,10 +59,6 @@ namespace Tensor {
 
 			size_t get_size() {
 				return this->size;
-			}
-
-			T get_iterable() {
-				return *(this->iterable);
 			}
 
 			Shape get_shape() {

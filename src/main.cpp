@@ -13,19 +13,19 @@ int main() {
 
 	unsigned int a[5] = { 1, 2, 3, 4, 5 };
 
-	Tensor::Shape s(a);
+	Tensor::Tensor<unsigned int> tensor(a);
 
-	Tensor::Tensor<int> t1(s);
+	Tensor::TensorArray<unsigned int> tensor_array;
 
-	Tensor::Tensor<int> t2(a);
+	tensor_array.push_back(tensor);
 
-	Tensor::TensorArray<int> ar1;
+	tensor_array.push_back(tensor);
 
-	ar1.push_back(t1);
+	std::cout << tensor[2] << " " << tensor_array[0][2] << "\n";
 
-	ar1.push_back(t2);
+	tensor_array[0][2] = 1;
 
-	std::cout << ar1[1] << " " << &t2;
+	std::cout << tensor[2] << " " << tensor_array[1][2] << "\n";
 
 	return 0;
 }
