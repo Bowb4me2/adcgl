@@ -1,6 +1,11 @@
-# library
+# Add sources
+set(src_sources_list
+	adcgl.cpp
+	adcgl.h
+)
 
-add_library(src adcgl.cpp adcgl.h)
+# library
+add_library(src ${src_sources_list})
 
 target_include_directories (src PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # Add subdirectories

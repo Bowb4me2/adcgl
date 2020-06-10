@@ -9,6 +9,4 @@ project (adcgl)
 add_subdirectory(src)
 add_subdirectory(tests)
 
-
-
 # TODO: Add tests and install targets if needed.

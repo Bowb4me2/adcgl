@@ -1,10 +1,8 @@
 #include <iostream>
 
-#include "../src/tensor/Tensor.h"
+#include <adcgl.h>
 
-#include "../src/tensor/Shape.h"
-
-#include "../src/tensor/TensorArray.h"
+#include <string>
 
 
 int main() {
@@ -15,16 +13,19 @@ int main() {
 	Tensor::Tensor<unsigned int> tensor(a);
 
 	Tensor::TensorArray<unsigned int> tensor_array;
-
 	tensor_array.push_back(tensor);
-
-	tensor_array.push_back(tensor);
-
+	
 	std::cout << tensor[2] << " " << tensor_array[0][2] << "\n";
 
-	tensor_array[0][2] = 2;
+	tensor_array.push_back(tensor);
 
-	std::cout << tensor[2] << " " << tensor_array[1][2] << "\n";
+	tensor_array[0][2] = 6;
+
+	std::cout << tensor[2] << " " << tensor_array[1][2] << "\nArray Size: " << tensor_array.get_size();
+
+	std::string in;
+	
+	std::cin >> in;
 
 	return 0;
 }
