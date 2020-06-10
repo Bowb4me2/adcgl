@@ -1,15 +1,14 @@
-
 #include <iostream>
 
-#include "tensor/Tensor.h"
+#include "../src/tensor/Tensor.h"
 
-#include "tensor/Shape.h"
+#include "../src/tensor/Shape.h"
 
-#include "tensor/TensorArray.h"
+#include "../src/tensor/TensorArray.h"
+
 
 int main() {
-
-	std::cout << "word\n";
+	std::cout << "word word \n";
 
 	unsigned int a[5] = { 1, 2, 3, 4, 5 };
 
@@ -23,7 +22,7 @@ int main() {
 
 	std::cout << tensor[2] << " " << tensor_array[0][2] << "\n";
 
-	tensor_array[0][2] = 1;
+	tensor_array[0][2] = 2;
 
 	std::cout << tensor[2] << " " << tensor_array[1][2] << "\n";
 

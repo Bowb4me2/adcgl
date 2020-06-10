@@ -24,8 +24,8 @@ namespace Tensor {
 		public:
 
 			Tensor<T>& operator[](int index) {
-				if (index >= this->size) {
-					throw std::out_of_range("you done goofed");
+				if (index >= this->size || index < 0) {
+					throw "index outside of array range, out of bounds exception";
 				}
 
 				return this->iterable[index];
@@ -42,12 +42,13 @@ namespace Tensor {
 				
 				if (this->size == this->max) {
 
-					Tensor<T>* arr;
+					Tensor<T>* placeholder_array;
 
-					arr = new Tensor<T>[this->size];
+					placeholder_array = new Tensor<T>[this->size];
 
-					for (size_t i = 0; i < this->size; i++) {
-						arr[i] = this->iterable[i];
+					// copy array over to placeholder
+					for (size_t copy_index = 0; copy_index < this->size; copy_index++) {
+						placeholder_array[copy_index] = this->iterable[copy_index];
 					}
 
 					if (this->max == 0) {
@@ -56,14 +57,15 @@ namespace Tensor {
 						this->max *= 2;
 					}
 
-
+					// clear placeholder, allocate more space
 					this->iterable = new Tensor<T>[(this->max)];
 
-					for (size_t i = 0; i < this->size; i++) {
-						this->iterable[i] = arr[i];
+					// copy contents from placeholder over to array
+					for (size_t copy_index = 0; copy_index < this->size; copy_index++) {
+						this->iterable[copy_index] = placeholder_array[copy_index];
 					}
 
-					delete[] arr;
+					delete[] placeholder_array;
 					
 				}
 
@@ -76,8 +78,8 @@ namespace Tensor {
 			}
 
 			void append(TensorArray<T>& tensor_array) {
-				for (size_t i = 0; i < tensor_array.size; i++) {
-					push_back(tensor_array[i]);
+				for (unsigned int index = 0; index < tensor_array.size; index++) {
+					push_back(tensor_array[index]);
 				}
 			}
 

@@ -5,8 +5,6 @@
 #ifndef __SHAPE_H__
 #define __SHAPE_H__
 
-#include <initializer_list>
-
 namespace Tensor {
 
 	class Shape {
@@ -20,18 +18,20 @@ namespace Tensor {
 
 		public:
 
+			unsigned int& operator[](int index);
+
 			// default contructor
 			Shape();
 
 			// contructor with specified size
-			Shape(size_t size);
+			Shape(unsigned int size);
 
 			// contructor with psuedo std::intializer_list
 			template<size_t N>
 			Shape(const unsigned int(&shape)[N])
 				: size(1),
-				shape(new unsigned int[N]),
-				dims(N) {
+				  shape(new unsigned int[N]),
+				  dims(N) {
 
 				for (size_t i = 0; i < N; i++) {
 					this->size *= shape[i];
@@ -39,6 +39,15 @@ namespace Tensor {
 					this->shape[i] = shape[i];
 				}
 			}
+
+			bool is_brodcastable(Shape shape);
+
+			template<size_t N>
+			void reshape(const unsigned int(&shape)[N]) {
+			
+			}
+
+			void reshape(Shape shape);
 
 			size_t get_size();
 
