@@ -6,6 +6,9 @@
 
 #add_library(tests ${src_files})
 
-add_executable(adcgl_exe main.cpp)
+add_executable(tensor_array_test tensor_array_test.cpp)
+target_link_libraries(tensor_array_test src)
 
-target_link_libraries(adcgl_exe src)
+add_executable(brodcast_test brodcast_test.cpp)
+target_link_libraries(brodcast_test src)
+

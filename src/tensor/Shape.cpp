@@ -6,7 +6,7 @@
 
 unsigned int& Tensor::Shape::operator[](int index) {
 	if (index >= this->size) {
-		throw - 1;
+		throw "out of bounds";
 	}
 	return this->shape[index];
 }
@@ -18,9 +18,8 @@ Tensor::Shape::Shape()
 
 Tensor::Shape::Shape(unsigned int size)
 	: size(size),
-	  shape(new unsigned int((unsigned int)size)),
+	  shape(new unsigned int(size)),
 	  dims(1) {}
-
 
 bool Tensor::Shape::is_brodcastable(Shape shape) {
 	// the difference between the number of dimentions
@@ -36,27 +35,26 @@ bool Tensor::Shape::is_brodcastable(Shape shape) {
 	// compare the sizes starting with the trailin dimention,
 	// if they are not equal or the neither shape dimention is equal to 1 
 	// then the two arrays are unbrodcastable
-	for (int dims_index = shape.get_dims() - 1; dims_index >= 0; dims_index--) {
+	for (int dims_index = shape.dims - 1; dims_index >= 0; dims_index--) {
 
 		if (shape.get_shape()[dims_index] != this->shape[dims_index + dims_difference] ||
-			shape.get_shape()[dims_index] != 1 ||
-			this->shape[dims_index + dims_difference] != 1) {
+			shape.get_shape()[dims_index] != 1) {
 			return false;
 		}
 	}
-
+	
 	return true;
 }
 
 void Tensor::Shape::reshape(Shape shape) {
 
-	if (shape.get_size() != this->size) {
+	if (shape.size != this->size) {
 		throw "error, sizes dont match";
 	}
 
-	this->dims = shape.get_dims();
+	this->dims = shape.dims;
 
-	this->shape = shape.get_shape();
+	this->shape = shape.shape;
 
 }
 

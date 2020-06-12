@@ -5,6 +5,7 @@
 #ifndef __SHAPE_H__
 #define __SHAPE_H__
 
+
 namespace Tensor {
 
 	class Shape {
@@ -15,6 +16,9 @@ namespace Tensor {
 			unsigned int* shape;
 
 			size_t dims;
+
+			template <typename T>
+			friend class Tensor;
 
 		public:
 

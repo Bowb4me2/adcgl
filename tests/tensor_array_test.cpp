@@ -21,7 +21,7 @@ int main() {
 
 	tensor_array[0][2] = 6;
 
-	std::cout << tensor[2] << " " << tensor_array[1][2] << "\nArray Size: " << tensor_array.get_size();
+	std::cout << tensor[2] << " " << tensor_array[1][2] << "\nArray Size: " << tensor_array.get_size() << "\n";
 
 	std::string in;
 	
