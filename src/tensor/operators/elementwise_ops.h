@@ -5,38 +5,37 @@
 #ifndef __ELEMENTWISE_OPS_H__
 #define __ELEMENTWISE_OPS_H__
 
-#include "../Tensor.h"
-
 namespace Tensor {
 
 	namespace Operators {
 
+		 
 		template<typename T>
-		void add(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1) {
-			if (arg0.is_brodcastable(arg1)) {
-				
-
-			} else if (arg1.is_brodcastable(arg0)) {
-				
-
-			} else {
-				throw "Tensors are of incompatible Shapes, cannot be brodcast";
+		void add(T* out, T* arg0, T* arg1, size_t size) {
+			for (size_t index = 0; index < size; index++) {
+				out[index] = arg0[index] + arg1[index];
 			}
 		}
 
 		template<typename T>
-		void sub(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1) {
-
+		void sub(T* out, T* arg0, T* arg1) {
+			for (size_t index = 0; index < size; index++) {
+				out[index] = arg0[index] - arg1[index];
+			}
 		}
 
 		template<typename T>
-		void mul(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1) {
-			
+		void mul(T* out, T* arg0, T* arg1) {
+			for (size_t index = 0; index < size; index++) {
+				out[index] = arg0[index] * arg1[index];
+			}
 		}
 
 		template<typename T>
-		void div(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1) {
-
+		void div(T* out, T* arg0, T* arg1) {
+			for (size_t index = 0; index < size; index++) {
+				out[index] = arg0[index] / arg1[index];
+			}
 		}
 
 	} // namespace Tensor::Operators

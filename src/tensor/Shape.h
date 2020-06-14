@@ -46,10 +46,10 @@ namespace Tensor {
 
 			bool is_brodcastable(Shape shape);
 
-			template<size_t N>
-			void reshape(const unsigned int(&shape)[N]) {
-			
-			}
+			//template<size_t N>
+			//void reshape(const unsigned int(&shape)[N]) {
+			//
+			//}
 
 			void reshape(Shape shape);
 

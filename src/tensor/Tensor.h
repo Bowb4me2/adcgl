@@ -8,10 +8,10 @@
 #include "Shape.h"
 
 namespace Tensor {
-
-
+	
 	template<typename T>
 	class Tensor {
+	
 		private:
 
 			size_t size; // total number of elements in the Tensor
@@ -63,8 +63,28 @@ namespace Tensor {
 			void brodcast_to_mem(Tensor<T> iterable) {
 				brodcast_to_mem_recursive(iterable, 0, this->shape.dims - iterable.shape.dims, 0, 0);
 			}
+			
+			void operate(Tensor<T> out, void (*operation)(T*, T*, T*, size_t)) {
+				operation(out.iterable, this->iterable, this->brodcast_iterable, out.size);
+			}
 
 		public:
+
+			static void operate(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1, void (*operation)(T*, T*, T*, size_t)) {
+				if (arg0.is_brodcastable(arg1)) {
+					arg0.brodcast_to_mem(arg1);
+
+					arg0.operate(out, operation);
+				}
+				else if (arg1.is_brodcastable(arg0)) {
+					arg1.brodcast_to_mem(arg0);
+
+					arg1.operate(out, operation);
+				}
+				else {
+					throw "Tensors are not brodcastable togther";
+				}
+			}
 
 			T& operator[](int index) {
 				if (index >= this->size || index < 0) {
@@ -78,22 +98,28 @@ namespace Tensor {
 				: size(1),
 				  iterable(new T[1]),
 				  shape(1),
-				  brodcast_iterable(new T[1]) {}
+				  brodcast_iterable(new T[1]) {
+				fill(T(0));
+			}
 
 			Tensor(size_t size)
 				: size(size),
 				  iterable(new T[size]),
 				  shape(size),
-				  brodcast_iterable(new T[size]) {}
+				  brodcast_iterable(new T[size]) {
+				fill(T(0));
+			}
 
 			Tensor(Shape shape)
 				: size(shape.size),
 				  iterable(new T[shape.size]),
 				  shape(shape),
-				  brodcast_iterable(new T[shape.size]) {}
+				  brodcast_iterable(new T[shape.size]) {
+				fill(T(0));
+			}
 
 			template<size_t N>
-			Tensor(const T(&iterable)[N])
+			Tensor(const T (&iterable)[N])
 				: size(N),
 				  iterable(new T[N]),
 				  shape(N),
@@ -106,7 +132,23 @@ namespace Tensor {
 			}
 
 			bool is_brodcastable(Tensor<T> iterable) {
-				return this->shape.is_brodcastible(iterable.shape);
+				return this->shape.is_brodcastable(iterable.shape);
+			}
+			
+			void fill(T fill_contents) {
+				for (size_t index = 0; index < this->size; index++) {
+					this->iterable[index] = fill_contents;
+				}
+			}
+
+			void fill(Tensor<T> fill_contents) {
+				if (is_brodcastable(fill_contents)) {
+					brodcast_to_mem(fill_contents);
+
+					for (size_t index = 0; index < this->size; index++) {
+						this->iterable[index] = this->brodcast_iterable[index];
+					}
+				}
 			}
 
 			size_t get_size() {
@@ -117,6 +159,12 @@ namespace Tensor {
 				return this->shape;
 			}
 
+			T* get_brodcast_iterable() {
+				return this->brodcast_iterable;
+			}
+
+			~Tensor<T>() {
+			}
 	}; // class Tensor::Tensor<T>
 
 } // namespace Tensor

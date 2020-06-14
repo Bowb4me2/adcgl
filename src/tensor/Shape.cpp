@@ -4,6 +4,7 @@
 
 #include "Shape.h"
 
+
 unsigned int& Tensor::Shape::operator[](int index) {
 	if (index >= this->size) {
 		throw "out of bounds";
@@ -22,6 +23,7 @@ Tensor::Shape::Shape(unsigned int size)
 	  dims(1) {}
 
 bool Tensor::Shape::is_brodcastable(Shape shape) {
+	
 	// the difference between the number of dimentions
 	auto dims_difference = this->dims - shape.get_dims();
 
@@ -31,14 +33,13 @@ bool Tensor::Shape::is_brodcastable(Shape shape) {
 	}
 
 	// assumes the host of the method has more dims.
-
 	// compare the sizes starting with the trailin dimention,
 	// if they are not equal or the neither shape dimention is equal to 1 
 	// then the two arrays are unbrodcastable
-	for (int dims_index = shape.dims - 1; dims_index >= 0; dims_index--) {
+	for (long dims_index = shape.dims - 1; dims_index >= 0; dims_index--) {
 
-		if (shape.get_shape()[dims_index] != this->shape[dims_index + dims_difference] ||
-			shape.get_shape()[dims_index] != 1) {
+		if (shape.shape[dims_index] != this->shape[dims_index + dims_difference] &&
+			shape.shape[dims_index] != 1) {
 			return false;
 		}
 	}
