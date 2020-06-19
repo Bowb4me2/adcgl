@@ -17,10 +17,18 @@ namespace Tensor {
 
 			size_t dims;
 
+			
+
+		public:
+
 			template <typename T>
 			friend class Tensor;
 
-		public:
+			template <typename T>
+			friend class HTensor;
+
+			template <typename T>
+			friend class DTensor;
 
 			unsigned int& operator[](int index);
 

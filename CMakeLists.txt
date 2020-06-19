@@ -1,7 +1,7 @@
 ﻿# CMakeList.txt : CMake project for adcgl, include source and define
 # project specific logic here.
-#
-cmake_minimum_required (VERSION 3.8)
+
+cmake_minimum_required(VERSION 3.8)
 
 project (adcgl)
 
@@ -9,4 +9,4 @@ project (adcgl)
 add_subdirectory(src)
 add_subdirectory(tests)
 
-# TODO: Add tests and install targets if needed.
+# TODO: install targets if needed.
