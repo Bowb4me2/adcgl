@@ -5,3 +5,4 @@
 #include <tensor/host/HTensor.h>
 #include <tensor/TensorArray.h>
 #include <tensor/Shape.h>
+#include <graph/nodes/placeholders/Placeholder.h>

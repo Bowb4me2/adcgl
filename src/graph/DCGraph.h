@@ -8,13 +8,11 @@
 
 namespace Graph {
 
+	// Differentiable Compute Graph
 	class DCGraph {
 
 
-	};
-
-
-
+	}; // class DCGraph
 
 } // namespace Graph
 
