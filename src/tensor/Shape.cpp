@@ -4,69 +4,72 @@
 
 #include "Shape.h"
 
+namespace Tensor {
 
-unsigned int& Tensor::Shape::operator[](int index) {
-	if (index >= this->size) {
-		throw "out of bounds";
-	}
-	return this->shape[index];
-}
-
-Tensor::Shape::Shape()
-	: size(1),
-	  shape(new unsigned int(1)),
-	  dims(1) {}
-
-Tensor::Shape::Shape(unsigned int size)
-	: size(size),
-	  shape(new unsigned int(size)),
-	  dims(1) {}
-
-bool Tensor::Shape::is_brodcastable(Shape shape) {
-	
-	// the difference between the number of dimentions
-	auto dims_difference = this->dims - shape.get_dims();
-
-	// check to make sure that the patern shape has more dimentions than the brodcaster
-	if (dims_difference < 0) {
-		return false;
+	unsigned int& Shape::operator[](int index) {
+		if (index >= this->size) {
+			throw "out of bounds";
+		}
+		return this->shape[index];
 	}
 
-	// assumes the host of the method has more dims.
-	// compare the sizes starting with the trailin dimention,
-	// if they are not equal or the neither shape dimention is equal to 1 
-	// then the two arrays are unbrodcastable
-	for (long dims_index = shape.dims - 1; dims_index >= 0; dims_index--) {
+	Shape::Shape()
+		: size(1),
+		shape(new unsigned int(1)),
+		dims(1) {}
 
-		if (shape.shape[dims_index] != this->shape[dims_index + dims_difference] &&
-			shape.shape[dims_index] != 1) {
+	Shape::Shape(unsigned int size)
+		: size(size),
+		shape(new unsigned int(size)),
+		dims(1) {}
+
+	bool Shape::is_brodcastable(Shape shape) {
+
+		// the difference between the number of dimentions
+		auto dims_difference = this->dims - shape.get_dims();
+
+		// check to make sure that the patern shape has more dimentions than the brodcaster
+		if (dims_difference < 0) {
 			return false;
 		}
+
+		// assumes the host of the method has more dims.
+		// compare the sizes starting with the trailin dimention,
+		// if they are not equal or the neither shape dimention is equal to 1 
+		// then the two arrays are unbrodcastable
+		for (long long dims_index = shape.dims - 1; dims_index >= 0; dims_index--) {
+
+			if (shape.shape[dims_index] != this->shape[dims_index + dims_difference] &&
+				shape.shape[dims_index] != 1) {
+				return false;
+			}
+		}
+
+		return true;
 	}
-	
-	return true;
-}
 
-void Tensor::Shape::reshape(Shape shape) {
+	void Shape::reshape(Shape shape) {
 
-	if (shape.size != this->size) {
-		throw "error, sizes dont match";
+		if (shape.size != this->size) {
+			throw "error, sizes dont match";
+		}
+
+		this->dims = shape.dims;
+
+		this->shape = shape.shape;
+
 	}
 
-	this->dims = shape.dims;
+	size_t Shape::get_size() {
+		return this->size;
+	}
 
-	this->shape = shape.shape;
+	unsigned int* Shape::get_shape() {
+		return this->shape;
+	}
 
-}
+	size_t Shape::get_dims() {
+		return this->dims;
+	}
 
-size_t Tensor::Shape::get_size() {
-	return this->size;
-}
-
-unsigned int* Tensor::Shape::get_shape() {
-	return this->shape;
-}
-
-size_t Tensor::Shape::get_dims() {
-	return this->dims;
-}
+} // namespace Tensor

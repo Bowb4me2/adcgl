@@ -13,6 +13,9 @@ namespace Graph {
 
 		class Variable : public Source {
 
+			public:
+
+				Variable(Tensor::Tensor<float>& contents);
 
 		}; // class Source
 

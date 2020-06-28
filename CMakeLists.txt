@@ -3,10 +3,10 @@
 
 cmake_minimum_required(VERSION 3.8)
 
-project (adcgl)
+project (adcgl LANGUAGES CXX)
 
 # Add subdirectories
-add_subdirectory(src)
-add_subdirectory(tests)
+add_subdirectory("src")
+add_subdirectory("tests")
 
 # TODO: install targets if needed.

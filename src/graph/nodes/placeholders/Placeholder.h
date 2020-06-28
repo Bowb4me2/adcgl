@@ -6,6 +6,8 @@
 #define __PLACEHOLDER_H__
 
 #include "..\Node.h"
+#include "../../../operators/Operator.h"
+#include <cstdarg>
 
 namespace Graph {
 
@@ -15,12 +17,19 @@ namespace Graph {
 
 			protected:
 
+				Operator::Operator& operation;
 
 			public:
 
-				Tensor::Tensor<float> forward() override;
+				Placeholder(Tensor::Tensor<float>& contents, Operator::Operator& operation);
 
-				Tensor::Tensor<float> backward() override;
+				void add_input(Tensor::Tensor<float>& input) override;
+
+				void add_grad(Tensor::Tensor<float>& grad) override;
+
+				void forward() override;
+
+				void backward() override;
 
 		}; // class Placeholder
 

@@ -6,10 +6,31 @@
 #ifndef __DCGRAPH_H__
 #define __DCGRAPH_H__
 
+#include "nodes/NodeArray.h"
+#include "nodes/sinks/Sink.h"
+#include "nodes/sources/Source.h"
+#include "GraphBuilder.h"
+
 namespace Graph {
 
 	// Differentiable Compute Graph
 	class DCGraph {
+
+		private:
+
+			Node::NodeArray nodes;
+
+			Node::NodeArray sources;
+
+			Node::NodeArray sinks;
+
+		public:
+
+			DCGraph(GraphBuilder& pattern);
+
+			void forward();
+
+			void backward();
 
 
 	}; // class DCGraph

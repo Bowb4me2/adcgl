@@ -23,7 +23,7 @@ namespace Tensor {
 
 		public:
 
-			Tensor<T>& operator[](int index) {
+			Tensor<T>& operator[](size_t index) {
 				if (index >= this->size || index < 0) {
 					throw "index outside of array range, out of bounds exception";
 				}
@@ -81,6 +81,12 @@ namespace Tensor {
 				for (unsigned int index = 0; index < tensor_array.size; index++) {
 					push_back(tensor_array[index]);
 				}
+			}
+
+			void clear() {
+				this->iterable = new Tensor<T>*[this->max];
+
+				this->size = 0;
 			}
 
 			size_t get_size() {

@@ -13,6 +13,9 @@ namespace Graph {
 
 		class Constant : public Source {
 
+			public:
+
+				Constant(Tensor::Tensor<float>& contents);
 
 		}; // class Source
 

@@ -7,7 +7,7 @@ namespace Graph {
 
 	namespace Node {
 
-		Node& NodeArray::operator[](int index) {
+		Node& NodeArray::operator[](size_t index) {
 			if (index >= this->size || index < 0) {
 				throw "index outside of array range, out of bounds exception";
 			}
@@ -28,7 +28,7 @@ namespace Graph {
 
 				Node** placeholder_array;
 
-				placeholder_array = new Node * [this->size];
+				placeholder_array = new Node*[this->size];
 
 				// copy array over to placeholder
 				for (size_t copy_index = 0; copy_index < this->size; copy_index++) {
@@ -43,7 +43,7 @@ namespace Graph {
 				}
 
 				// clear placeholder, allocate more space
-				this->iterable = new Node * [(this->max)];
+				this->iterable = new Node*[(this->max)];
 
 				// copy contents from placeholder over to array
 				for (size_t copy_index = 0; copy_index < this->size; copy_index++) {
@@ -66,6 +66,12 @@ namespace Graph {
 			for (unsigned int index = 0; index < node_array.size; index++) {
 				push_back(node_array[index]);
 			}
+		}
+
+		void NodeArray::clear() {
+			this->iterable = new Node*[this->max];
+
+			this->size = 0;
 		}
 
 		size_t NodeArray::get_size() {

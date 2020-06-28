@@ -1,7 +1,7 @@
 # Add sources
 set(sources_sources_list
-	Constant.cpp
-	Constant.h
+	"Constant.cpp"
+	"Constant.h"
 	"Source.cpp"
 	"Source.h"
 	"Variable.cpp"

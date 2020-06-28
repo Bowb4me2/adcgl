@@ -20,17 +20,18 @@ namespace Graph {
 				size_t max;
 
 				Node** iterable;
-
 				
 			public:
 
-				Node& operator[](int index);
+				Node& operator[](size_t index);
 
 				NodeArray();
 
 				void push_back(Node& item);
 
 				void append(NodeArray& tensor_array);
+
+				void clear();
 
 				size_t get_size();
 

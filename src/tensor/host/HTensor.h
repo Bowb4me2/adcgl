@@ -104,6 +104,6 @@ namespace Tensor {
 			return this->brodcast_iterable;
 		}
 
-	}; // class Tensor::Tensor<T>
+	}; // class Tensor::HTensor<T>
 
 } // namespace Tensor

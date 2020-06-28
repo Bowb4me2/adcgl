@@ -17,9 +17,15 @@ namespace Graph {
 
 			public:
 
-				Tensor::Tensor<float> forward() override;
+				Source(Tensor::Tensor<float>& contents);
 
-				Tensor::Tensor<float> backward() override;
+				void add_input(Tensor::Tensor<float>& input) override;
+
+				void add_grad(Tensor::Tensor<float>& grad) override;
+
+				void forward() override;
+
+				void backward() override;
 
 		}; // class Source
 

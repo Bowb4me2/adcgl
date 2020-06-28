@@ -7,13 +7,51 @@
 namespace Graph {
 
 	namespace Node {
+		
+		Node::Node(Tensor::Tensor<float>& contents)
+			: visited(false),
+			  contents(contents),
+			  parents_size(0), 
+			  children_size(0) {
+		}
 
-		void Node::clear_visited() {
+		void Node::link(Node& parent, Node& child) {
+
+			parent.children.push_back(child);
+
+			child.parents.push_back(parent);
+		}
+
+		void Node::reset_visited() {
 			this->visited = false;
 
 			for (size_t parent_index = 0; parent_index < this->parents_size; parent_index++) {
-				this->parents[parent_index].clear_visited();
+				this->parents[parent_index].reset_visited();
 			}
+		}
+
+		void Node::reset_grad() {
+			this->grads.clear();
+
+			for (size_t parent_index = 0; parent_index < this->parents_size; parent_index++) {
+				this->parents[parent_index].reset_visited();
+			}
+		}
+
+		void Node::full_reset() {
+			this->visited = false;
+
+			this->grads.clear();
+
+			
+
+			for (size_t parent_index = 0; parent_index < this->parents_size; parent_index++) {
+				this->parents[parent_index].reset_visited();
+			}
+		}
+
+		bool Node::is_visited() {
+			return this->visited;
 		}
 
 		NodeArray& Node::get_parents() {
@@ -24,29 +62,6 @@ namespace Graph {
 			return this->children;
 		}
 
-		Tensor::TensorArray<float> Node::get_parents_contents()
-		{
-
-			Tensor::TensorArray<float> parents_contents;
-
-			for (size_t parent_index = 0; parent_index < this->parents_size; parent_index++) {
-				parents_contents.push_back(this->parents[parent_index].contents);
-			}
-
-			return parents_contents;
-		}
-
-		Tensor::TensorArray<float> Node::get_children_grads()
-		{
-			
-			Tensor::TensorArray<float> children_contents;
-
-			for (size_t child_index = 0; child_index < this->children_size; child_index++) {
-				children_contents.push_back(this->children[child_index].grads);
-			}
-			
-			return children_contents;
-		}
 
 	} // namespace Node
 

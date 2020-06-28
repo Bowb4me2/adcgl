@@ -7,24 +7,37 @@
 namespace Graph {
 	
 	namespace Node {
-	
-		Tensor::Tensor<float> Source::forward() {
+		Source::Source(Tensor::Tensor<float>& contents) 
+			: Node(contents) {
+
+		}
+		void Source::add_input(Tensor::Tensor<float>& input) {
+			// does nothing lol	
+		}
+
+		void Source::add_grad(Tensor::Tensor<float>& grad) {
+			this->grads.push_back(grad);
+		}
+		
+		void Source::forward() {
 		
 			this->visited = true;
 
 			// perform operation here
 
 			for (size_t child_index = 0; child_index < this->children_size; child_index++) {
+				this->children[child_index].add_input(this->contents);
+				
 				this->children[child_index].forward();
 			}
 
 		}
 
-		Tensor::Tensor<float> Source::backward() {
+		void Source::backward() {
 
 			bool children_are_visited = true;
 			for (size_t child_index = 0; child_index < this->parents_size; child_index++) {
-				children_are_visited = children_are_visisted && this->parents[child_index].visited;
+				children_are_visited = children_are_visited && this->parents[child_index].is_visited();
 			}
 
 

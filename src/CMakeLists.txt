@@ -1,17 +1,19 @@
 # Add sources
 set(src_sources_list
-	adcgl.cpp
-	adcgl.h
+	"adcgl.cpp"
+	"adcgl.h"
 )
 
 #Add library
-add_library(src ${src_sources_list})
+add_library("src" ${src_sources_list})
 
-target_include_directories (src PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories ("src" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add subdirectories
-add_subdirectory(graph)
-add_subdirectory(tensor)
+add_subdirectory("graph")
+add_subdirectory("tensor")
+add_subdirectory("operators")
 
-target_link_libraries(src LINK_PUBLIC graph)
-target_link_libraries(src LINK_PUBLIC tensor)
+target_link_libraries("src" LINK_PUBLIC "graph")
+target_link_libraries("src" LINK_PUBLIC "tensor")
+target_link_libraries("src" LINK_PUBLIC "operators")

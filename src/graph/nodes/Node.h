@@ -22,31 +22,41 @@ namespace Graph {
 
 				Tensor::Tensor<float>& contents;
 
-				Tensor::Tensor<float>& grads;
+				Tensor::TensorArray<float> grads;
 
 				size_t parents_size;
 
 				size_t children_size;
 
-				NodeArray& parents;
+				NodeArray parents;
 
-				NodeArray& children;
+				NodeArray children;
 
 			public:
 
-				void clear_visited();
+				Node(Tensor::Tensor<float>& contents);
 
-				virtual Tensor::Tensor<float> forward() = 0;
+				static void link(Node& parent, Node& child);
+				
+				void reset_visited();
 
-				virtual Tensor::Tensor<float> backward() = 0;
+				void reset_grad();
+
+				void full_reset();
+
+				virtual void add_input(Tensor::Tensor<float>& input) = 0;
+
+				virtual void add_grad(Tensor::Tensor<float>& grad) = 0;
+
+				virtual void forward() = 0;
+
+				virtual void backward() = 0;
+
+				bool is_visited();
 
 				NodeArray& get_parents();
 
 				NodeArray& get_children();
-
-				Tensor::TensorArray<float> get_parents_contents();
-
-				Tensor::TensorArray<float> get_children_grads();
 
 		}; // class Node
 
