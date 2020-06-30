@@ -10,9 +10,7 @@ namespace Graph {
 		
 		Node::Node(Tensor::Tensor<float>& contents)
 			: visited(false),
-			  contents(contents),
-			  parents_size(0), 
-			  children_size(0) {
+			  contents(contents) {
 		}
 
 		void Node::link(Node& parent, Node& child) {
@@ -24,34 +22,16 @@ namespace Graph {
 
 		void Node::reset_visited() {
 			this->visited = false;
-
-			for (size_t parent_index = 0; parent_index < this->parents_size; parent_index++) {
-				this->parents[parent_index].reset_visited();
-			}
 		}
 
-		void Node::reset_grad() {
-			this->grads.clear();
 
-			for (size_t parent_index = 0; parent_index < this->parents_size; parent_index++) {
-				this->parents[parent_index].reset_visited();
-			}
-		}
-
-		void Node::full_reset() {
-			this->visited = false;
-
-			this->grads.clear();
-
-			
-
-			for (size_t parent_index = 0; parent_index < this->parents_size; parent_index++) {
-				this->parents[parent_index].reset_visited();
-			}
-		}
 
 		bool Node::is_visited() {
 			return this->visited;
+		}
+
+		Tensor::Tensor<float>& Node::get_contents() {
+			return this->contents;
 		}
 
 		NodeArray& Node::get_parents() {

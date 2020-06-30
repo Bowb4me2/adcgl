@@ -24,10 +24,6 @@ namespace Graph {
 
 				Tensor::TensorArray<float> grads;
 
-				size_t parents_size;
-
-				size_t children_size;
-
 				NodeArray parents;
 
 				NodeArray children;
@@ -36,13 +32,13 @@ namespace Graph {
 
 				Node(Tensor::Tensor<float>& contents);
 
+				virtual void init_input() = 0;
+
+				virtual void init_grad() = 0;
+
 				static void link(Node& parent, Node& child);
-				
+
 				void reset_visited();
-
-				void reset_grad();
-
-				void full_reset();
 
 				virtual void add_input(Tensor::Tensor<float>& input) = 0;
 
@@ -53,6 +49,8 @@ namespace Graph {
 				virtual void backward() = 0;
 
 				bool is_visited();
+
+				Tensor::Tensor<float>& get_contents();
 
 				NodeArray& get_parents();
 

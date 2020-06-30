@@ -13,4 +13,4 @@ target_include_directories ("host" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 add_subdirectory("operators")
 
 # Link libraries
-target_link_libraries("host" LINK_PUBLIC operators)
+target_link_libraries("host" LINK_PUBLIC "tensor_operators")

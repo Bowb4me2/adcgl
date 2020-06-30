@@ -24,9 +24,17 @@ namespace Graph {
 
 			Node::NodeArray sinks;
 
+			void init_inputs();
+
+			void init_grads();
+
 		public:
 
 			DCGraph(GraphBuilder& pattern);
+			
+			void full_reset();
+			
+			void reset_visited();
 
 			void forward();
 

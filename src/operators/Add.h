@@ -11,11 +11,11 @@ namespace Operator {
 
 	class Add : public Operator {
 
-	public:
+		public:
 
-		void get_operation(Tensor::Tensor<float>& out) override;
+			void get_operation(Tensor::Tensor<float>& out) override;
 
-		void get_jacobian(Tensor::TensorArray<float>& out) override;
+			void get_jacobian(Tensor::TensorArray<float>& out) override;
 
 	}; // class Operator::Add
 

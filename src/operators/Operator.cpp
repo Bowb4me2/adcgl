@@ -4,8 +4,6 @@
 
 #include "Operator.h"
 
-
-
 namespace Operator {
 					
 	void Operator::add_input(Tensor::Tensor<float>& input) {
@@ -20,6 +18,10 @@ namespace Operator {
 		this->inputs.clear();
 
 		this->grads.clear();
+	}
+
+	void Operator::init() {
+	
 	}
 
 } // namespace Operator

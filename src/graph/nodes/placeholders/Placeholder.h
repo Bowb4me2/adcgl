@@ -7,7 +7,6 @@
 
 #include "..\Node.h"
 #include "../../../operators/Operator.h"
-#include <cstdarg>
 
 namespace Graph {
 
@@ -22,6 +21,10 @@ namespace Graph {
 			public:
 
 				Placeholder(Tensor::Tensor<float>& contents, Operator::Operator& operation);
+
+				void init_input() override;
+
+				void init_grad() override;
 
 				void add_input(Tensor::Tensor<float>& input) override;
 

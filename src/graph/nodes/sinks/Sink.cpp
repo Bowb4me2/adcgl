@@ -4,6 +4,7 @@
 
 #include "Sink.h"
 
+
 namespace Graph {
 
 	namespace Node {
@@ -11,6 +12,37 @@ namespace Graph {
 		Sink::Sink(Tensor::Tensor<float>& contents, Operator::Operator& operation)
 			: Node(contents), 
 			  operation(operation) {
+		}
+
+		void Sink::init_input() {
+		
+			bool parents_are_visited = true;
+			for (size_t parent_index = 0; parent_index < this->parents.get_size(); parent_index++) {
+				parents_are_visited = parents_are_visited && this->parents[parent_index].is_visited();
+			}
+
+			if (parents_are_visited) {
+
+				this->visited = true;
+
+				// init operator here
+
+			}
+
+		}
+
+		void Sink::init_grad() {
+
+			this->visited = true;
+
+			// init operator here
+
+			for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
+				//this->parents[parent_index].add_grad(this->grads[parent_index]);
+
+				this->parents[parent_index].init_grad();
+			}
+
 		}
 		
 		void Sink::add_input(Tensor::Tensor<float>& input) {
@@ -23,8 +55,10 @@ namespace Graph {
 
 		void Sink::forward() {
 			
+			
+
 			bool parents_are_visited = true;
-			for (size_t parent_index = 0; parent_index < this->parents_size; parent_index++) {
+			for (size_t parent_index = 0; parent_index < this->parents.get_size(); parent_index++) {
 				parents_are_visited = parents_are_visited && this->parents[parent_index].is_visited();
 			}
 
@@ -33,6 +67,7 @@ namespace Graph {
 				this->visited = true;
 
 				// perform operation here
+				this->operation.get_operation(this->contents);
 
 			}
 
@@ -44,7 +79,7 @@ namespace Graph {
 
 			// perform operation here
 
-			for (size_t parent_index = 0; parent_index < this->children_size; parent_index++) {
+			for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
 				this->parents[parent_index].add_grad(this->grads[parent_index]);
 
 				this->parents[parent_index].backward();

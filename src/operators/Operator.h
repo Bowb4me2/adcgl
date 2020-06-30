@@ -33,6 +33,8 @@ namespace Operator {
 
 			void clear();
 
+			void init();
+
 	}; // class Graph::Node::Operator::Operator
 
 } // namespace Graph::Node::Operator

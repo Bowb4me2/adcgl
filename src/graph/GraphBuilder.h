@@ -25,6 +25,8 @@ namespace Graph {
 
 	public:
 
+		friend class DCGraph;
+
 		void add_node(Node::Placeholder& node);
 
 		void add_node(Node::Sink& node);

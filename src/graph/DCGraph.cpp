@@ -5,21 +5,56 @@
 #include "DCGraph.h"
 
 namespace Graph {
+	
+	void DCGraph::init_inputs() {
+		for (size_t source_index = 0; source_index < this->sources.get_size(); source_index++) {
+			this->sources[source_index].init_input();
+		}
+	}
+
+	void DCGraph::init_grads() {
+		for (size_t sink_index = 0; sink_index < this->sinks.get_size(); sink_index++) {
+			this->sinks[sink_index].init_grad();
+		}
+	}
+
+	DCGraph::DCGraph(GraphBuilder& pattern)
+		: nodes(pattern.nodes), 
+		  sources(pattern.sources), 
+		  sinks(pattern.sinks) {
+		
+		init_inputs();
+		reset_visited();
 
 
+		//init_grads();
+
+		//full_reset();
+
+	}
+
+	void DCGraph::full_reset() {
+
+	}
+
+	void DCGraph::reset_visited() {
+		for (size_t node_index = 0; node_index < this->nodes.get_size(); node_index++) {
+			this->nodes[node_index].reset_visited();
+		}
+	}
 
 	void DCGraph::forward() {
 		for (size_t source_index = 0; source_index < this->sources.get_size(); source_index++) {
-			static_cast<Node::Source&>(this->sources[source_index]).forward();
+			this->sources[source_index].forward();
 		}
 	}
 
 	void DCGraph::backward() {
-
 		for (size_t sink_index = 0; sink_index < this->sinks.get_size(); sink_index++) {
-			static_cast<Node::Sink&>(this->sinks[sink_index]).backward();
+			this->sinks[sink_index].backward();
 		}
-
 	}
+
+
 
 }

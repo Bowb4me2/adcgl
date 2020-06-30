@@ -17,9 +17,14 @@ namespace Graph {
 			protected:
 
 				Operator::Operator& operation;
+
 			public:
 
 				Sink(Tensor::Tensor<float>& contents, Operator::Operator& operation);
+
+				void init_input() override;
+
+				void init_grad() override;
 
 				void add_input(Tensor::Tensor<float>& input) override;
 

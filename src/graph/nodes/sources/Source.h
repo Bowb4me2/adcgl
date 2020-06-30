@@ -19,6 +19,10 @@ namespace Graph {
 
 				Source(Tensor::Tensor<float>& contents);
 
+				void init_input() override;
+
+				void init_grad() override;
+
 				void add_input(Tensor::Tensor<float>& input) override;
 
 				void add_grad(Tensor::Tensor<float>& grad) override;
