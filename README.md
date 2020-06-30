@@ -8,13 +8,12 @@ implement tensor brodcasting : finsihed
 
 implement elementwise tensor ops : finished
 
-implement differentiable graphs : to do
+implement differentiable graphs : partially finished
 
 	sub list:
-	add namespace wrappers to all cpp files
-	update cmakes with quotes on tokens for consistancy
-	add get children grads and get parents contents, and implement
-	add jacobian arrays.
+		add backwards pass grad init
+		add jacobian arrays.
+		add jacobian aggregation and propagation
 
 
 implement cuda tensors : to do
