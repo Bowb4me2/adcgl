@@ -8,16 +8,12 @@
 
 namespace Operator {
 
-
-
 	void Mul::get_operation(Tensor::Tensor<float>& out) {
 
-		for (size_t input_index = 0; input_index < this->inputs.get_size(); input_index++) {
+		for (size_t input_index = 1; input_index < this->inputs.get_size(); input_index++) {
 
-			Tensor::operate<float>(out, out, this->inputs[input_index], Tensor::Operators::mul<float>);
-
+			Tensor::operate<float>(out, this->inputs[input_index - 1], this->inputs[input_index], Tensor::Operators::mul<float>);
 		}
-
 	}
 
 	void Mul::get_jacobian(Tensor::TensorArray<float>& out) {

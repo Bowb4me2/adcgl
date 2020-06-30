@@ -2,7 +2,7 @@
 
 #include <adcgl.h>
 
-#include <operators/Add.h>
+#include <operators/Sub.h>
 
 #include <string>
 
@@ -21,7 +21,7 @@ int main() {
 
 	Graph::Node::Constant constant_source1(source_contents1);
 	Graph::Node::Constant constant_source2(source_contents2);
-	Graph::Node::Sink sink(sink_contents, Operator::Add());
+	Graph::Node::Sink sink(sink_contents, Operator::Sub());
 
 	settings.add_node(constant_source1);
 	settings.add_node(constant_source2);
@@ -35,11 +35,10 @@ int main() {
 
 	graph.forward();
 
-	std::cout << sink.get_contents()[0] << "\n\n";
 
-	std::cout << &(source_contents1) << " : in 1\n";
-	std::cout << &(source_contents2) << " : in 2\n";
-	std::cout << &(sink_contents) << " : out 1\n";
+	std::cout << sink.get_contents()[0] << " " << sink.get_contents()[1] << "\n\n";
+
 
 	return 0;
+
 }

@@ -7,8 +7,8 @@ set(operators_sources_list
 	#"Mul.h"
 	"Operator.cpp"
 	"Operator.h"
-	#"Sub.cpp"
-	#"Sub.h"
+	"Sub.cpp"
+	"Sub.h"
 )
 
 # Add library

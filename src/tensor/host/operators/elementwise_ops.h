@@ -18,21 +18,21 @@ namespace Tensor {
 		}
 
 		template<typename T>
-		void sub(T* out, T* arg0, T* arg1) {
+		void sub(T* out, T* arg0, T* arg1, size_t size) {
 			for (size_t index = 0; index < size; index++) {
 				out[index] = arg0[index] - arg1[index];
 			}
 		}
 
 		template<typename T>
-		void mul(T* out, T* arg0, T* arg1) {
+		void mul(T* out, T* arg0, T* arg1, size_t size) {
 			for (size_t index = 0; index < size; index++) {
 				out[index] = arg0[index] * arg1[index];
 			}
 		}
 
 		template<typename T>
-		void div(T* out, T* arg0, T* arg1) {
+		void div(T* out, T* arg0, T* arg1, size_t size) {
 			for (size_t index = 0; index < size; index++) {
 				out[index] = arg0[index] / arg1[index];
 			}
