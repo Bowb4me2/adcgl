@@ -20,4 +20,8 @@ namespace Operator {
 	
 	}
 
+	void Div::init(Tensor::Shape operation_shape) {
+		std::cout << this->inputs.get_size() << " : Div\n";
+	}
+
 } // namespace Operator

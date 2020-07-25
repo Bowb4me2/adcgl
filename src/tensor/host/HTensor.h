@@ -10,7 +10,7 @@ namespace Tensor {
 	class HTensor : public Tensor<T> {
 
 	private:
-
+		
 		void brodcast_to_mem_recursive(Tensor<T>& iterable, size_t depth, size_t dim_difference, size_t host_index, size_t iterable_index) {
 
 			// ensures recursion stops when tensor tips are reached
@@ -47,7 +47,8 @@ namespace Tensor {
 				this->brodcast_iterable[host_index] = iterable.get_iterable()[iterable_index];
 			}
 
-		} // recursive brodcast helper function
+		} // recursive brodcast helper function 
+		
 
 	protected:
 
@@ -61,7 +62,8 @@ namespace Tensor {
 
 	public:
 	
-		T& operator[](int index) override {
+		T& operator[](size_t index) override {
+			
 			if (index >= this->size || index < 0) {
 				throw "index outside of tensor range, out of bounds exception";
 			}
@@ -82,7 +84,7 @@ namespace Tensor {
 		}
 
 		template<size_t N>
-		HTensor(const T(&iterable)[N]) : Tensor(iterable){
+		HTensor(const T(&iterable)[N]) : Tensor(iterable) {
 
 			//for (size_t i = 0; i < N; i++) {
 			//	this->iterable[i] = iterable[i];
@@ -94,6 +96,10 @@ namespace Tensor {
 			for (size_t index = 0; index < this->size; index++) {
 				this->iterable[index] = fill_contents;
 			}
+		}
+
+		Tensor<T>& clone() override {
+			return *(new HTensor<T>(this->shape));
 		}
 
 		T* get_iterable() override {

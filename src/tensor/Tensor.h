@@ -9,13 +9,58 @@
 
 namespace Tensor {
 	
-	template<typename T>
+	template<typename T=float/*, int I=0*/>
 	class Tensor {
 	
+
+		private:
+
+			/*
+			void brodcast_to_mem_recursive(Tensor<T>& iterable, size_t depth, size_t dim_difference, size_t host_index, size_t iterable_index) {
+
+				// ensures recursion stops when tensor tips are reached
+				if (depth < this->shape.dims) {
+
+					// ensures that if iterable tensor has less dims that they are not accessed until later
+					if (depth < dim_difference) {
+
+						// recur once for every item in the current shape dimention, selected by depth
+						// this runs before the iterable tensor is accessable
+						for (size_t shape_index = 0; shape_index < this->shape.shape[depth]; shape_index++) {
+							brodcast_to_mem_recursive(iterable,
+								depth + 1,
+								dim_difference,
+								host_index * this->shape.shape[depth] + shape_index,
+								0);
+						}
+					}
+					else {
+
+						// recur once for every item in the current shape dimention, selected by depth
+						// this runs only if the iterable tensor can now be accessed
+						for (size_t shape_index = 0; shape_index < this->shape.shape[depth]; shape_index++) {
+							brodcast_to_mem_recursive(iterable,
+								depth + 1,
+								dim_difference, host_index * this->shape.shape[depth] + shape_index,
+								iterable_index * iterable.get_shape().shape[depth - dim_difference] + (iterable.get_shape().shape[depth] == 1) ? 0 : shape_index);
+						}
+					}
+
+				}
+				else {
+					// copies the value from the appropriate iterable's index to the brodcast_iterables index
+					this->brodcast_iterable[host_index] = iterable.get_iterable()[iterable_index];
+				}
+
+			} // recursive brodcast helper function
+			*/
+
 		protected:
 
 			template<typename T>
-			friend static void operate(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1, void (*operation)(T*, T*, T*, size_t));
+			friend static void operate(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1, void (*operation)(T*, T*, T*, size_t)); /*{
+				brodcast_to_mem_recursive(iterable, 0, this->shape.dims - iterable.get_shape().dims, 0, 0);
+			}*/
 
 			size_t size; // total number of elements in the Tensor
 
@@ -27,9 +72,20 @@ namespace Tensor {
 
 			virtual void brodcast_to_mem(Tensor<T>& iterable) = 0;
 			
-			virtual void operate(Tensor<T>& out, void (*operation)(T*, T*, T*, size_t)) = 0;
+			virtual void operate(Tensor<T>& out, void (*operation)(T*, T*, T*, size_t)) = 0; /*{
+				operation(out.get_iterable(), this->iterable, this->brodcast_iterable, out.get_size());
+			}*/
 
 		public:
+
+			virtual T& operator[](size_t index) = 0; /*{
+
+				if (index >= this->size || index < 0) {
+					throw "index outside of tensor range, out of bounds exception";
+				}
+
+				return this->iterable[index];
+			}*/
 
 			Tensor()
 				: size(1),
@@ -65,9 +121,15 @@ namespace Tensor {
 
 			}
 
-			virtual void fill(T) = 0;
+			virtual void fill(T) = 0; /*{
+				for (size_t index = 0; index < this->size; index++) {
+					this->iterable[index] = fill_contents;
+				}
+			}*/
 
-			virtual T& operator[](int index) = 0;
+			virtual Tensor<T>& clone() = 0; /*{
+				return *(new HTensor<T>(this->shape));
+			}*/
 
 			bool is_brodcastable(Tensor<T>& iterable) {
 				return this->shape.is_brodcastable(iterable.shape);
@@ -81,9 +143,13 @@ namespace Tensor {
 				return this->shape;
 			}
 
-			virtual T* get_iterable() = 0;
+			virtual T* get_iterable() = 0; /*{
+				return this->iterable;
+			}*/
 
-			virtual T* get_brodcast_iterable() = 0;
+			virtual T* get_brodcast_iterable() = 0; /*{
+				return this->brodcast_iterable;
+			}*/
 
 	}; // class Tensor::Tensor<T>
 

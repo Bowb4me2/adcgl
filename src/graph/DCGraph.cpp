@@ -18,19 +18,21 @@ namespace Graph {
 		}
 	}
 
+	void DCGraph::init() {
+		
+		init_inputs();
+		reset_visited();
+
+		init_grads();
+		reset_visited();
+	}
+
 	DCGraph::DCGraph(GraphBuilder& pattern)
 		: nodes(pattern.nodes), 
 		  sources(pattern.sources), 
 		  sinks(pattern.sinks) {
 		
-		init_inputs();
-		reset_visited();
-
-
-		//init_grads();
-
-		//full_reset();
-
+		init();
 	}
 
 	void DCGraph::full_reset() {

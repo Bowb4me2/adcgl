@@ -42,7 +42,9 @@ namespace Graph {
 
 				virtual void add_input(Tensor::Tensor<float>& input) = 0;
 
-				virtual void add_grad(Tensor::Tensor<float>& grad) = 0;
+				virtual void add_in_grad(Tensor::Tensor<float>& grad) = 0;
+
+				virtual void add_out_grad(Tensor::Tensor<float>& grad) = 0;
 
 				virtual void forward() = 0;
 

@@ -20,4 +20,14 @@ namespace Operator {
 		
 	}
 
+	void Add::init(Tensor::Shape operation_shape) {
+		std::cout << this->inputs.get_size() << " : Add\n";
+
+		//Tensor::Shape shape = Tensor::Shape::concatenate();
+
+		//Tensor::HTensor<float>& jacobian(shape);
+
+		//this->constants.push_back(jacobian);
+	}
+
 } // namespace Operator

@@ -25,7 +25,9 @@ namespace Graph {
 
 				void add_input(Tensor::Tensor<float>& input) override;
 
-				void add_grad(Tensor::Tensor<float>& grad) override;
+				void add_in_grad(Tensor::Tensor<float>& grad) override;
+
+				void add_out_grad(Tensor::Tensor<float>& grad) override;
 
 				void forward() override;
 

@@ -20,4 +20,8 @@ namespace Operator {
 	
 	}
 
+	void Mul::init(Tensor::Shape operation_shape) {
+		std::cout << this->inputs.get_size() << " : Mul\n";
+	}
+
 } // namespace Operator

@@ -26,9 +26,8 @@ namespace Graph {
 				this->visited = true;
 
 				// init operator here
-
+				this->operation.init(this->contents.get_shape());
 			}
-
 		}
 
 		void Sink::init_grad() {
@@ -38,7 +37,7 @@ namespace Graph {
 			// init operator here
 
 			for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
-				//this->parents[parent_index].add_grad(this->grads[parent_index]);
+				this->parents[parent_index].add_out_grad(this->grads[parent_index]);
 
 				this->parents[parent_index].init_grad();
 			}
@@ -49,8 +48,12 @@ namespace Graph {
 			this->operation.add_input(input);
 		}
 		
-		void Sink::add_grad(Tensor::Tensor<float>& grad) {
+		void Sink::add_in_grad(Tensor::Tensor<float>& grad) {
+			this->grads.push_back(grad);
+		}
 
+		void Sink::add_out_grad(Tensor::Tensor<float>& grad) {
+			// shouldent ever run because nothing will backprop grads here
 		}
 
 		void Sink::forward() {
@@ -80,7 +83,6 @@ namespace Graph {
 			// perform operation here
 
 			for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
-				this->parents[parent_index].add_grad(this->grads[parent_index]);
 
 				this->parents[parent_index].backward();
 			}

@@ -20,11 +20,13 @@ namespace Graph {
 			// init operator here
 
 			for (size_t child_index = 0; child_index < this->children.get_size(); child_index++) {
+				
 				this->children[child_index].add_input(this->contents);
+
+				this->children[child_index].add_in_grad(this->contents.clone());
 
 				this->children[child_index].init_input();
 			}
-
 		}
 
 		void Source::init_grad() {
@@ -42,15 +44,19 @@ namespace Graph {
 				// init operator here
 
 			}
-
 		}
 
 		void Source::add_input(Tensor::Tensor<float>& input) {
-			// does nothing lol	
+			// shouldent ever run, has no inputs
 		}
 
-		void Source::add_grad(Tensor::Tensor<float>& grad) {
-			this->grads.push_back(grad);
+		void Source::add_in_grad(Tensor::Tensor<float>& grad) {
+			// shouldent ever run because no parents will be differentiable
+		}
+
+		void Source::add_out_grad(Tensor::Tensor<float>& grad) {
+			// needs fixing. add grad manager for sources
+			// this->operation.add_grad(grad);
 		}
 		
 		void Source::forward() {
@@ -60,7 +66,6 @@ namespace Graph {
 			// perform operation here
 
 			for (size_t child_index = 0; child_index < this->children.get_size(); child_index++) {
-				this->children[child_index].add_input(this->contents);
 				
 				this->children[child_index].forward();
 			}

@@ -18,7 +18,7 @@ namespace Tensor {
 		shape(new unsigned int(1)),
 		dims(1) {}
 
-	Shape::Shape(unsigned int size)
+	Shape::Shape(size_t size)
 		: size(size),
 		shape(new unsigned int(size)),
 		dims(1) {}
@@ -58,6 +58,29 @@ namespace Tensor {
 
 		this->shape = shape.shape;
 
+	}
+
+	Shape Shape::concatenate(Shape arg0, Shape arg1) {
+		
+		size_t new_shape_dims = arg0.dims + arg1.dims;
+
+		Shape shape(arg0.size * arg1.size);
+
+		shape.dims = new_shape_dims;
+
+		unsigned int* new_shape = new unsigned int[new_shape_dims];
+
+		for (size_t new_shape_index = 0; new_shape_index < arg0.dims; new_shape_index++) {
+			new_shape[new_shape_index] = arg0.shape[new_shape_index];
+		}
+
+		for (size_t new_shape_index = 0; new_shape_index < arg1.dims; new_shape_index++) {
+			new_shape[new_shape_index + arg0.dims] = arg1.shape[new_shape_index];
+		}
+
+		shape.shape = new_shape;
+
+		return shape;
 	}
 
 	size_t Shape::get_size() {

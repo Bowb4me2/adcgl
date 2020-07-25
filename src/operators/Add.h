@@ -17,6 +17,8 @@ namespace Operator {
 
 			void get_jacobian(Tensor::TensorArray<float>& out) override;
 
+			void init(Tensor::Shape operation_shape) override;
+
 	}; // class Operator::Add
 
 } // namespace Operator

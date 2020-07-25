@@ -9,19 +9,18 @@
 namespace Tensor {
 
 	class Shape {
+		
 		private:
 			
 			size_t size;
 			 
 			unsigned int* shape;
 
-			size_t dims;
-
-			
+			size_t dims;			
 
 		public:
 
-			template <typename T>
+			template <typename T/*, int I*/>
 			friend class Tensor;
 
 			template <typename T>
@@ -36,7 +35,7 @@ namespace Tensor {
 			Shape();
 
 			// contructor with specified size
-			Shape(unsigned int size);
+			Shape(size_t size);
 
 			// contructor with psuedo std::intializer_list
 			template<size_t N>
@@ -60,6 +59,8 @@ namespace Tensor {
 			//}
 
 			void reshape(Shape shape);
+
+			static Shape concatenate(Shape arg0, Shape arg1);
 
 			size_t get_size();
 

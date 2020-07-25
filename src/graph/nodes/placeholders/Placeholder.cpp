@@ -28,15 +28,17 @@ namespace Graph {
 				this->visited = true;
 
 				// init operator here
+				this->operation.init(this->contents.get_shape());
 
 				for (size_t child_index = 0; child_index < this->children.get_size(); child_index++) {
-					//this->children[child_index].add_input(this->contents);
+					
+					this->children[child_index].add_input(this->contents);
+
+					this->children[child_index].add_in_grad(this->contents.clone());
 
 					this->children[child_index].init_input();
 				}
-
 			}
-
 		}
 
 		void Placeholder::init_grad() {
@@ -54,20 +56,23 @@ namespace Graph {
 				// init operator here
 
 				for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
-					//this->parents[parent_index].add_grad(this->grads[parent_index]);
+					
+					this->parents[parent_index].add_out_grad(this->grads[parent_index]);
 
 					this->parents[parent_index].init_grad();
 				}
-
 			}
-
 		}
 		
 		void Placeholder::add_input(Tensor::Tensor<float>& input) {
 			this->operation.add_input(input);
 		}
 
-		void Placeholder::add_grad(Tensor::Tensor<float>& grad) {
+		void Placeholder::add_in_grad(Tensor::Tensor<float>& grad) {
+			this->grads.push_back(grad);
+		}
+
+		void Placeholder::add_out_grad(Tensor::Tensor<float>& grad) {
 			this->operation.add_grad(grad);
 		}
 		
@@ -87,13 +92,10 @@ namespace Graph {
 				this->operation.get_operation(this->contents);
 
 				for (size_t child_index = 0; child_index < this->children.get_size(); child_index++) {
-					this->children[child_index].add_input(this->contents);
 
 					this->children[child_index].forward();
 				}
-
 			}
-
 		}
 
 		void Placeholder::backward() {
@@ -111,13 +113,10 @@ namespace Graph {
 				// perform operation here
 
 				for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
-					this->parents[parent_index].add_grad(this->grads[parent_index]);
 					
 					this->parents[parent_index].backward();
 				}
-
 			}
-
 		}
 	
 	} // namespace Graph::Node

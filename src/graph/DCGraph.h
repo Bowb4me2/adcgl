@@ -28,6 +28,8 @@ namespace Graph {
 
 			void init_grads();
 
+			void init();
+
 		public:
 
 			DCGraph(GraphBuilder& pattern);

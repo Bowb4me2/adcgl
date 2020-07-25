@@ -7,7 +7,7 @@
 
 #include "../tensor/Tensor.h"
 #include "../tensor/TensorArray.h"
-
+#include <iostream>
 
 namespace Operator {
 			
@@ -15,11 +15,17 @@ namespace Operator {
 
 		protected:
 
+			Tensor::Shape operation_shape;
+
 			Tensor::TensorArray<float> inputs;
 
 			Tensor::TensorArray<float> grads;
 
-			Tensor::TensorArray<float> constants;					
+			Tensor::TensorArray<float> constants;	
+
+			Tensor::TensorArray<float> jacobians;
+
+			void construct_jacobians();
 
 		public:
 
@@ -33,7 +39,7 @@ namespace Operator {
 
 			void clear();
 
-			void init();
+			virtual void init(Tensor::Shape operation_shape) = 0;
 
 	}; // class Graph::Node::Operator::Operator
 
