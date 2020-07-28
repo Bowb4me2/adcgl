@@ -14,7 +14,7 @@ namespace Tensor {
 			
 			size_t size;
 			 
-			unsigned int* shape;
+			size_t* shape;
 
 			size_t dims;			
 
@@ -29,7 +29,7 @@ namespace Tensor {
 			template <typename T>
 			friend class DTensor;
 
-			unsigned int& operator[](int index);
+			size_t& operator[](int index);
 
 			// default contructor
 			Shape();
@@ -64,7 +64,7 @@ namespace Tensor {
 
 			size_t get_size();
 
-			unsigned int* get_shape();
+			size_t* get_shape();
 
 			size_t get_dims();
 

@@ -10,7 +10,7 @@ int main() {
 
 	unsigned int a[5] = { 1, 2, 3, 4, 5 };
 
-	Tensor::HTensor<unsigned int> tensor(a);
+	Tensor::Tensor<unsigned int> tensor(a);
 
 	Tensor::TensorArray<unsigned int> tensor_array;
 	tensor_array.push_back(tensor);

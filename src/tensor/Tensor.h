@@ -6,16 +6,17 @@
 #define _TENSOR_H__
 
 #include "Shape.h"
+#include "devices/Device.h"
 
 namespace Tensor {
 	
-	template<typename T=float/*, int I=0*/>
+	template<typename T=float/*, Device::Device I=0*/>
 	class Tensor {
 	
 
 		private:
 
-			/*
+			
 			void brodcast_to_mem_recursive(Tensor<T>& iterable, size_t depth, size_t dim_difference, size_t host_index, size_t iterable_index) {
 
 				// ensures recursion stops when tensor tips are reached
@@ -53,14 +54,13 @@ namespace Tensor {
 				}
 
 			} // recursive brodcast helper function
-			*/
+			
 
 		protected:
 
 			template<typename T>
-			friend static void operate(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1, void (*operation)(T*, T*, T*, size_t)); /*{
-				brodcast_to_mem_recursive(iterable, 0, this->shape.dims - iterable.get_shape().dims, 0, 0);
-			}*/
+			friend static void operate(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1, void (*operation)(T*, T*, T*, size_t));
+
 
 			size_t size; // total number of elements in the Tensor
 
@@ -70,28 +70,31 @@ namespace Tensor {
 
 			T* brodcast_iterable; // iterable used for brodcasting other values to the same size
 
-			virtual void brodcast_to_mem(Tensor<T>& iterable) = 0;
+			void brodcast_to_mem(Tensor<T>& iterable) {
+				brodcast_to_mem_recursive(iterable, 0, this->shape.dims - iterable.get_shape().dims, 0, 0);
+			}
 			
-			virtual void operate(Tensor<T>& out, void (*operation)(T*, T*, T*, size_t)) = 0; /*{
+			void operate(Tensor<T>& out, void (*operation)(T*, T*, T*, size_t)) {
 				operation(out.get_iterable(), this->iterable, this->brodcast_iterable, out.get_size());
-			}*/
+			}
 
 		public:
 
-			virtual T& operator[](size_t index) = 0; /*{
+			T& operator[](size_t index) {
 
 				if (index >= this->size || index < 0) {
 					throw "index outside of tensor range, out of bounds exception";
 				}
 
 				return this->iterable[index];
-			}*/
+			}
 
 			Tensor()
 				: size(1),
 				iterable(new T[1]),
 				shape(1),
 				brodcast_iterable(new T[1]) {
+				fill(T(0));
 			}
 
 			Tensor(size_t size)
@@ -99,6 +102,7 @@ namespace Tensor {
 				iterable(new T[size]),
 				shape(size),
 				brodcast_iterable(new T[size]) {
+				fill(T(0));
 			}
 
 			Tensor(Shape shape)
@@ -106,6 +110,7 @@ namespace Tensor {
 				iterable(new T[shape.size]),
 				shape(shape),
 				brodcast_iterable(new T[shape.size]) {
+				fill(T(0));
 			}
 
 			template<size_t N>
@@ -121,21 +126,21 @@ namespace Tensor {
 
 			}
 
-			virtual void fill(T) = 0; /*{
+			void fill(T fill_contents) {
 				for (size_t index = 0; index < this->size; index++) {
 					this->iterable[index] = fill_contents;
 				}
-			}*/
+			}
 
-			virtual Tensor<T>& clone() = 0; /*{
-				return *(new HTensor<T>(this->shape));
-			}*/
+			Tensor<T>& clone() {
+				return *(new Tensor<T>(this->shape));
+			}
 
-			bool is_brodcastable(Tensor<T>& iterable) {
+			inline bool is_brodcastable(Tensor<T>& iterable) {
 				return this->shape.is_brodcastable(iterable.shape);
 			}
 
-			size_t get_size() {
+			inline size_t get_size() {
 				return this->size;
 			} 
 
@@ -143,13 +148,13 @@ namespace Tensor {
 				return this->shape;
 			}
 
-			virtual T* get_iterable() = 0; /*{
+			T* get_iterable() {
 				return this->iterable;
-			}*/
+			}
 
-			virtual T* get_brodcast_iterable() = 0; /*{
+			T* get_brodcast_iterable() {
 				return this->brodcast_iterable;
-			}*/
+			}
 
 	}; // class Tensor::Tensor<T>
 

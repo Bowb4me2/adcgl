@@ -12,7 +12,9 @@ add_library("tensor" ${tensor_sources_list})
 target_include_directories ("tensor" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} host)
 
 # Add subdirectories
-add_subdirectory("host")
+add_subdirectory("devices")
+add_subdirectory("tensor_operators")
 
 # Link libraries
-target_link_libraries("tensor" LINK_PUBLIC host)
+target_link_libraries("tensor" LINK_PUBLIC "devices")
+target_link_libraries("tensor" LINK_PUBLIC "tensor_operators")

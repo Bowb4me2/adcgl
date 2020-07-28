@@ -6,21 +6,24 @@
 
 namespace Tensor {
 
-	unsigned int& Shape::operator[](int index) {
+	size_t& Shape::operator[](int index) {
+		
 		if (index >= this->size) {
+			
 			throw "out of bounds";
 		}
+
 		return this->shape[index];
 	}
 
 	Shape::Shape()
 		: size(1),
-		shape(new unsigned int(1)),
+		shape(new size_t(1)),
 		dims(1) {}
 
 	Shape::Shape(size_t size)
 		: size(size),
-		shape(new unsigned int(size)),
+		shape(new size_t(size)),
 		dims(1) {}
 
 	bool Shape::is_brodcastable(Shape shape) {
@@ -68,7 +71,7 @@ namespace Tensor {
 
 		shape.dims = new_shape_dims;
 
-		unsigned int* new_shape = new unsigned int[new_shape_dims];
+		size_t* new_shape = new size_t[new_shape_dims];
 
 		for (size_t new_shape_index = 0; new_shape_index < arg0.dims; new_shape_index++) {
 			new_shape[new_shape_index] = arg0.shape[new_shape_index];
@@ -87,7 +90,7 @@ namespace Tensor {
 		return this->size;
 	}
 
-	unsigned int* Shape::get_shape() {
+	size_t* Shape::get_shape() {
 		return this->shape;
 	}
 

@@ -4,7 +4,7 @@
 
 #include "Mul.h"
 
-#include "../tensor/host/operators/operators.h"
+#include "../tensor/tensor_operators/cpu/operators.h"
 
 namespace Operator {
 
@@ -21,7 +21,12 @@ namespace Operator {
 	}
 
 	void Mul::init(Tensor::Shape operation_shape) {
+		
 		std::cout << this->inputs.get_size() << " : Mul\n";
+
+		this->operation_shape = operation_shape;
+
+		construct_jacobians();
 	}
 
 } // namespace Operator

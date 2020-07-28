@@ -2,7 +2,7 @@
 
 #include <adcgl.h>
 
-#include <host/operators/operators.h>
+#include <tensor/tensor_operators/cpu/elementwise_ops.h>
 
 #include <string>
 
@@ -11,11 +11,11 @@ int main() {
 
 	unsigned int a[5] = { 1, 2, 3, 4, 5 };
 
-	Tensor::HTensor<unsigned int> tensor1(a);
+	Tensor::Tensor<unsigned int> tensor1(a);
 
 	Tensor::Shape shape2(a);
 
-	Tensor::HTensor<unsigned int> tensor2(shape2);
+	Tensor::Tensor<unsigned int> tensor2(shape2);
 
 	std::cout << tensor2[0] << "\n";
 

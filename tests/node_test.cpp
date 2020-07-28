@@ -20,11 +20,11 @@ int main() {
 	float a5[] = { 0.0f, 0.0f };
 
 
-	Tensor::HTensor<float> source_contents1(a1);
-	Tensor::HTensor<float> source_contents2(a2);
-	Tensor::HTensor<float> source_contents3(a3);
-	Tensor::HTensor<float> placeholder_contents(a4);
-	Tensor::HTensor<float> sink_contents(a5);
+	Tensor::Tensor<float> source_contents1(a1);
+	Tensor::Tensor<float> source_contents2(a2);
+	Tensor::Tensor<float> source_contents3(a3);
+	Tensor::Tensor<float> placeholder_contents(a4);
+	Tensor::Tensor<float> sink_contents(a5);
 
 	Graph::Node::Constant    constant1(source_contents1);
 	Graph::Node::Constant    constant2(source_contents2);
