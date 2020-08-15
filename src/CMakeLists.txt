@@ -11,8 +11,7 @@ target_include_directories ("src" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add subdirectories
 add_subdirectory("graph")
-add_subdirectory("operators")
 add_subdirectory("tensor")
 
 
-target_link_libraries("src" LINK_PUBLIC "graph" "operators" "tensor")
+target_link_libraries("src" LINK_PUBLIC "graph" "tensor")

@@ -3,13 +3,13 @@
 //
 
 
-#ifndef __GRAPHBUILDER_H__
-#define __GRAPHBUILDER_H__
+#ifndef __GRAPH_GRAPHBUILDER_H__
+#define __GRAPH_GRAPHBUILDER_H__
 
-#include "nodes/Node.h"
-#include "nodes/placeholders/Placeholder.h"
-#include "nodes/sinks/Sink.h"
-#include "nodes/sources/Source.h"
+#include "node/Node.h"
+#include "node/placeholder/Placeholder.h"
+#include "node/sink/Sink.h"
+#include "node/source/Source.h"
 
 namespace Graph {
 

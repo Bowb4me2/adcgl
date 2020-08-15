@@ -3,12 +3,12 @@
 //
 
 
-#ifndef __DCGRAPH_H__
-#define __DCGRAPH_H__
+#ifndef __GRAPH_DCGRAPH_H__
+#define __GRAPH_DCGRAPH_H__
 
-#include "nodes/NodeArray.h"
-#include "nodes/sinks/Sink.h"
-#include "nodes/sources/Source.h"
+#include "node/NodeArray.h"
+#include "node/sink/Sink.h"
+#include "node/source/Source.h"
 #include "GraphBuilder.h"
 
 namespace Graph {

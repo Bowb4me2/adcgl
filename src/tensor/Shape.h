@@ -2,8 +2,8 @@
 // Created by Carson Fricke on 5/17/2020 6:27pm PST
 //
 
-#ifndef __SHAPE_H__
-#define __SHAPE_H__
+#ifndef __TENSOR_SHAPE_H__
+#define __TENSOR_SHAPE_H__
 
 
 namespace Tensor {
@@ -41,7 +41,7 @@ namespace Tensor {
 			template<size_t N>
 			Shape(const unsigned int(&shape)[N])
 				: size(1),
-				  shape(new unsigned int[N]),
+				  shape(new size_t[N]),
 				  dims(N) {
 
 				for (size_t i = 0; i < N; i++) {
@@ -62,11 +62,11 @@ namespace Tensor {
 
 			static Shape concatenate(Shape arg0, Shape arg1);
 
-			size_t get_size();
+			inline size_t get_size();
 
 			size_t* get_shape();
 
-			size_t get_dims();
+			inline size_t get_dims();
 
 	}; // class Tensor::Shape
 

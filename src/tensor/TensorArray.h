@@ -3,8 +3,8 @@
 //
 
 
-#ifndef __TENSORARRAY_H__
-#define __TENSORARRAY_H__
+#ifndef __TENSOR_TENSORARRAY_H__
+#define __TENSOR_TENSORARRAY_H__
 
 #include "Tensor.h"
 
@@ -89,7 +89,7 @@ namespace Tensor {
 				this->size = 0;
 			}
 
-			size_t get_size() {
+			inline size_t get_size() {
 				return this->size;
 			}
 

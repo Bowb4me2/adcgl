@@ -6,7 +6,7 @@
 #include <tensor/Shape.h>
 #include <graph/DCGraph.h>
 #include <graph/GraphBuilder.h>
-#include <graph/nodes/placeholders/Placeholder.h>
-#include <graph/nodes/sinks/Sink.h>
-#include <graph/nodes/sources/Constant.h>
-#include <graph/nodes/sources/Variable.h>
+#include <graph/node/placeholder/Placeholder.h>
+#include <graph/node/sink/Sink.h>
+#include <graph/node/source/Constant.h>
+#include <graph/node/source/Variable.h>

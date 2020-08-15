@@ -86,7 +86,7 @@ namespace Tensor {
 		return shape;
 	}
 
-	size_t Shape::get_size() {
+	inline size_t Shape::get_size() {
 		return this->size;
 	}
 
@@ -94,7 +94,7 @@ namespace Tensor {
 		return this->shape;
 	}
 
-	size_t Shape::get_dims() {
+	inline size_t Shape::get_dims() {
 		return this->dims;
 	}
 

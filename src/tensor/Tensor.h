@@ -2,14 +2,18 @@
 // Created by Carson Fricke on 5/17/2020 6:03pm PST
 //
 
-#ifndef _TENSOR_H__
-#define _TENSOR_H__
+#ifndef __TENSOR_TENSOR_H__
+#define __TENSOR_TENSOR_H__
 
 #include "Shape.h"
-#include "devices/Device.h"
+#include "device/Device.h"
 
 namespace Tensor {
 	
+	namespace Operator {
+		class TensorOperator;
+	}
+
 	template<typename T=float/*, Device::Device I=0*/>
 	class Tensor {
 	
@@ -54,13 +58,11 @@ namespace Tensor {
 				}
 
 			} // recursive brodcast helper function
-			
-
-		protected:
 
 			template<typename T>
 			friend static void operate(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1, void (*operation)(T*, T*, T*, size_t));
 
+			friend class Operator::TensorOperator;
 
 			size_t size; // total number of elements in the Tensor
 
@@ -127,13 +129,29 @@ namespace Tensor {
 			}
 
 			void fill(T fill_contents) {
+				
 				for (size_t index = 0; index < this->size; index++) {
 					this->iterable[index] = fill_contents;
 				}
 			}
 
+			template<size_t N>
+			void fill(const T(&iterable)[N]) {
+
+				for (size_t i = 0; i < N; i++) {
+					this->iterable[i] = iterable[i];
+				}
+			}
+
 			Tensor<T>& clone() {
-				return *(new Tensor<T>(this->shape));
+				
+				Tensor<T> tensor(this->shape);
+
+				for (size_t item_index = 0; item_index < this->size; item_index++) {
+					tensor.iterable[item_index] = this->iterable[item_index];
+				}
+
+				return tensor;
 			}
 
 			inline bool is_brodcastable(Tensor<T>& iterable) {
@@ -144,7 +162,7 @@ namespace Tensor {
 				return this->size;
 			} 
 
-			Shape& get_shape() {
+			inline Shape& get_shape() {
 				return this->shape;
 			}
 

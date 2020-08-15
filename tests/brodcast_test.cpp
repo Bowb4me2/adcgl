@@ -2,7 +2,7 @@
 
 #include <adcgl.h>
 
-#include <tensor/tensor_operators/cpu/elementwise_ops.h>
+#include <tensor/operator/cpu/elementwise_ops.h>
 
 #include <string>
 
