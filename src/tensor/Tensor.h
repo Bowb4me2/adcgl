@@ -11,7 +11,7 @@
 namespace Tensor {
 	
 	namespace Operator {
-		class TensorOperator;
+		class Operator;
 	}
 
 	template<typename T=float/*, Device::Device I=0*/>
@@ -62,7 +62,7 @@ namespace Tensor {
 			template<typename T>
 			friend static void operate(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1, void (*operation)(T*, T*, T*, size_t));
 
-			friend class Operator::TensorOperator;
+			friend class Operator::Operator;
 
 			size_t size; // total number of elements in the Tensor
 

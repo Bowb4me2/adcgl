@@ -1,16 +1,15 @@
-#include "TensorOperator.h"
 //
 // Created by Carson Fricke on 8/12/2020 11:26am PST
 //
 
-
+#include "Operator.h"
 
 namespace Tensor {
 
 	namespace Operator {
 
 
-		void TensorOperator::operator()(Tensor<float>& out, Tensor<float>& arg0, Tensor<float>& arg1) {
+		void Operator::operator()(Tensor<float>& out, Tensor<float>& arg0, Tensor<float>& arg1) {
 			
 			validate(out.shape, arg0.shape, arg1.shape);
 

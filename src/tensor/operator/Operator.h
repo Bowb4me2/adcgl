@@ -2,8 +2,8 @@
 // Created by Carson Fricke on 8/12/2020 11:26am PST
 //
 
-#ifndef __TENSOROPERATOR_H__
-#define __TENSOROPERATOR_H__
+#ifndef __TENSOR_OPERATOR_H__
+#define __TENSOR_OPERATOR_H__
 
 #include "../Tensor.h"
 
@@ -11,7 +11,7 @@ namespace Tensor {
 
 	namespace Operator {
 	
-		class TensorOperator {
+		class Operator {
 
 			protected:
 				

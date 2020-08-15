@@ -2,8 +2,8 @@
 set(tensor_operator_sources_list
 	"tensor_operators.cpp"
 	"tensor_operators.h"
-	"TensorOperator.cpp"
-	"TensorOperator.h"
+	"Operator.cpp"
+	"Operator.h"
 )
 
 # Add Library
