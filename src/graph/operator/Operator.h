@@ -9,6 +9,8 @@
 #include "../../tensor/TensorArray.h"
 #include <iostream>
 
+using scalar_t = Tensor::scalar_t;
+
 namespace Graph {
 
 	namespace Operator {
@@ -19,29 +21,29 @@ namespace Graph {
 
 			Tensor::Shape operation_shape;
 
-			Tensor::TensorArray<float> inputs;
+			Tensor::TensorArray<scalar_t> inputs;
 
-			Tensor::TensorArray<float> grads;
+			Tensor::TensorArray<scalar_t> grads;
 
-			Tensor::Tensor<float> aggregate_grad;
+			Tensor::Tensor<scalar_t> aggregate_grad;
 
-			Tensor::TensorArray<float> constants;
+			Tensor::TensorArray<scalar_t> constants;
 
-			Tensor::TensorArray<float> jacobians;
+			Tensor::TensorArray<scalar_t> jacobians;
 
 			void construct_jacobians();
 
 		public:
 
-			virtual void get_operation(Tensor::Tensor<float>& out) = 0;
+			virtual void get_operation(Tensor::Tensor<scalar_t>& out) = 0;
 
-			virtual void get_jacobian(Tensor::TensorArray<float>& out) = 0;
+			virtual void get_jacobian(Tensor::TensorArray<scalar_t>& out) = 0;
 
-			void aggregate_grads(Tensor::TensorArray<float>& out);
+			void aggregate_grads(Tensor::TensorArray<scalar_t>& out);
 
-			void add_input(Tensor::Tensor<float>& input);
+			void add_input(Tensor::Tensor<scalar_t>& input);
 
-			void add_grad(Tensor::Tensor<float>& grad);
+			void add_grad(Tensor::Tensor<scalar_t>& grad);
 
 			void clear();
 

@@ -4,11 +4,13 @@
 
 #include "Node.h"
 
+using scalar_t = Tensor::scalar_t;
+
 namespace Graph {
 
 	namespace Node {
 		
-		Node::Node(Tensor::Tensor<float>& contents)
+		Node::Node(Tensor::Tensor<scalar_t>& contents)
 			: visited(false),
 			  contents(contents) {
 		}
@@ -30,7 +32,7 @@ namespace Graph {
 			return this->visited;
 		}
 
-		Tensor::Tensor<float>& Node::get_contents() {
+		Tensor::Tensor<scalar_t>& Node::get_contents() {
 			return this->contents;
 		}
 

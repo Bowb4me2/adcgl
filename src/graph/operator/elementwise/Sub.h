@@ -5,7 +5,7 @@
 #ifndef __GRAPH_OPERATOR_SUB_H__
 #define __GRAPH_OPERATOR_SUB_H__
 
-#include "Operator.h"
+#include "../Operator.h"
 
 namespace Graph {
 
@@ -15,9 +15,9 @@ namespace Graph {
 
 		public:
 
-			void get_operation(Tensor::Tensor<float>& out) override;
+			void get_operation(Tensor::Tensor<scalar_t>& out) override;
 
-			void get_jacobian(Tensor::TensorArray<float>& out) override;
+			void get_jacobian(Tensor::TensorArray<scalar_t>& out) override;
 
 			void init(Tensor::Shape operation_shape) override;
 

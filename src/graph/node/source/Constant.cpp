@@ -4,11 +4,12 @@
 
 #include "Constant.h"
 
+
 namespace Graph {
 
 	namespace Node {
 	
-		Constant::Constant(Tensor::Tensor<float>& contents)
+		Constant::Constant(Tensor::Tensor<scalar_t>& contents)
 			: Source(contents) {
 
 		}

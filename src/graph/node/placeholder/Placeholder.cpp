@@ -4,11 +4,12 @@
 
 #include "Placeholder.h"
 
+
 namespace Graph {
 
 	namespace Node {
 
-		Placeholder::Placeholder(Tensor::Tensor<float>& contents, Operator::Operator& operation) 
+		Placeholder::Placeholder(Tensor::Tensor<scalar_t>& contents, Operator::Operator& operation) 
 			: Node(contents), 
 			  operation(operation) {
 			
@@ -64,15 +65,15 @@ namespace Graph {
 			}
 		}
 		
-		void Placeholder::add_input(Tensor::Tensor<float>& input) {
+		void Placeholder::add_input(Tensor::Tensor<scalar_t>& input) {
 			this->operation.add_input(input);
 		}
 
-		void Placeholder::add_in_grad(Tensor::Tensor<float>& grad) {
+		void Placeholder::add_in_grad(Tensor::Tensor<scalar_t>& grad) {
 			this->grads.push_back(grad);
 		}
 
-		void Placeholder::add_out_grad(Tensor::Tensor<float>& grad) {
+		void Placeholder::add_out_grad(Tensor::Tensor<scalar_t>& grad) {
 			this->operation.add_grad(grad);
 		}
 		

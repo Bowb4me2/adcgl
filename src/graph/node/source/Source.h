@@ -7,6 +7,8 @@
 
 #include "..\Node.h"
 
+using scalar_t = Tensor::scalar_t;
+
 namespace Graph {
 
 	namespace Node {
@@ -17,17 +19,17 @@ namespace Graph {
 
 			public:
 
-				Source(Tensor::Tensor<float>& contents);
+				Source(Tensor::Tensor<scalar_t>& contents);
 
 				void init_input() override;
 
 				void init_grad() override;
 
-				void add_input(Tensor::Tensor<float>& input) override;
+				void add_input(Tensor::Tensor<scalar_t>& input) override;
 
-				void add_in_grad(Tensor::Tensor<float>& grad) override;
+				void add_in_grad(Tensor::Tensor<scalar_t>& grad) override;
 
-				void add_out_grad(Tensor::Tensor<float>& grad) override;
+				void add_out_grad(Tensor::Tensor<scalar_t>& grad) override;
 
 				void forward() override;
 

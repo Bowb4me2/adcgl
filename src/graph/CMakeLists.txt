@@ -15,4 +15,7 @@ target_include_directories ("graph" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 add_subdirectory("node")
 add_subdirectory("operator")
 
-target_link_libraries("graph" LINK_PUBLIC "graph_node" "graph_operator")
+target_link_libraries("graph" LINK_PUBLIC 
+	"graph_node" 
+	"graph_operator"
+)

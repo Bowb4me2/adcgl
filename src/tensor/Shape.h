@@ -8,65 +8,52 @@
 
 namespace Tensor {
 
-	class Shape {
-		
-		private:
-			
-			size_t size;
+	struct Shape {
+
+
+		// fields
+		size_t size;
 			 
-			size_t* shape;
+		size_t* shape;
 
-			size_t dims;			
+		size_t dims;			
 
-		public:
+		// methods
+		bool is_equal(Shape shape);
 
-			template <typename T/*, int I*/>
-			friend class Tensor;
+		size_t& operator[](int index);
 
-			template <typename T>
-			friend class HTensor;
+		// default contructor
+		Shape();
 
-			template <typename T>
-			friend class DTensor;
+		// contructor with specified size
+		Shape(size_t size);
 
-			size_t& operator[](int index);
+		// contructor with psuedo std::intializer_list
+		template<size_t N>
+		Shape(const size_t(&shape)[N])
+			: size(1),
+			  shape(new size_t[N]),
+			  dims(N) {
 
-			// default contructor
-			Shape();
+			for (size_t i = 0; i < N; i++) {
+				this->size *= shape[i];
 
-			// contructor with specified size
-			Shape(size_t size);
-
-			// contructor with psuedo std::intializer_list
-			template<size_t N>
-			Shape(const unsigned int(&shape)[N])
-				: size(1),
-				  shape(new size_t[N]),
-				  dims(N) {
-
-				for (size_t i = 0; i < N; i++) {
-					this->size *= shape[i];
-
-					this->shape[i] = shape[i];
-				}
+				this->shape[i] = shape[i];
 			}
+		}
 
-			bool is_brodcastable(Shape shape);
+		bool is_brodcastable(Shape shape);
 
-			//template<size_t N>
-			//void reshape(const unsigned int(&shape)[N]) {
-			//
-			//}
+		//template<size_t N>
+		//void reshape(const unsigned int(&shape)[N]) {
+		//
+		//}
 
-			void reshape(Shape shape);
+		void reshape(Shape shape);
 
-			static Shape concatenate(Shape arg0, Shape arg1);
+		static Shape concatenate(Shape arg0, Shape arg1);
 
-			inline size_t get_size();
-
-			size_t* get_shape();
-
-			inline size_t get_dims();
 
 	}; // class Tensor::Shape
 

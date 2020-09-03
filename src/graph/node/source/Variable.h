@@ -7,6 +7,8 @@
 
 #include "Source.h"
 
+using scalar_t = Tensor::scalar_t;
+
 namespace Graph {
 
 	namespace Node {
@@ -15,7 +17,7 @@ namespace Graph {
 
 			public:
 
-				Variable(Tensor::Tensor<float>& contents);
+				Variable(Tensor::Tensor<scalar_t>& contents);
 
 		}; // class Source
 

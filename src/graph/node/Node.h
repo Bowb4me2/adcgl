@@ -10,6 +10,8 @@
 #include "../../tensor/TensorArray.h"
 #include "NodeArray.h"
 
+using scalar_t = Tensor::scalar_t;
+
 namespace Graph {
 
 	namespace Node {
@@ -20,11 +22,11 @@ namespace Graph {
 
 				bool visited;
 
-				Tensor::Tensor<float>& contents;
+				Tensor::Tensor<scalar_t>& contents;
 
 				// elements corospond to this tensors grad with respect to its parents
 				// matches the shape of the parents, 
-				Tensor::TensorArray<float> grads;
+				Tensor::TensorArray<scalar_t> grads;
 
 				NodeArray parents;
 
@@ -32,7 +34,7 @@ namespace Graph {
 
 			public:
 
-				Node(Tensor::Tensor<float>& contents);
+				Node(Tensor::Tensor<scalar_t>& contents);
 
 				virtual void init_input() = 0;
 
@@ -42,11 +44,11 @@ namespace Graph {
 
 				void reset_visited();
 
-				virtual void add_input(Tensor::Tensor<float>& input) = 0;
+				virtual void add_input(Tensor::Tensor<scalar_t>& input) = 0;
 
-				virtual void add_in_grad(Tensor::Tensor<float>& grad) = 0;
+				virtual void add_in_grad(Tensor::Tensor<scalar_t>& grad) = 0;
 
-				virtual void add_out_grad(Tensor::Tensor<float>& grad) = 0;
+				virtual void add_out_grad(Tensor::Tensor<scalar_t>& grad) = 0;
 
 				virtual void forward() = 0;
 
@@ -54,7 +56,7 @@ namespace Graph {
 
 				bool is_visited();
 
-				Tensor::Tensor<float>& get_contents();
+				Tensor::Tensor<scalar_t>& get_contents();
 
 				NodeArray& get_parents();
 

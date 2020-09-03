@@ -9,7 +9,7 @@ namespace Graph {
 
 	namespace Node {
 		
-		Sink::Sink(Tensor::Tensor<float>& contents, Operator::Operator& operation)
+		Sink::Sink(Tensor::Tensor<scalar_t>& contents, Operator::Operator& operation)
 			: Node(contents), 
 			  operation(operation) {
 		}
@@ -44,21 +44,19 @@ namespace Graph {
 
 		}
 		
-		void Sink::add_input(Tensor::Tensor<float>& input) {
+		void Sink::add_input(Tensor::Tensor<scalar_t>& input) {
 			this->operation.add_input(input);
 		}
 		
-		void Sink::add_in_grad(Tensor::Tensor<float>& grad) {
+		void Sink::add_in_grad(Tensor::Tensor<scalar_t>& grad) {
 			this->grads.push_back(grad);
 		}
 
-		void Sink::add_out_grad(Tensor::Tensor<float>& grad) {
+		void Sink::add_out_grad(Tensor::Tensor<scalar_t>& grad) {
 			// shouldent ever run because nothing will backprop grads here
 		}
 
 		void Sink::forward() {
-			
-			
 
 			bool parents_are_visited = true;
 			for (size_t parent_index = 0; parent_index < this->parents.get_size(); parent_index++) {

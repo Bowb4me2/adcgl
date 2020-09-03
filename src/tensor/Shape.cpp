@@ -5,6 +5,21 @@
 #include "Shape.h"
 
 namespace Tensor {
+	
+	bool Shape::is_equal(Shape shape) {
+		
+		if (this->dims != shape.dims) {
+			return false;
+		}
+
+		for (size_t shape_index = 0; shape_index < this->dims; shape_index++) {
+			if (this->shape[shape_index] != shape.shape[shape_index]) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	size_t& Shape::operator[](int index) {
 		
@@ -26,10 +41,11 @@ namespace Tensor {
 		shape(new size_t(size)),
 		dims(1) {}
 
+	// checks if something can be brodcast
 	bool Shape::is_brodcastable(Shape shape) {
 
 		// the difference between the number of dimentions
-		auto dims_difference = this->dims - shape.get_dims();
+		auto dims_difference = this->dims - shape.dims;
 
 		// check to make sure that the patern shape has more dimentions than the brodcaster
 		if (dims_difference < 0) {
@@ -84,18 +100,6 @@ namespace Tensor {
 		shape.shape = new_shape;
 
 		return shape;
-	}
-
-	inline size_t Shape::get_size() {
-		return this->size;
-	}
-
-	size_t* Shape::get_shape() {
-		return this->shape;
-	}
-
-	inline size_t Shape::get_dims() {
-		return this->dims;
 	}
 
 } // namespace Tensor

@@ -1,5 +1,6 @@
 # Add sources
 set(tensor_sources_list
+	
 	"Shape.cpp"
 	"Shape.h"
 	"Tensor.h"

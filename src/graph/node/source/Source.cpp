@@ -4,11 +4,12 @@
 
 #include "Source.h"
 
+
 namespace Graph {
 	
 	namespace Node {
 		
-		Source::Source(Tensor::Tensor<float>& contents) 
+		Source::Source(Tensor::Tensor<scalar_t>& contents) 
 			: Node(contents) {
 
 		}
@@ -46,15 +47,15 @@ namespace Graph {
 			}
 		}
 
-		void Source::add_input(Tensor::Tensor<float>& input) {
+		void Source::add_input(Tensor::Tensor<scalar_t>& input) {
 			// shouldent ever run, has no inputs
 		}
 
-		void Source::add_in_grad(Tensor::Tensor<float>& grad) {
+		void Source::add_in_grad(Tensor::Tensor<scalar_t>& grad) {
 			// shouldent ever run because no parents will be differentiable
 		}
 
-		void Source::add_out_grad(Tensor::Tensor<float>& grad) {
+		void Source::add_out_grad(Tensor::Tensor<scalar_t>& grad) {
 			// needs fixing. add grad manager for sources
 			// this->operation.add_grad(grad);
 		}

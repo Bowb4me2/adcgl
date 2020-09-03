@@ -4,11 +4,12 @@
 
 #include "Variable.h"
 
+
 namespace Graph {
 
 	namespace Node {
 
-		Variable::Variable(Tensor::Tensor<float>& contents)
+		Variable::Variable(Tensor::Tensor<scalar_t>& contents)
 			: Source(contents) {
 
 		}
