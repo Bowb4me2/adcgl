@@ -3,7 +3,7 @@
 //
 
 #include "Operator.h"
-#include "../../tensor/operator/tensor_operators.h"
+#include "../../tensor/operator/elementwise/Add.h"
 
 namespace Graph {
 
@@ -36,7 +36,7 @@ namespace Graph {
 		void Operator::aggregate_grads(Tensor::TensorArray<scalar_t>& out) {
 
 			for (size_t grad_index = 0; grad_index < this->grads.get_size(); grad_index++) {
-				Tensor::operate(this->aggregate_grad, this->aggregate_grad, this->grads[grad_index], Tensor::Operators::add);
+				Tensor::Operator::add(this->aggregate_grad, this->aggregate_grad, this->grads[grad_index]);
 			}
 
 		}

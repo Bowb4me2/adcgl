@@ -12,11 +12,9 @@ add_library("tensor_operator" ${tensor_operator_sources_list})
 target_include_directories ("tensor_operator" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add subdirectories
-add_subdirectory("cpu")
 add_subdirectory("elementwise")
 
 # Link libraries
 target_link_libraries("tensor_operator" LINK_PUBLIC 
-	"cpu_tensor_operators" 
 	"tensor_operator_elementwise"
 )

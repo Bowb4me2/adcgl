@@ -71,17 +71,10 @@ namespace Tensor {
 			} // recursive brodcast helper function
 
 			template<typename T>
-			friend static void operate(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1, void (*operation)(T*, T*, T*, size_t));
-
-			template<typename T>
 			friend class Operator::Operator;
 
 			void brodcast_to_mem(Tensor<T>& iterable) {
 				brodcast_to_mem_recursive(iterable, 0, this->shape.dims - iterable.get_shape().dims, 0, 0);
-			}
-			
-			void operate(Tensor<T>& out, void (*operation)(T*, T*, T*, size_t)) {
-				operation(out.get_iterable(), this->iterable, this->brodcast_iterable, out.get_size());
 			}
 
 		public:
@@ -179,23 +172,6 @@ namespace Tensor {
 			}
 
 	}; // class Tensor::Tensor<T>
-
-	template<typename T>
-	static void operate(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1, void (*operation)(T*, T*, T*, size_t)) {
-		if (arg0.is_brodcastable(arg1)) {
-			arg0.brodcast_to_mem(arg1);
-
-			arg0.operate(out, operation);
-		}
-		else if (arg1.is_brodcastable(arg0)) {
-			arg1.brodcast_to_mem(arg0);
-
-			arg1.operate(out, operation);
-		}
-		else {
-			throw "Tensors are not brodcastable togther";
-		}
-	}
 
 } // namespace Tensor
 
