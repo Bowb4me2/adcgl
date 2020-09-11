@@ -23,6 +23,10 @@ namespace Tensor {
 
 				bool requires_brodcast(Shape out_shape, Shape arg0_shape, Shape arg1_shape) override;
 
+				bool brodcast_which(Shape out_shape, Shape arg0_shape, Shape arg1_shape) override;
+
+				Shape brodcast_shape(Shape out_shape, Shape arg0_shape, Shape arg1_shape, bool which) override;
+
 		}; // class Tensor::Operator::Div
 
 		static Div<> div;

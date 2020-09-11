@@ -32,40 +32,42 @@ namespace Tensor {
 
 			T* brodcast_iterable; // iterable used for brodcasting other values to the same size
 
-			void brodcast_to_mem_recursive(Tensor<T>& iterable, size_t depth, size_t dim_difference, size_t host_index, size_t iterable_index) {
+			void brodcast_to_mem_recursive(Tensor<T>& iterable, size_t depth, size_t dim_difference, size_t host_index, size_t iterable_index, Shape& shape) {
 
 				// ensures recursion stops when tensor tips are reached
-				if (depth < this->shape.dims) {
+				if (depth < shape.dims) {
 
 					// ensures that if iterable tensor has less dims that they are not accessed until later
 					if (depth < dim_difference) {
 
 						// recur once for every item in the current shape dimention, selected by depth
 						// this runs before the iterable tensor is accessable
-						for (size_t shape_index = 0; shape_index < this->shape.shape[depth]; shape_index++) {
+						for (size_t shape_index = 0; shape_index < shape.shape[depth]; shape_index++) {
 							brodcast_to_mem_recursive(iterable,
 								depth + 1,
 								dim_difference,
-								host_index * this->shape.shape[depth] + shape_index,
-								0);
+								host_index * shape.shape[depth] + shape_index,
+								0, 
+								shape);
 						}
 					}
 					else {
 
 						// recur once for every item in the current shape dimention, selected by depth
 						// this runs only if the iterable tensor can now be accessed
-						for (size_t shape_index = 0; shape_index < this->shape.shape[depth]; shape_index++) {
+						for (size_t shape_index = 0; shape_index < shape.shape[depth]; shape_index++) {
 							brodcast_to_mem_recursive(iterable,
 								depth + 1,
-								dim_difference, host_index * this->shape.shape[depth] + shape_index,
-								iterable_index * iterable.get_shape().shape[depth - dim_difference] + (iterable.get_shape().shape[depth] == 1) ? 0 : shape_index);
+								dim_difference, host_index * shape.shape[depth] + shape_index,
+								iterable_index * iterable.shape[depth - dim_difference] + (iterable.shape[depth] == 1) ? 0 : shape_index, 
+								shape);
 						}
 					}
 
 				}
 				else {
 					// copies the value from the appropriate iterable's index to the brodcast_iterables index
-					this->brodcast_iterable[host_index] = iterable.get_iterable()[iterable_index];
+					this->brodcast_iterable[host_index] = iterable.iterable[iterable_index];
 				}
 
 			} // recursive brodcast helper function
@@ -74,7 +76,11 @@ namespace Tensor {
 			friend class Operator::Operator;
 
 			void brodcast_to_mem(Tensor<T>& iterable) {
-				brodcast_to_mem_recursive(iterable, 0, this->shape.dims - iterable.get_shape().dims, 0, 0);
+				brodcast_to_mem_recursive(iterable, 0, this->shape.dims - iterable.shape.dims, 0, 0, this->shape);
+			}
+
+			void brodcast_to_mem(Tensor<T>& iterable, Shape& shape) {
+				brodcast_to_mem_recursive(iterable, 0, this->shape.dims - iterable.shape.dims, 0, 0, shape);
 			}
 
 		public:
@@ -90,10 +96,11 @@ namespace Tensor {
 
 			Tensor()
 				: size(1),
-				 iterable(new T[1]),
-				 shape(1),
-				 brodcast_iterable(new T[1]) {
-				 fill(T(0));
+				  iterable(new T[1]),
+				  shape(1),
+				  brodcast_iterable(new T[1]) {
+
+				  fill(T(0));
 			}
 
 			Tensor(size_t size)
@@ -101,6 +108,7 @@ namespace Tensor {
 				  iterable(new T[size]),
 				  shape(size),
 				  brodcast_iterable(new T[size]) {
+
 				  fill(T(0));
 			}
 
@@ -109,6 +117,7 @@ namespace Tensor {
 				  iterable(new T[shape.size]),
 				  shape(shape),
 				  brodcast_iterable(new T[shape.size]) {
+
 				  fill(T(0));
 			}
 

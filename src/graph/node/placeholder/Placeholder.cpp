@@ -114,6 +114,8 @@ namespace Graph {
 				// perform operation here
 				this->operation.aggregate_grads(this->grads);
 
+
+
 				for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
 					
 					this->parents[parent_index].backward();

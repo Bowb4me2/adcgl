@@ -27,6 +27,33 @@ namespace Tensor {
 		bool Sub<T>::requires_brodcast(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
 			return !arg0_shape.is_equal(arg1_shape);
 		}
+
+		template<typename T>
+		bool Sub<T>::brodcast_which(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
+			
+			if (out_shape.is_equal(arg1_shape)) {
+				if (out_shape.is_brodcastable(arg0_shape)) {
+					return true;
+				}
+				else {
+					throw "not brodcastable";
+				}
+			}
+			else if (out_shape.is_equal(arg0_shape)) {
+				if (out_shape.is_brodcastable(arg1_shape)) {
+					return false;
+				}
+				else {
+					throw "not brodcastable";
+				}
+			}
+		}
+
+		template<typename T>
+		Shape Sub<T>::brodcast_shape(Shape out_shape, Shape arg0_shape, Shape arg1_shape, bool which)
+		{
+			return out_shape;
+		}
 		
 		// explicit instantiations
 		template class Sub<int>;

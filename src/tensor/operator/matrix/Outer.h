@@ -3,20 +3,20 @@
 //
 
 
-#ifndef __TENSOR_OPERATOR_SUB__
-#define __TENSOR_OPERATOR_SUB__
+#ifndef __TENSOR_OPERATOR_OUTER__
+#define __TENSOR_OPERATOR_OUTER__
 
 #include "../Operator.h"
 
 namespace Tensor {
 
 	namespace Operator {
-
+		
 		template<typename T=scalar_t>
-		class Sub : public Operator<T> {
+		class Outer : public Operator<T> {
 
 			protected:
-
+				
 				void procedure(T* out, T* arg0, T* arg1, Shape out_shape, Shape arg0_shape, Shape arg1_shape) override;
 
 				void validate(Shape out_shape, Shape arg0_shape, Shape arg1_shape) override;
@@ -27,9 +27,9 @@ namespace Tensor {
 
 				Shape brodcast_shape(Shape out_shape, Shape arg0_shape, Shape arg1_shape, bool which) override;
 
-		}; // class Tensor::Operator::Sub
+		}; // class Tensor::Operator::Add
 
-		static Sub<> sub;
+		static Outer<> outer;
 
 	} // namespace Tensor::Operator
 

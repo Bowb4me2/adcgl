@@ -7,5 +7,3 @@
 //#include "gpu/operators.h"
 
 #endif
-
-#include "cpu/operators.h"

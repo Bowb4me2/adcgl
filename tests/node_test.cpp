@@ -15,9 +15,9 @@ int main() {
 
 	Graph::GraphBuilder settings;
 
-	scalar_t a1[] = { 5.2f, 0.2f, 0.3f};
-	scalar_t a2[] = { 2.4f, 0.9f, 4.3f};
-	scalar_t a3[] = { 1.1f, 2.7f, 3.2f};
+	scalar_t a1[] = { 2.0f };
+	scalar_t a2[] = { 2.0f, 3.0f, 4.0f};
+	scalar_t a3[] = { 2.0f, 3.0f, 4.0f};
 	scalar_t a4[] = { 0.0f, 0.0f, 0.0f};
 	scalar_t a5[] = { 0.0f, 0.0f, 0.0f};
 
