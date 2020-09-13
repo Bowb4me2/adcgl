@@ -14,4 +14,7 @@ add_subdirectory("graph")
 add_subdirectory("tensor")
 
 
-target_link_libraries("src" LINK_PUBLIC "graph" "tensor")
+target_link_libraries("src" LINK_PUBLIC 
+	"graph" 
+	"tensor"
+)

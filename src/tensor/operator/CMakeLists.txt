@@ -1,7 +1,5 @@
 # Add sources
 set(tensor_operator_sources_list
-	"tensor_operators.cpp"
-	"tensor_operators.h"
 	"Operator.cpp"
 	"Operator.h"
 )

@@ -25,8 +25,7 @@ int main() {
 	Tensor::Operator::add(tensor2, tensor2, tensor1);
 
 	std::cout << "Tensor brodcast_iterable[0]: " << tensor2.get_brodcast_iterable()[0] << "\n";
-	std::cout << "t2 contents " << tensor2[0] << "\n";
-	std::cout << "t2 contents " << tensor2[2] << "\n";
+	std::cout << "t2  " << tensor2 << "\n";
 
 	std::string in;
 

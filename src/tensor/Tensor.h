@@ -85,6 +85,9 @@ namespace Tensor {
 
 		public:
 
+			template<typename T>
+			friend std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor);
+
 			T& operator[](size_t index) {
 
 				if (index >= this->size || index < 0) {
@@ -149,7 +152,7 @@ namespace Tensor {
 				}
 			}
 
-			Tensor<T>& clone() {
+			Tensor<T> clone() {
 				
 				Tensor<T> tensor(this->shape);
 
@@ -181,6 +184,20 @@ namespace Tensor {
 			}
 
 	}; // class Tensor::Tensor<T>
+
+	template<typename T>
+	std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor) {
+
+		os << typeid(tensor).name() << "( " << tensor.shape << " ){ ";
+
+		for (size_t iterable_index = 0; iterable_index < tensor.size - 1; iterable_index++) {
+			os << tensor.iterable[iterable_index] << ", ";
+		}
+
+		os << tensor.iterable[tensor.size - 1] << " }";
+
+		return os;
+	}
 
 } // namespace Tensor
 

@@ -20,25 +20,76 @@ namespace Tensor {
 
 		template<typename T>
 		void Outer<T>::validate(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
-			if (!(out_shape.is_brodcastable(arg0_shape) || out_shape.is_brodcastable(arg1_shape))) {
-				throw "input sizes are incompatible";
+			
+			if (arg0_shape.dims + arg1_shape.dims > out_shape.dims) {
+				throw "too many dims";
+			}
+
+			if (arg0_shape.size * arg1_shape.size > out_shape.size) {
+				throw "argument sizes are too large";
+			}
+
+			if (!out_shape.is_brodcastable(arg0_shape)) {
+				throw "arg0 is of incompatible shape";
+			}
+
+			if (!out_shape.is_brodcastable(arg1_shape)) {
+				throw "arg1 is of incompatible shape";
 			}
 		}
 
 		template<typename T>
 		bool Outer<T>::requires_brodcast(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
-			return !arg0_shape.is_equal(arg1_shape);
+			return !out_shape.is_equal(Shape::concatenate(arg0_shape, arg1_shape));
 		}
 
 		template<typename T>
 		bool Outer<T>::brodcast_which(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
-			return false;
+			
+			if (arg0_shape.size < arg1_shape.size && arg0_shape.dims <= arg1_shape.dims) {
+				return true;
+			}
+			else if (arg1_shape.size > arg0_shape.size && arg1_shape.dims <= arg0_shape.dims) {
+				return false;
+			}
+			else {
+				throw "Arguments are incompatible";
+			}
 		}
 
 		template<typename T>
-		Shape Outer<T>::brodcast_shape(Shape out_shape, Shape arg0_shape, Shape arg1_shape, bool which)
-		{
-			return Shape();
+		Shape Outer<T>::brodcast_shape(Shape out_shape, Shape arg0_shape, Shape arg1_shape, bool which) {
+			
+			Shape shape_to_brodcast_to;
+
+			size_t* shape = nullptr;
+
+			size_t dim_difference;
+
+			if (which) {
+				
+				dim_difference = out_shape.dims - arg1_shape.dims;
+
+				shape = new size_t[dim_difference];
+
+				for (size_t shape_index = 0; shape_index < dim_difference; shape_index++) {
+					shape[shape_index] = out_shape[shape_index];
+				}
+			}
+			else {
+				
+				dim_difference = out_shape.dims - arg0_shape.dims;
+
+				shape = new size_t[dim_difference];
+
+				for (size_t shape_index = 0; shape_index < dim_difference; shape_index++) {
+					shape[shape_index] = out_shape[shape_index + arg0_shape.dims];
+				}
+			}
+			
+			shape_to_brodcast_to = Shape(shape, dim_difference);
+
+			return shape_to_brodcast_to;
 		}
 
 		// explicit instantiations

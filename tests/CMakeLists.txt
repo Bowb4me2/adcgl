@@ -6,3 +6,6 @@ target_link_libraries(brodcast_test src)
 
 add_executable(node_test node_test.cpp)
 target_link_libraries(node_test src)
+
+add_executable(node_test_2 node_test_2.cpp)
+target_link_libraries(node_test_2 src)

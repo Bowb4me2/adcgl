@@ -5,7 +5,20 @@
 #include "Shape.h"
 
 namespace Tensor {
-	
+
+	std::ostream& operator<<(std::ostream& os, const Shape& shape) {
+		
+		os << "Shape[ ";
+
+		for (size_t dim_index = 0; dim_index < shape.dims - 1; dim_index++) {
+			os << shape.shape[dim_index] << ", ";
+		}
+		
+		os << shape.shape[shape.dims - 1] << " ]";
+
+		return os;
+	}
+
 	bool Shape::is_equal(Shape shape) {
 		
 		if (this->dims != shape.dims) {

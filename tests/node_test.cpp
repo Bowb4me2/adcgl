@@ -57,7 +57,7 @@ int main() {
 
 	// remember to remove print statements in graph/operators
 
-	std::cout << sink.get_contents()[0] << " " << sink.get_contents()[1] << " " << sink.get_contents()[2] << "\n\n";
+	std::cout << sink_contents << "\n\n";
 
 
 	return 0;
