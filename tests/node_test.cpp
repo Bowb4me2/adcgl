@@ -45,7 +45,6 @@ int main() {
 	Graph::Node::Node::link(constant3,    sink);
 	Graph::Node::Node::link(placeholder1, sink);
 
-	
 
 	Graph::DCGraph graph(settings);
 

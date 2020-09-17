@@ -117,26 +117,6 @@ namespace Tensor {
 						out_shape,
 						arg0_shape,
 						arg1_shape);
-
-					/*if (requires_brodcast(out.shape, arg0.shape, arg1.shape)) {
-
-						if (arg0.is_brodcastable(arg1)) {
-
-							arg0.brodcast_to_mem(arg1);
-
-							procedure(out.iterable, arg0.iterable, arg0.brodcast_iterable, out.shape, arg0.shape, arg1.shape);
-						}
-						else if (arg1.is_brodcastable(arg0)) {
-
-							arg1.brodcast_to_mem(arg0);
-
-							procedure(out.iterable, arg1.brodcast_iterable, arg1.iterable, out.shape, arg0.shape, arg1.shape);
-						}
-					}
-					else {
-
-						procedure(out.iterable, arg0.iterable, arg1.iterable, out.shape, arg0.shape, arg1.shape);
-					}*/
 				}
 
 		}; // class Tensor::Operators::TensorOperator

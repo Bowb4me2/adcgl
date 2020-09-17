@@ -20,4 +20,5 @@ implement differentiable graphs : partially finished
 implement cuda tensors : to do
 
 implement matrix/vector operations with gemm : to do
+	partially completed, introduced dot and outer product
 

@@ -12,6 +12,7 @@ namespace Tensor {
 
 	namespace Operator {
 		
+		// technically speaking this is a frobenius inner product, not a true dot product
 		template<typename T=scalar_t>
 		class Dot : public Operator<T> {
 

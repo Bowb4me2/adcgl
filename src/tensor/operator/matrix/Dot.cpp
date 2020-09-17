@@ -11,90 +11,61 @@ namespace Tensor {
 	
 		template<typename T> 
 		void Dot<T>::procedure(T* out, T* arg0, T* arg1, Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
-			for (size_t out_index = 0; out_index < out_shape.size; out_index++) {
-				for (size_t arg0_index = 0; arg0_index < arg0_shape.size; arg0_index++) {
-					out[out_index] += arg0[arg0_index] * arg1[out_index * arg0_shape.size + arg0_index];
+			if (arg1_shape.size >= arg0_shape.size) {
+				for (size_t out_index = 0; out_index < out_shape.size; out_index++) {
+					for (size_t arg0_index = 0; arg0_index < arg0_shape.size; arg0_index++) {
+						out[out_index] += arg0[arg0_index] * arg1[out_index * arg0_shape.size + arg0_index];
+					}
+				}
+			}
+			else {
+				for (size_t out_index = 0; out_index < out_shape.size; out_index++) {
+					for (size_t arg1_index = 0; arg1_index < arg1_shape.size; arg1_index++) {
+						out[out_index] += arg1[arg1_index] * arg0[out_index * arg1_shape.size + arg1_index];
+					}
 				}
 			}
 		}
 
 		template<typename T>
 		void Dot<T>::validate(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
-			// fix
-			if (arg0_shape.dims + arg1_shape.dims > out_shape.dims) {
-				throw "too many dims";
-			}
+			// fix maybe
+			if (arg0_shape.is_brodcastable(out_shape) &&
+				arg0_shape.is_brodcastable(arg1_shape)) {
+				
 
-			if (arg0_shape.size * arg1_shape.size > out_shape.size) {
-				throw "argument sizes are too large";
 			}
-
-			if (!out_shape.is_brodcastable(arg0_shape)) {
-				throw "arg0 is of incompatible shape";
+			else if (arg1_shape.is_brodcastable(out_shape) &&
+					 arg1_shape.is_brodcastable(arg0_shape)) {
 			}
-
-			if (!out_shape.is_brodcastable(arg1_shape)) {
-				throw "arg1 is of incompatible shape";
+			else {
+				throw "tensor shapes are incompatible for brodcast";
 			}
 		}
 
 		template<typename T>
 		bool Dot<T>::requires_brodcast(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
-			// fix
-			bool temp = arg0_shape.is_equal(Shape::concatenate(out_shape, arg1_shape));
 
-			bool temp = arg1_shape.is_equal(Shape::concatenate(out_shape, arg0_shape));
-
-			return !out_shape.is_equal(Shape::concatenate(arg0_shape, arg1_shape));
+			return out_shape.dims != (arg0_shape.dims > arg1_shape.dims ? 
+				arg0_shape.dims - arg1_shape.dims :
+				arg1_shape.dims - arg0_shape.dims);
 		}
 
 		template<typename T>
 		bool Dot<T>::brodcast_which(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
-			//fix
-			if (arg0_shape.size < arg1_shape.size && arg0_shape.dims <= arg1_shape.dims) {
-				return true;
-			}
-			else if (arg1_shape.size > arg0_shape.size && arg1_shape.dims <= arg0_shape.dims) {
-				return false;
-			}
-			else {
-				throw "Arguments are incompatible";
-			}
+			return arg0_shape.dims > arg1_shape.dims;
 		}
 
 		template<typename T>
 		Shape Dot<T>::brodcast_shape(Shape out_shape, Shape arg0_shape, Shape arg1_shape, bool which) {
-			//fix
-			Shape shape_to_brodcast_to;
-
-			size_t* shape = nullptr;
-
-			size_t dim_difference;
-
+			
 			if (which) {
-
-				dim_difference = out_shape.dims - arg1_shape.dims;
-
-				shape = new size_t[dim_difference];
-
-				for (size_t shape_index = 0; shape_index < dim_difference; shape_index++) {
-					shape[shape_index] = out_shape[shape_index];
-				}
+				return Shape::concatenate(out_shape, arg1_shape);
 			}
 			else {
-
-				dim_difference = out_shape.dims - arg0_shape.dims;
-
-				shape = new size_t[dim_difference];
-
-				for (size_t shape_index = 0; shape_index < dim_difference; shape_index++) {
-					shape[shape_index] = out_shape[shape_index + arg0_shape.dims];
-				}
+				return Shape::concatenate(out_shape, arg0_shape);
 			}
-
-			shape_to_brodcast_to = Shape(shape, dim_difference);
-
-			return shape_to_brodcast_to;
+			
 		}
 
 		// explicit instantiations

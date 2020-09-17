@@ -1,4 +1,6 @@
 set(graph_operator_matrix_sources_list
+	"Dot.cpp"
+	"Dot.h"
 	"Outer.cpp"
 	"Outer.h"
 )

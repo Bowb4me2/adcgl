@@ -5,6 +5,9 @@
 #ifndef __TENSOR_TENSOR_H__
 #define __TENSOR_TENSOR_H__
 
+constexpr size_t MAX_BRODCAST_SPACE_ALLOC = 10000;
+
+
 #include "Shape.h"
 #include "device/Device.h"
 
@@ -30,7 +33,7 @@ namespace Tensor {
 
 			Shape shape; // The size of the tensor divided by dimension
 
-			T* brodcast_iterable; // iterable used for brodcasting other values to the same size
+			static T* brodcast_iterable; // iterable used for brodcasting other values to the same size
 
 			void brodcast_to_mem_recursive(Tensor<T>& iterable, size_t depth, size_t dim_difference, size_t host_index, size_t iterable_index, Shape& shape) {
 
@@ -100,8 +103,9 @@ namespace Tensor {
 			Tensor()
 				: size(1),
 				  iterable(new T[1]),
-				  shape(1),
-				  brodcast_iterable(new T[1]) {
+				  shape(1)//,
+				  //brodcast_iterable(new T[1]) 
+			{
 
 				  fill(T(0));
 			}
@@ -109,8 +113,9 @@ namespace Tensor {
 			Tensor(size_t size)
 				: size(size),
 				  iterable(new T[size]),
-				  shape(size),
-				  brodcast_iterable(new T[size]) {
+				  shape(size)//,
+				  //brodcast_iterable(new T[size]) 
+			{
 
 				  fill(T(0));
 			}
@@ -118,8 +123,9 @@ namespace Tensor {
 			Tensor(Shape shape)
 				: size(shape.size),
 				  iterable(new T[shape.size]),
-				  shape(shape),
-				  brodcast_iterable(new T[shape.size]) {
+				  shape(shape)//,
+				  //brodcast_iterable(new T[shape.size]) 
+			{
 
 				  fill(T(0));
 			}
@@ -128,8 +134,9 @@ namespace Tensor {
 			Tensor(const T(&iterable)[N])
 				: size(N),
 				  iterable(new T[N]),
-				  shape(N),
-				  brodcast_iterable(new T[N]) {
+				  shape(N)//,
+				  //brodcast_iterable(new T[N]) 
+			{
 
 				for (size_t i = 0; i < N; i++) {
 					this->iterable[i] = iterable[i];
@@ -163,6 +170,17 @@ namespace Tensor {
 				return tensor;
 			}
 
+			void clear_iterable() {
+				fill(T(0))
+			}
+
+			void clear_brodcast_iterable() {
+				
+				for (size_t brodcast_iterable_index = 0; brodcast_iterable_index < SIZE_MAX; brodcast_iterable_index++) {
+					this->brodcast_iterable[brodcast_iterable_index] = T(0);
+				}
+			}
+
 			inline bool is_brodcastable(Tensor<T>& iterable) {
 				return this->shape.is_brodcastable(iterable.shape);
 			}
@@ -184,6 +202,10 @@ namespace Tensor {
 			}
 
 	}; // class Tensor::Tensor<T>
+
+	// explicit instantiation of brodcast iterable
+	template<typename T>
+	T* Tensor<T>::brodcast_iterable = new T[MAX_BRODCAST_SPACE_ALLOC];
 
 	template<typename T>
 	std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor) {
