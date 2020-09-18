@@ -7,6 +7,7 @@
 namespace Graph {
 	
 	void DCGraph::init_inputs() {
+
 		for (size_t source_index = 0; source_index < this->sources.get_size(); source_index++) {
 			this->sources[source_index].init_input();
 		}
@@ -52,11 +53,10 @@ namespace Graph {
 	}
 
 	void DCGraph::backward() {
+
 		for (size_t sink_index = 0; sink_index < this->sinks.get_size(); sink_index++) {
 			this->sinks[sink_index].backward();
 		}
 	}
-
-
 
 }

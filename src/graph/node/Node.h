@@ -24,8 +24,9 @@ namespace Graph {
 
 				Tensor::Tensor<scalar_t>& contents;
 
-				// elements corospond to this tensors grad with respect to its parents
-				// matches the shape of the parents, 
+				// elements corospond to each parent of this node
+				// each element matches the shape of its respective parent
+
 				Tensor::TensorArray<scalar_t> grads;
 
 				NodeArray parents;

@@ -15,8 +15,6 @@ namespace Graph {
 			for (size_t input_index = 1; input_index < this->inputs.get_size(); input_index++) {
 
 				Tensor::Operator::add(out, this->inputs[input_index - 1], this->inputs[input_index]);
-
-				//Tensor::operate<float>(out, this->inputs[input_index - 1], this->inputs[input_index], Tensor::Operators::add<float>);
 			}
 		}
 
@@ -25,8 +23,6 @@ namespace Graph {
 		}
 
 		void Add::init(Tensor::Shape operation_shape) {
-
-			std::cout << this->inputs.get_size() << " : Add\n";
 
 			this->operation_shape = operation_shape;
 

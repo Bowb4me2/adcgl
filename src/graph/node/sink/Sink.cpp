@@ -35,8 +35,9 @@ namespace Graph {
 			this->visited = true;
 
 			// init operator here
+			
+			for (size_t parent_index = 0; parent_index < this->parents.get_size(); parent_index++) {
 
-			for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
 				this->parents[parent_index].add_out_grad(this->grads[parent_index]);
 
 				this->parents[parent_index].init_grad();
@@ -79,12 +80,12 @@ namespace Graph {
 			this->visited = true;
 
 			// perform operation here
+			// hypothesis: need to ensure that out grads are propperly managed
+			
 
-			for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
-
+			for (size_t parent_index = 0; parent_index < this->parents.get_size(); parent_index++) {
 				this->parents[parent_index].backward();
 			}
-
 		}
 
 	} // namespace Graph::Node

@@ -35,7 +35,7 @@ namespace Graph {
 					
 					this->children[child_index].add_input(this->contents);
 
-					this->children[child_index].add_in_grad(this->contents.clone());
+					this->children[child_index].add_in_grad(*this->contents.clone());
 
 					this->children[child_index].init_input();
 				}
@@ -43,11 +43,11 @@ namespace Graph {
 		}
 
 		void Placeholder::init_grad() {
-			
+
 			// verifies that all child nodes have had values propegated into them.
 			bool children_are_visited = true;
-			for (size_t child_index = 0; child_index < this->parents.get_size(); child_index++) {
-				children_are_visited = children_are_visited && this->parents[child_index].is_visited();
+			for (size_t child_index = 0; child_index < this->children.get_size(); child_index++) {
+				children_are_visited = children_are_visited && this->children[child_index].is_visited();
 			}
 
 			if (children_are_visited) {
@@ -56,10 +56,10 @@ namespace Graph {
 
 				// init operator here
 
-				for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
+				for (size_t parent_index = 0; parent_index < this->parents.get_size(); parent_index++) {
 					
 					this->parents[parent_index].add_out_grad(this->grads[parent_index]);
-
+					
 					this->parents[parent_index].init_grad();
 				}
 			}
@@ -75,6 +75,7 @@ namespace Graph {
 
 		void Placeholder::add_out_grad(Tensor::Tensor<scalar_t>& grad) {
 			this->operation.add_grad(grad);
+
 		}
 		
 		void Placeholder::forward() {
@@ -99,24 +100,27 @@ namespace Graph {
 			}
 		}
 
-		void Placeholder::backward() {
+		void Placeholder::backward() {			
 
 			// verifies that all child nodes have had values propegated into them.
 			bool children_are_visited = true;
-			for (size_t child_index = 0; child_index < this->parents.get_size(); child_index++) {
-				children_are_visited = children_are_visited && this->parents[child_index].is_visited();
+			for (size_t child_index = 0; child_index < this->children.get_size(); child_index++) {
+				children_are_visited = children_are_visited && this->children[child_index].is_visited();
 			}
 
 			if (children_are_visited) {
 
+				
+
 				this->visited = true;
 
 				// perform operation here
+				
 				this->operation.aggregate_grads(this->grads);
 
 
 
-				for (size_t parent_index = 0; parent_index < this->children.get_size(); parent_index++) {
+				for (size_t parent_index = 0; parent_index < this->parents.get_size(); parent_index++) {
 					
 					this->parents[parent_index].backward();
 				}

@@ -159,13 +159,13 @@ namespace Tensor {
 				}
 			}
 
-			Tensor<T> clone() {
+			Tensor<T>* clone() {
 				
-				Tensor<T> tensor(this->shape);
+				Tensor<T>* tensor = new Tensor<T>(this->shape);
 
-				for (size_t item_index = 0; item_index < this->size; item_index++) {
-					tensor.iterable[item_index] = this->iterable[item_index];
-				}
+				//for (size_t item_index = 0; item_index < this->size; item_index++) {
+				//	tensor->iterable[item_index] = this->iterable[item_index];
+				//}
 
 				return tensor;
 			}

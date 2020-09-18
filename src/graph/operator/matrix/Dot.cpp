@@ -27,19 +27,11 @@ namespace Graph {
 
 		void Dot::init(Tensor::Shape operation_shape) {
 
-			std::cout << this->inputs.get_size() << " : Outer\n";
-
 			this->operation_shape = operation_shape;
 
 			this->aggregate_grad = Tensor::Tensor<scalar_t>(operation_shape);
 
 			construct_jacobians();
-
-			//Tensor::Shape shape = Tensor::Shape::concatenate();
-
-			//Tensor::HTensor<float>& jacobian(shape);
-
-			//this->constants.push_back(jacobian);
 		}
 
 	} // namespace Graph::Operator

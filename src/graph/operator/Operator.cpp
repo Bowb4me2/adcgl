@@ -15,14 +15,15 @@ namespace Graph {
 			Tensor::Shape jacobian_shape;
 
 			Tensor::Tensor<scalar_t>* jacobian;
-
+			
 			for (size_t jacobian_index = 0; jacobian_index < this->inputs.get_size(); jacobian_index++) {
 
-				jacobian_shape = Tensor::Shape::concatenate(this->inputs[jacobian_index].get_shape(), this->operation_shape);
+				jacobian_shape = Tensor::Shape::concatenate(this->operation_shape, this->inputs[jacobian_index].get_shape());
 
 				jacobian = new Tensor::Tensor<scalar_t>(jacobian_shape);
 
 				this->jacobians.push_back(*jacobian);
+
 			}
 
 		}
@@ -36,16 +37,13 @@ namespace Graph {
 		}
 
 		void Operator::aggregate_grads(Tensor::TensorArray<scalar_t>& out) {
-
+			
 			for (size_t grad_index = 0; grad_index < this->grads.get_size(); grad_index++) {
 				Tensor::Operator::add(this->aggregate_grad, this->aggregate_grad, this->grads[grad_index]);
 			}
 
 			// multiply via dot product the aggregate gradiant by the jacobian for each input tensor, and return that to the out array
-
 			for (size_t jacobian_index = 0; jacobian_index < this->jacobians.get_size(); jacobian_index++) {
-			
-				// mess with dot product ordering to acheive appropriately size result
 				Tensor::Operator::dot(out[jacobian_index], this->aggregate_grad, this->jacobians[jacobian_index]);
 			}
 		}

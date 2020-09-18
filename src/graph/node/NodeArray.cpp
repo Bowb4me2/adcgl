@@ -8,6 +8,7 @@ namespace Graph {
 	namespace Node {
 
 		Node& NodeArray::operator[](size_t index) {
+			
 			if (index >= this->size || index < 0) {
 				throw "index outside of array range, out of bounds exception";
 			}

@@ -58,7 +58,7 @@ namespace Tensor {
 	bool Shape::is_brodcastable(Shape shape) {
 
 		// the difference between the number of dimentions
-		auto dims_difference = this->dims - shape.dims;
+		long long dims_difference = this->dims - shape.dims;
 
 		// check to make sure that the patern shape has more dimentions than the brodcaster
 		if (dims_difference < 0) {
@@ -102,12 +102,12 @@ namespace Tensor {
 
 		size_t* new_shape = new size_t[new_shape_dims];
 
-		for (size_t new_shape_index = 0; new_shape_index < arg0.dims; new_shape_index++) {
-			new_shape[new_shape_index] = arg0.shape[new_shape_index];
+		for (size_t new_shape_index = 0; new_shape_index < arg1.dims; new_shape_index++) {
+			new_shape[new_shape_index] = arg1.shape[new_shape_index];
 		}
 
-		for (size_t new_shape_index = 0; new_shape_index < arg1.dims; new_shape_index++) {
-			new_shape[new_shape_index + arg0.dims] = arg1.shape[new_shape_index];
+		for (size_t new_shape_index = 0; new_shape_index < arg0.dims; new_shape_index++) {
+			new_shape[new_shape_index + arg1.dims] = arg0.shape[new_shape_index];
 		}
 
 		shape.shape = new_shape;

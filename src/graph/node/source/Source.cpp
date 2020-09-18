@@ -24,7 +24,7 @@ namespace Graph {
 				
 				this->children[child_index].add_input(this->contents);
 
-				this->children[child_index].add_in_grad(this->contents.clone());
+				this->children[child_index].add_in_grad(*this->contents.clone());
 
 				this->children[child_index].init_input();
 			}
@@ -33,8 +33,8 @@ namespace Graph {
 		void Source::init_grad() {
 
 			bool children_are_visited = true;
-			for (size_t child_index = 0; child_index < this->parents.get_size(); child_index++) {
-				children_are_visited = children_are_visited && this->parents[child_index].is_visited();
+			for (size_t child_index = 0; child_index < this->children.get_size(); child_index++) {
+				children_are_visited = children_are_visited && this->children[child_index].is_visited();
 			}
 
 
@@ -76,8 +76,8 @@ namespace Graph {
 		void Source::backward() {
 
 			bool children_are_visited = true;
-			for (size_t child_index = 0; child_index < this->parents.get_size(); child_index++) {
-				children_are_visited = children_are_visited && this->parents[child_index].is_visited();
+			for (size_t child_index = 0; child_index < this->children.get_size(); child_index++) {
+				children_are_visited = children_are_visited && this->children[child_index].is_visited();
 			}
 
 

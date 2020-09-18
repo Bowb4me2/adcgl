@@ -24,8 +24,6 @@ namespace Graph {
 
 		void Sub::init(Tensor::Shape operation_shape) {
 
-			std::cout << this->inputs.get_size() << " : Sub\n";
-
 			this->operation_shape = operation_shape;
 
 			this->aggregate_grad = Tensor::Tensor<scalar_t>(operation_shape);

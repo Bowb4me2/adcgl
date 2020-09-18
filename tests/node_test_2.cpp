@@ -54,6 +54,10 @@ int main() {
 
 	graph.forward();
 
+	std::cout << "Placeholder Tensor: " << placeholder_contents << "\n";
+
+	std::cout << "Output Tensor: " << sink_contents << "\n";
+
 	graph.reset_visited();
 
 	graph.backward();
