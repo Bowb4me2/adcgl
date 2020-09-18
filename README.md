@@ -14,7 +14,7 @@ implement differentiable graphs : partially finished
 		add backwards pass grad init : finished
 		add jacobian array construction : finished
 		add jacobian array filling : to do
-		add jacobian aggregation and propagation : to do
+		add jacobian aggregation and propagation : finished
 
 
 implement cuda tensors : to do
