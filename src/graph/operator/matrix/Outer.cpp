@@ -20,7 +20,7 @@ namespace Graph {
 			}
 		}
 
-		void Outer::get_jacobian(Tensor::TensorArray<scalar_t>& out) {
+		void Outer::get_jacobians(Tensor::TensorArray<scalar_t>& out) {
 
 		}
 

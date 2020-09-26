@@ -18,7 +18,7 @@ namespace Graph {
 			}
 		}
 
-		void Sub::get_jacobian(Tensor::TensorArray<scalar_t>& out) {
+		void Sub::get_jacobians(Tensor::TensorArray<scalar_t>& out) {
 
 		}
 

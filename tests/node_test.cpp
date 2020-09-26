@@ -40,10 +40,10 @@ int main() {
 	settings.add_node(placeholder1);
 	settings.add_node(sink);
 
-	Graph::Node::Node::link(constant1,    placeholder1);
-	Graph::Node::Node::link(constant2,    placeholder1);
-	Graph::Node::Node::link(constant3,    sink);
-	Graph::Node::Node::link(placeholder1, sink);
+	Graph::Node::link(constant1,    placeholder1);
+	Graph::Node::link(constant2,    placeholder1);
+	Graph::Node::link(constant3,    sink);
+	Graph::Node::link(placeholder1, sink);
 
 
 	Graph::DCGraph graph(settings);

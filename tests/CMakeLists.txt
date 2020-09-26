@@ -9,3 +9,6 @@ target_link_libraries(node_test src)
 
 add_executable(node_test_2 node_test_2.cpp)
 target_link_libraries(node_test_2 src)
+
+add_executable(differentiation_test differentiation_test.cpp)
+target_link_libraries(differentiation_test src)

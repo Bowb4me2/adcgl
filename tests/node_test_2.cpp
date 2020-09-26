@@ -43,11 +43,11 @@ int main() {
 	settings.add_node(placeholder);
 	settings.add_node(sink);
 
-	Graph::Node::Node::link(constant1, placeholder);
-	Graph::Node::Node::link(constant2, placeholder);
+	Graph::Node::link(constant1, placeholder);
+	Graph::Node::link(constant2, placeholder);
 
-	Graph::Node::Node::link(constant3, sink);
-	Graph::Node::Node::link(placeholder, sink);
+	Graph::Node::link(constant3, sink);
+	Graph::Node::link(placeholder, sink);
 	
 
 	Graph::DCGraph graph(settings);

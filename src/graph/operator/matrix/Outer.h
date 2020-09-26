@@ -17,7 +17,7 @@ namespace Graph {
 
 			void get_operation(Tensor::Tensor<scalar_t>& out) override;
 
-			void get_jacobian(Tensor::TensorArray<scalar_t>& out) override;
+			void get_jacobians(Tensor::TensorArray<scalar_t>& out) override;
 
 			void init(Tensor::Shape operation_shape) override;
 

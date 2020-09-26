@@ -1,9 +1,9 @@
 //
-// Created by Carson Fricke on 6/27/2020 7:52pm PST
+// Created by Carson Fricke on 9/17/2020 10:08pm PST
 //
 
-#ifndef __GRAPH_OPERATOR_SUB_H__
-#define __GRAPH_OPERATOR_SUB_H__
+#ifndef __GRAPH_OPERATOR_MSE_H__
+#define __GRAPH_OPERATOR_MSE_H__
 
 #include "../Operator.h"
 
@@ -11,7 +11,8 @@ namespace Graph {
 
 	namespace Operator {
 
-		class Sub : public Operator {
+		// mean squared error
+		class MSE : public Operator {
 
 		public:
 
@@ -21,7 +22,9 @@ namespace Graph {
 
 			void init(Tensor::Shape operation_shape) override;
 
-		}; // class Graph::Operator::Sub
+			void aggregate_grads(Tensor::TensorArray<scalar_t>& out) override;
+
+		}; // class Graph::Operator::MSE
 
 	} // namespace Graph::Operator
 

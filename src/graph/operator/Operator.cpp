@@ -42,6 +42,8 @@ namespace Graph {
 				Tensor::Operator::add(this->aggregate_grad, this->aggregate_grad, this->grads[grad_index]);
 			}
 
+			get_jacobians(this->jacobians);
+
 			// multiply via dot product the aggregate gradiant by the jacobian for each input tensor, and return that to the out array
 			for (size_t jacobian_index = 0; jacobian_index < this->jacobians.get_size(); jacobian_index++) {
 				Tensor::Operator::dot(out[jacobian_index], this->aggregate_grad, this->jacobians[jacobian_index]);

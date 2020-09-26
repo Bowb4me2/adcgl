@@ -26,12 +26,13 @@ namespace Graph {
 
 				// elements corospond to each parent of this node
 				// each element matches the shape of its respective parent
-
 				Tensor::TensorArray<scalar_t> grads;
 
 				NodeArray parents;
 
 				NodeArray children;
+
+				friend void link(Node& parent, Node& child);
 
 			public:
 
@@ -41,7 +42,7 @@ namespace Graph {
 
 				virtual void init_grad() = 0;
 
-				static void link(Node& parent, Node& child);
+				
 
 				void reset_visited();
 
@@ -64,6 +65,8 @@ namespace Graph {
 				NodeArray& get_children();
 
 		}; // class Node
+
+		void link(Node& parent, Node& child);
 
 	} // namespace Graph::Node
 	

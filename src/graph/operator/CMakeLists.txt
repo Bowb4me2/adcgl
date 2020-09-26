@@ -10,10 +10,12 @@ target_include_directories ("graph_operator" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add subdirectories
 add_subdirectory("elementwise")
+add_subdirectory("loss")
 add_subdirectory("matrix")
 
 
 target_link_libraries("graph_operator" LINK_PUBLIC 
 	"graph_operator_elementwise" 
+	"graph_operator_loss"
 	"graph_operator_matrix"
 )

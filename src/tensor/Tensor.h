@@ -86,26 +86,48 @@ namespace Tensor {
 				brodcast_to_mem_recursive(iterable, 0, this->shape.dims - iterable.shape.dims, 0, 0, shape);
 			}
 
+			Tensor(T* location, Shape shape) 
+				: size(shape.size), 
+				  iterable(location), 
+				  shape(shape) {
+				
+
+
+			}
+
 		public:
 
 			template<typename T>
 			friend std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor);
 
-			T& operator[](size_t index) {
-
-				if (index >= this->size || index < 0) {
+			// implement this
+			void operator[](size_t index) {
+				/*
+				if (index >= this->shape.shape[0] || index < 0) {
 					throw "index outside of tensor range, out of bounds exception";
 				}
 
-				return this->iterable[index];
+				if (this->size == 1) {
+					return Tensor<T>(this->iterable, this->shape);
+				}
+
+				size_t shape_array[this->shape.dims - 1];
+
+				for (size_t shape_index = 1; shape_index < this->shape.dims; shape_index++) {
+					shape_array[shape_index - 1] = this->shape.shape[shape_index];
+				}
+
+				Shape shape(shape_array);
+
+				T* location = &this->iterable[shape.size * index];
+
+				return Tensor<T>(location, shape);*/
 			}
 
 			Tensor()
 				: size(1),
 				  iterable(new T[1]),
-				  shape(1)//,
-				  //brodcast_iterable(new T[1]) 
-			{
+				  shape(1) {
 
 				  fill(T(0));
 			}
@@ -113,9 +135,7 @@ namespace Tensor {
 			Tensor(size_t size)
 				: size(size),
 				  iterable(new T[size]),
-				  shape(size)//,
-				  //brodcast_iterable(new T[size]) 
-			{
+				  shape(size) {
 
 				  fill(T(0));
 			}
@@ -123,9 +143,7 @@ namespace Tensor {
 			Tensor(Shape shape)
 				: size(shape.size),
 				  iterable(new T[shape.size]),
-				  shape(shape)//,
-				  //brodcast_iterable(new T[shape.size]) 
-			{
+				  shape(shape) {
 
 				  fill(T(0));
 			}
@@ -134,14 +152,11 @@ namespace Tensor {
 			Tensor(const T(&iterable)[N])
 				: size(N),
 				  iterable(new T[N]),
-				  shape(N)//,
-				  //brodcast_iterable(new T[N]) 
-			{
+				  shape(N) {
 
 				for (size_t i = 0; i < N; i++) {
 					this->iterable[i] = iterable[i];
 				}
-
 			}
 
 			void fill(T fill_contents) {
@@ -174,6 +189,47 @@ namespace Tensor {
 				fill(T(0))
 			}
 
+			// remove ones
+			void collapse_ones() {
+				
+				size_t non_one_values = 0;
+
+				size_t* shape_array;
+
+				for (size_t shape_index = 0; shape_index < this->shape.dims; shape_index++) {
+					if (this->shape.shape[shape_index] != 1) {
+						non_one_values++;
+					}
+				}
+				if (non_one_values > 0) {
+					shape_array = new size_t[non_one_values];
+
+					size_t new_shape_index = 0;
+
+					for (size_t old_shape_index = 0; old_shape_index < this->shape.dims; old_shape_index++) {
+						if (this->shape.shape[old_shape_index] != 1) {
+							shape_array[new_shape_index] = this->shape.shape[old_shape_index];
+							new_shape_index++;
+						}
+					}
+
+					this->shape.dims = non_one_values;
+
+				}
+				else {
+					shape_array = new size_t;
+
+					*shape_array = 1;
+
+					this->shape.dims = 1;
+				}
+
+				delete[] this->shape.shape;
+
+				this->shape.shape = shape_array;
+
+			}
+
 			void clear_brodcast_iterable() {
 				
 				for (size_t brodcast_iterable_index = 0; brodcast_iterable_index < SIZE_MAX; brodcast_iterable_index++) {
@@ -201,6 +257,8 @@ namespace Tensor {
 				return this->brodcast_iterable;
 			}
 
+			
+
 	}; // class Tensor::Tensor<T>
 
 	// explicit instantiation of brodcast iterable
@@ -219,6 +277,44 @@ namespace Tensor {
 		os << tensor.iterable[tensor.size - 1] << " }";
 
 		return os;
+	}
+	
+	static size_t indicies_to_index(size_t* indicies, Shape shape) {
+
+		size_t true_index = 0;
+
+		size_t pivot = 1;
+
+		for (size_t dim_index = shape.dims; dim_index > 0; dim_index--) {
+
+			true_index += indicies[dim_index - 1] * pivot;
+
+			pivot *= shape.shape[dim_index - 1];
+		}
+
+		return true_index;
+	}
+
+	static size_t* index_to_indicies(size_t index, Shape shape) {
+		
+		size_t* indicies = new size_t[shape.dims];
+
+
+		size_t mod_index = index;
+		size_t pivot_descending = shape.size;
+		size_t individual_index;
+
+		for (size_t dim_index = 0; dim_index < shape.dims; dim_index++) {
+
+			pivot_descending /= shape.shape[dim_index];
+
+			individual_index = mod_index / pivot_descending;
+			indicies[dim_index] = individual_index;
+			
+			mod_index -= (pivot_descending * individual_index);
+		}
+
+		return indicies;
 	}
 
 } // namespace Tensor

@@ -8,6 +8,8 @@ set(tensor_operator_elementwise_sources_list
 	"Mul.h"
 	"Sub.cpp"
 	"Sub.h"
+	"Sum.cpp"
+	"Sum.h"
 )
 
 # Add Library

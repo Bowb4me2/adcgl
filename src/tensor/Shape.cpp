@@ -49,12 +49,22 @@ namespace Tensor {
 		shape(new size_t(1)),
 		dims(1) {}
 
+	Shape::Shape(Shape& shape) 
+		: size(shape.size), 
+		shape(new size_t[shape.dims]), 
+		dims(shape.dims) {
+
+		for (size_t shape_index = 0; shape_index < this->dims; shape_index++) {
+			this->shape[shape_index] = shape.shape[shape_index];
+		}
+	}
+
 	Shape::Shape(size_t size)
 		: size(size),
 		shape(new size_t(size)),
 		dims(1) {}
 
-	// checks if something can be brodcast
+	// checks if shape can be brodcast to this
 	bool Shape::is_brodcastable(Shape shape) {
 
 		// the difference between the number of dimentions
@@ -65,7 +75,6 @@ namespace Tensor {
 			return false;
 		}
 
-		// assumes the host of the method has more dims.
 		// compare the sizes starting with the trailin dimention,
 		// if they are not equal or the neither shape dimention is equal to 1 
 		// then the two arrays are unbrodcastable
@@ -90,6 +99,55 @@ namespace Tensor {
 
 		this->shape = shape.shape;
 
+	}
+
+	void Shape::collapse(size_t max_collapseable=1) {
+
+
+	}
+
+	void Shape::collapse_left() {
+		if (this->dims > 2) {
+
+			size_t* shape_array = this->shape;
+
+			delete[] this->shape;
+
+			this->shape = new size_t[this->dims - 1];
+
+			this->dims -= 1;
+
+			this->shape[0] = shape_array[0] * shape_array[1];
+
+			for (size_t shape_index = 1; shape_index < this->dims; shape_index++) {
+				this->shape[shape_index] = shape_array[shape_index + 1];
+			}
+		}
+		else {
+			throw "Too few dims to collapse";
+		}
+	}
+
+	void Shape::collapse_right() {
+		if (this->dims > 2) {
+			
+			size_t* shape_array = this->shape;
+
+			delete[] this->shape;
+
+			this->shape = new size_t[this->dims - 1];
+
+			this->dims -= 1;
+
+			this->shape[this->dims - 1] = shape_array[this->dims] * shape_array[this->dims - 1];
+
+			for (size_t shape_index = 0; shape_index < this->dims - 1; shape_index++) {
+				this->shape[shape_index] = shape_array[shape_index];
+			}
+		}
+		else {
+			throw "Too few dims to collapse";
+		}
 	}
 
 	Shape Shape::concatenate(Shape arg0, Shape arg1) {

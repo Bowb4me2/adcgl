@@ -19,7 +19,7 @@ namespace Tensor {
 
 			size_t max;
 
-			Tensor<T>** iterable;
+			Tensor<T>* iterable;
 
 		public:
 
@@ -28,7 +28,7 @@ namespace Tensor {
 					throw "index outside of array range, out of bounds exception";
 				}
 
-				return *this->iterable[index];
+				return this->iterable[index];
 			}
 
 			TensorArray() 
@@ -42,9 +42,9 @@ namespace Tensor {
 				
 				if (this->size == this->max) {
 
-					Tensor<T>** placeholder_array;
+					Tensor<T>* placeholder_array;
 
-					placeholder_array = new Tensor<T>*[this->size];
+					placeholder_array = new Tensor<T>[this->size];
 
 					// copy array over to placeholder
 					for (size_t copy_index = 0; copy_index < this->size; copy_index++) {
@@ -58,7 +58,7 @@ namespace Tensor {
 					}
 
 					// clear placeholder, allocate more space
-					this->iterable = new Tensor<T>*[(this->max)];
+					this->iterable = new Tensor<T>[this->max];
 
 					// copy contents from placeholder over to array
 					for (size_t copy_index = 0; copy_index < this->size; copy_index++) {
@@ -70,7 +70,7 @@ namespace Tensor {
 				}
 
 
-				this->iterable[this->size] = &item;
+				this->iterable[this->size] = item;
 
 
 				this->size++;
@@ -84,7 +84,7 @@ namespace Tensor {
 			}
 
 			void clear() {
-				this->iterable = new Tensor<T>*[this->max];
+				this->iterable = new Tensor<T>[this->max];
 
 				this->size = 0;
 			}

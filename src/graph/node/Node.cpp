@@ -15,13 +15,6 @@ namespace Graph {
 			  contents(contents) {
 		}
 
-		void Node::link(Node& parent, Node& child) {
-
-			parent.children.push_back(child);
-
-			child.parents.push_back(parent);
-		}
-
 		void Node::reset_visited() {
 			this->visited = false;
 		}
@@ -44,6 +37,12 @@ namespace Graph {
 			return this->children;
 		}
 
+		void link(Node& parent, Node& child) {
+
+			parent.children.push_back(child);
+
+			child.parents.push_back(parent);
+		}
 
 	} // namespace Node
 

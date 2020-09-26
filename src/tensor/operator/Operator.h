@@ -83,31 +83,29 @@ namespace Tensor {
 						}
 					}
 				}
-
-			public:
-
-				void operator()(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1) {
-
+				
+				inline void operation(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1) {
+					
 					validate(out.shape, arg0.shape, arg1.shape);
 
 					T* out_iterable = nullptr;
 					T* arg0_iterable = nullptr;
 					T* arg1_iterable = nullptr;
 
-					
+
 					Shape out_shape;
 					Shape arg0_shape;
 					Shape arg1_shape;
 
 					brodcast_pragma(
-						out, 
-						arg0, 
-						arg1, 
-						&out_iterable, 
-						&arg0_iterable, 
-						&arg1_iterable, 
-						out_shape, 
-						arg0_shape, 
+						out,
+						arg0,
+						arg1,
+						&out_iterable,
+						&arg0_iterable,
+						&arg1_iterable,
+						out_shape,
+						arg0_shape,
 						arg1_shape);
 
 					procedure(
@@ -117,6 +115,12 @@ namespace Tensor {
 						out_shape,
 						arg0_shape,
 						arg1_shape);
+				}
+
+			public:
+
+				void operator()(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1) {
+					operation(out, arg0, arg1);
 				}
 
 		}; // class Tensor::Operators::TensorOperator

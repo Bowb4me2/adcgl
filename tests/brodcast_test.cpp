@@ -19,7 +19,7 @@ int main() {
 
 	Tensor::Tensor<scalar_t> tensor2(shape2);
 
-	std::cout << tensor2[0] << "\n";
+	std::cout << tensor2 << "\n";
 
 	// bugfix this
 	Tensor::Operator::add(tensor2, tensor2, tensor1);

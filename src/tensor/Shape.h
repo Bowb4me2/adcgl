@@ -31,6 +31,9 @@ namespace Tensor {
 		// default contructor
 		Shape();
 
+		// copy constructor
+		Shape(Shape& shape);
+
 		// contructor with specified size
 		Shape(size_t size);
 
@@ -69,6 +72,12 @@ namespace Tensor {
 		//}
 
 		void reshape(Shape shape);
+
+		void collapse(size_t mac_collapseable);
+
+		void collapse_left();
+
+		void collapse_right();
 
 		static Shape concatenate(Shape arg0, Shape arg1);
 

@@ -37,9 +37,9 @@ namespace Graph {
 
 			virtual void get_operation(Tensor::Tensor<scalar_t>& out) = 0;
 
-			virtual void get_jacobian(Tensor::TensorArray<scalar_t>& out) = 0;
+			virtual void get_jacobians(Tensor::TensorArray<scalar_t>& out) = 0;
 
-			void aggregate_grads(Tensor::TensorArray<scalar_t>& out);
+			virtual void aggregate_grads(Tensor::TensorArray<scalar_t>& out);
 
 			void add_input(Tensor::Tensor<scalar_t>& input);
 

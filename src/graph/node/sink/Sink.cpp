@@ -26,6 +26,7 @@ namespace Graph {
 				this->visited = true;
 
 				// init operator here
+
 				this->operation.init(this->contents.get_shape());
 			}
 		}
@@ -79,9 +80,9 @@ namespace Graph {
 
 			this->visited = true;
 
-			// perform operation here
-			// hypothesis: need to ensure that out grads are propperly managed
-			
+			// make sure to fill grads appropriatly
+			// something like this->operation.get_grads(this->grads)
+			this->operation.get_jacobians(this->grads);
 
 			for (size_t parent_index = 0; parent_index < this->parents.get_size(); parent_index++) {
 				this->parents[parent_index].backward();

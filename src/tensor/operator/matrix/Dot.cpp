@@ -29,16 +29,22 @@ namespace Tensor {
 
 		template<typename T>
 		void Dot<T>::validate(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
+			
+			//std::cout << arg0_shape.is_brodcastable(out_shape) << " " << arg0_shape.is_brodcastable(arg1_shape)) << "\n";			
 			// fix maybe
-			if (arg0_shape.is_brodcastable(out_shape) &&
-				arg0_shape.is_brodcastable(arg1_shape)) {
+			Shape arg1_composite = Shape::concatenate(arg1_shape, out_shape);
+
+			Shape arg0_composite = Shape::concatenate(arg0_shape, out_shape);
+
+			if (arg0_shape.is_brodcastable(arg1_composite)) {
 				
 
 			}
-			else if (arg1_shape.is_brodcastable(out_shape) &&
-					 arg1_shape.is_brodcastable(arg0_shape)) {
+			else if (arg1_shape.is_brodcastable(arg0_composite)) {
 			}
 			else {
+				
+
 				throw "tensor shapes are incompatible for brodcast";
 			}
 		}
