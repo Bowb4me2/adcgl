@@ -64,6 +64,16 @@ namespace Tensor {
 		shape(new size_t(size)),
 		dims(1) {}
 
+	Shape::Shape(size_t* shape, size_t dims)
+		: size(1),
+		shape(shape),
+		dims(dims) {
+
+		for (size_t i = 0; i < dims; i++) {
+			this->size *= shape[i];
+		}
+	}
+
 	// checks if shape can be brodcast to this
 	bool Shape::is_brodcastable(Shape shape) {
 

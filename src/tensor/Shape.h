@@ -51,18 +51,7 @@ namespace Tensor {
 			}
 		}
 
-		// contructor with psuedo std::intializer_list
-		Shape(size_t* shape, size_t dims)
-			: size(1),
-			shape(shape),
-			dims(dims) {
-
-			for (size_t i = 0; i < dims; i++) {
-				this->size *= shape[i];
-
-				//this->shape[i] = shape[i];
-			}
-		}
+		Shape(size_t* shape, size_t dims);
 
 		bool is_brodcastable(Shape shape);
 

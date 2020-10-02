@@ -54,7 +54,6 @@ namespace Graph {
 			for (size_t jacobian_index = 0; jacobian_index < this->jacobians.get_size(); jacobian_index++) {
 				jacobians[jacobian_index].collapse_ones();
 			}
-
 		}
 
 		void MSE::aggregate_grads(Tensor::TensorArray<scalar_t>& out) {

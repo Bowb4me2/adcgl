@@ -25,6 +25,8 @@ int main() {
 	wt1.fill(1);
 	Graph::Node::Constant weights(wt1);
 
+	std::cout << wt1 << "\n" << wt1[1][1][0] << "\n";
+
 	size_t la2[] = { 5 };
 	Tensor::Shape ls2(la2);
 	Tensor::Tensor<> lt2(ls2);

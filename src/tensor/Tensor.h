@@ -101,27 +101,32 @@ namespace Tensor {
 			friend std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor);
 
 			// implement this
-			void operator[](size_t index) {
-				/*
+			Tensor<T> operator[](size_t index) {
+				
 				if (index >= this->shape.shape[0] || index < 0) {
 					throw "index outside of tensor range, out of bounds exception";
 				}
+				
+				Shape output_shape;
 
-				if (this->size == 1) {
-					return Tensor<T>(this->iterable, this->shape);
+				size_t new_index;
+
+				if (this->shape.dims > 1) {
+				
+					size_t* new_shape(&this->shape.shape[1]);
+
+					output_shape = Shape(new_shape, this->shape.dims - 1);
+
+					new_index = index * output_shape.size;
+				}
+				else {
+
+					output_shape = Shape(1);
+
+					new_index = index;
 				}
 
-				size_t shape_array[this->shape.dims - 1];
-
-				for (size_t shape_index = 1; shape_index < this->shape.dims; shape_index++) {
-					shape_array[shape_index - 1] = this->shape.shape[shape_index];
-				}
-
-				Shape shape(shape_array);
-
-				T* location = &this->iterable[shape.size * index];
-
-				return Tensor<T>(location, shape);*/
+				return Tensor<T>(&this->iterable[new_index], output_shape);
 			}
 
 			Tensor()
