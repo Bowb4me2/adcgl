@@ -3,6 +3,7 @@ set(tensor_sources_list
 	
 	"Shape.cpp"
 	"Shape.h"
+	"Tensor.cpp"
 	"Tensor.h"
 	"TensorArray.h"
 )

@@ -15,17 +15,19 @@ int main() {
 
 	Graph::GraphBuilder settings;
 
-	scalar_t la1[] = { -1, 1, 0.1, 1, 1, 1, 1, 0.3, 1, 1 };
+	scalar_t la1[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 	Tensor::Tensor<> lt1(la1);
 	Graph::Node::Constant input_layer(lt1);
 
 	size_t wa1[] = { 5, 10 };
 	Tensor::Shape ws1(wa1);
 	Tensor::Tensor<> wt1(ws1);
-	wt1.fill(1);
 	Graph::Node::Constant weights(wt1);
-
-	std::cout << wt1 << "\n" << wt1[1][1][0] << "\n";
+	wt1[0].fill(0.1);
+	wt1[1].fill(0.2);
+	wt1[2].fill(0.3);
+	wt1[3].fill(0.4);
+	wt1[4].fill(0.5);
 
 	size_t la2[] = { 5 };
 	Tensor::Shape ls2(la2);
@@ -62,16 +64,12 @@ int main() {
 
 	graph.backward();
 
-	std::cout << "Error Tensor: " << lt3 << "\n";
-
-	std::cout << "Output Tensor: " << lt2 << "\n";
+	std::cout << "Input Tensor: "   << lt1 << "\n";
+	std::cout << "Weight Tensor: "  << wt1 << "\n";
+	std::cout << "Error Tensor: "   << lt3 << "\n";
+	std::cout << "Output Tensor: "  << lt2 << "\n";
+	std::cout << "Desired Tensor: " << lt4 << "\n";
 
 	//// remember to remove print statements in graph/operators
-
-	//std::cout << "Weights Tensor: " << wt1[1] << "\n";
-
-	//std::cout << "Output Tensor: " << sink_contents << "\n";
-
 	return 0;
-
 }
