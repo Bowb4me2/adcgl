@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <adcgl.h>
+#include <swing.h>
 
 #include <graph/operator/matrix/Outer.h>
 

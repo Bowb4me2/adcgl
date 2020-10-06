@@ -3,10 +3,10 @@
 
 cmake_minimum_required(VERSION 3.8)
 
-project (adcgl LANGUAGES CXX)
+project (swing LANGUAGES CXX)
 
 # Add subdirectories
-add_subdirectory("src")
+add_subdirectory("swing")
 add_subdirectory("tests")
 
 # TODO: install targets if needed.
