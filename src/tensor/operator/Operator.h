@@ -19,108 +19,108 @@ namespace Tensor {
 
 			protected:
 
-				virtual void procedure(T* out, T* arg0, T* arg1, Shape out_shape, Shape arg0_shape, Shape arg1_shape) = 0;
+				virtual void procedure(T* target, T* arg0, T* arg1, Shape target_shape, Shape arg0_shape, Shape arg1_shape) = 0;
 				
-				virtual void validate(Shape out_shape, Shape arg0_shape, Shape arg1_shape) = 0;
+				virtual void validate(Shape target_shape, Shape arg0_shape, Shape arg1_shape) = 0;
 
-				virtual bool requires_brodcast(Shape out_shape, Shape arg0_shape, Shape arg1_shape) = 0;
+				virtual bool requires_brodcast(Shape target_shape, Shape arg0_shape, Shape arg1_shape) = 0;
 
-				virtual bool brodcast_which(Shape out_shape, Shape arg0_shape, Shape arg1_shape) = 0;
+				virtual bool brodcast_which(Shape target_shape, Shape arg0_shape, Shape arg1_shape) = 0;
 
-				virtual Shape brodcast_shape(Shape out_shape, Shape arg0_shape, Shape arg1_shape, bool which) = 0;
+				virtual Shape brodcast_shape(Shape target_shape, Shape arg0_shape, Shape arg1_shape, bool which) = 0;
 
 				// after validation, ensures all args are propperly brodcast to their respective shapes
 				void brodcast_pragma(
-					Tensor<T>& out,
+					Tensor<T>& target,
 					Tensor<T>& arg0,
 					Tensor<T>& arg1,
-					T** out_iterable,
+					T** target_iterable,
 					T** arg0_iterable,
 					T** arg1_iterable,
-					Shape& out_shape,
+					Shape& target_shape,
 					Shape& arg0_shape,
 					Shape& arg1_shape) {
 
-					if (!requires_brodcast(out.shape, arg0.shape, arg1.shape)) {
+					if (!requires_brodcast(target.shape, arg0.shape, arg1.shape)) {
 						
-						*out_iterable = out.iterable;
+						*target_iterable = target.iterable;
 						*arg0_iterable = arg0.iterable;
 						*arg1_iterable = arg1.iterable;
 
-						out_shape = out.shape;
+						target_shape = target.shape;
 						arg0_shape = arg0.shape;
 						arg1_shape = arg1.shape;
 					}
 					else {
 
-						bool which_arg_to_brodcast = brodcast_which(out.shape, arg0.shape, arg1.shape);
+						bool which_arg_to_brodcast = brodcast_which(target.shape, arg0.shape, arg1.shape);
 
-						Shape brodcast_to_shape = brodcast_shape(out.shape, arg0.shape, arg1.shape, which_arg_to_brodcast);
+						Shape brodcast_to_shape = brodcast_shape(target.shape, arg0.shape, arg1.shape, which_arg_to_brodcast);
 
 						if (which_arg_to_brodcast) {
 
-							out.brodcast_to_mem(arg0, brodcast_to_shape);
+							target.brodcast_to_mem(arg0, brodcast_to_shape);
 
-							*out_iterable = out.iterable;
-							*arg0_iterable = out.brodcast_iterable;
+							*target_iterable = target.iterable;
+							*arg0_iterable = target.brodcast_iterable;
 							*arg1_iterable = arg1.iterable;
 
-							out_shape = out.shape;
+							target_shape = target.shape;
 							arg0_shape = brodcast_to_shape;
 							arg1_shape = arg1.shape;
 						}
 						else {
 
-							out.brodcast_to_mem(arg1, brodcast_to_shape);
+							target.brodcast_to_mem(arg1, brodcast_to_shape);
 
-							*out_iterable = out.iterable;
+							*target_iterable = target.iterable;
 							*arg0_iterable = arg0.iterable;
-							*arg1_iterable = out.brodcast_iterable;
+							*arg1_iterable = target.brodcast_iterable;
 
-							out_shape = out.shape;
+							target_shape = target.shape;
 							arg0_shape = arg0.shape;
 							arg1_shape = brodcast_to_shape;
 						}
 					}
 				}
 				
-				inline void operation(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1) {
+				inline void operation(Tensor<T>& target, Tensor<T>& arg0, Tensor<T>& arg1) {
 					
-					validate(out.shape, arg0.shape, arg1.shape);
+					validate(target.shape, arg0.shape, arg1.shape);
 
-					T* out_iterable = nullptr;
+					T* target_iterable = nullptr;
 					T* arg0_iterable = nullptr;
 					T* arg1_iterable = nullptr;
 
 
-					Shape out_shape;
+					Shape target_shape;
 					Shape arg0_shape;
 					Shape arg1_shape;
 
 					brodcast_pragma(
-						out,
+						target,
 						arg0,
 						arg1,
-						&out_iterable,
+						&target_iterable,
 						&arg0_iterable,
 						&arg1_iterable,
-						out_shape,
+						target_shape,
 						arg0_shape,
 						arg1_shape);
 
 					procedure(
-						out_iterable,
+						target_iterable,
 						arg0_iterable,
 						arg1_iterable,
-						out_shape,
+						target_shape,
 						arg0_shape,
 						arg1_shape);
 				}
 
 			public:
 
-				void operator()(Tensor<T>& out, Tensor<T>& arg0, Tensor<T>& arg1) {
-					operation(out, arg0, arg1);
+				void operator()(Tensor<T>& target, Tensor<T>& arg0, Tensor<T>& arg1) {
+					operation(target, arg0, arg1);
 				}
 
 		}; // class Tensor::Operators::TensorOperator

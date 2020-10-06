@@ -27,6 +27,9 @@ namespace Tensor {
 
 		private:
 
+			// 
+			// fields
+			// 
 			size_t size; // total number of elements in the Tensor
 
 			T* iterable; // contents of the tensor
@@ -34,79 +37,63 @@ namespace Tensor {
 			Shape shape; // The size of the tensor divided by dimension
 
 			static T* brodcast_iterable; // iterable used for brodcasting other values to the same size
-
-			void brodcast_to_mem_recursive(Tensor<T>& iterable, size_t depth, size_t dim_difference, size_t host_index, size_t iterable_index, Shape& shape); /*{
-
-				// ensures recursion stops when tensor tips are reached
-				if (depth < shape.dims) {
-
-					// ensures that if iterable tensor has less dims that they are not accessed until later
-					if (depth < dim_difference) {
-
-						// recur once for every item in the current shape dimention, selected by depth
-						// this runs before the iterable tensor is accessable
-						for (size_t shape_index = 0; shape_index < shape.shape[depth]; shape_index++) {
-							brodcast_to_mem_recursive(iterable,
-								depth + 1,
-								dim_difference,
-								host_index * shape.shape[depth] + shape_index,
-								0, 
-								shape);
-						}
-					}
-					else {
-
-						// recur once for every item in the current shape dimention, selected by depth
-						// this runs only if the iterable tensor can now be accessed
-						for (size_t shape_index = 0; shape_index < shape.shape[depth]; shape_index++) {
-							brodcast_to_mem_recursive(iterable,
-								depth + 1,
-								dim_difference, host_index * shape.shape[depth] + shape_index,
-								iterable_index * iterable.shape[depth - dim_difference] + (iterable.shape[depth] == 1) ? 0 : shape_index, 
-								shape);
-						}
-					}
-
-				}
-				else {
-					// copies the value from the appropriate iterable's index to the brodcast_iterables index
-					this->brodcast_iterable[host_index] = iterable.iterable[iterable_index];
-				}
-			}*/ // recursive brodcast helper function
-
-			template<typename T>
-			friend class Operator::Operator;
+			
+			// 
+			// brodcast directives 
+			// 
+			void brodcast_to_mem_recursive(Tensor<T>& iterable, size_t depth, size_t dim_difference, size_t host_index, size_t iterable_index, Shape& shape);
 
 			void brodcast_to_mem(Tensor<T>& iterable);
 
 			void brodcast_to_mem(Tensor<T>& iterable, Shape& shape);
 
-			Tensor(T* location, Shape shape);
-
-		public:
-
+			// 
+			// friends
+			// 
 			template<typename T>
 			friend std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor);
 
-			Tensor<T> operator[](size_t index);
+			template<typename T>
+			friend class Operator::Operator;
 
+		public:
+
+			// 
+			// contructors
+			// 
 			Tensor();
 
 			Tensor(size_t size);
 
 			Tensor(Shape shape);
 
-			template<size_t N>
-			Tensor(const T(&iterable)[N])
+			template<typename ARG_T=T, size_t N>
+			Tensor(const ARG_T(&iterable)[N])
 				: size(N),
 				iterable(new T[N]),
 				shape(N) {
 
 				for (size_t i = 0; i < N; i++) {
-					this->iterable[i] = iterable[i];
+					this->iterable[i] = (T) iterable[i];
 				}
 			}
 
+			Tensor(T* location, Shape shape);
+
+			// 
+			// generators
+			// 
+			Tensor<T>* clone();
+
+			Tensor<T> operator[](size_t index);
+
+			Tensor<T> transpose_();
+
+			Tensor<T> transpose_(size_t* target_transpositions);
+
+			// 
+			// modifiers
+			// 
 			void fill(T fill_contents);
 
 			template<size_t N>
@@ -117,19 +104,22 @@ namespace Tensor {
 				}
 			}
 
-			Tensor<T>* clone();
-
-			void clear_iterable() {
-				fill(T(0));
-			}
+			void clear_iterable();
 
 			// remove ones from shape, removing excess dims
 			void collapse_ones();
 
 			void clear_brodcast_iterable();
 
-			inline bool is_brodcastable(Tensor<T>& iterable);
+			void transpose();
 
+			void transpose(size_t* target_transpositions);
+
+			// 
+			// getters
+			// 
+			inline bool is_brodcastable(Tensor<T>& iterable);
+			
 			inline size_t get_size();
 
 			inline Shape get_shape();

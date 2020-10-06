@@ -6,6 +6,9 @@
 
 namespace Tensor {
 
+	// 
+	// brodcast directives
+	// 
 	template<typename T>
 	void Tensor<T>::brodcast_to_mem_recursive(Tensor<T>& iterable, size_t depth, size_t dim_difference, size_t host_index, size_t iterable_index, Shape& shape) {
 
@@ -56,12 +59,57 @@ namespace Tensor {
 		brodcast_to_mem_recursive(iterable, 0, this->shape.dims - iterable.shape.dims, 0, 0, shape);
 	}
 
+	// 
+	// constructors
+	// 
+	template<typename T>
+	Tensor<T>::Tensor()
+		: size(1),
+		iterable(new T[1]),
+		shape(1) {
+
+		fill(T(0));
+	}
+
+	template<typename T>
+	Tensor<T>::Tensor(size_t size)
+		: size(size),
+		iterable(new T[size]),
+		shape(size) {
+
+		fill(T(0));
+	}
+
+	template<typename T>
+	Tensor<T>::Tensor(Shape shape)
+		: size(shape.size),
+		iterable(new T[shape.size]),
+		shape(shape) {
+
+		fill(T(0));
+	}
+
 	template<typename T>
 	Tensor<T>::Tensor(T* location, Shape shape)
 		: size(shape.size),
 		iterable(location),
 		shape(shape) {
 
+	}
+
+	// 
+	// generators
+	// 
+	template<typename T>
+	Tensor<T>* Tensor<T>::clone() {
+
+		Tensor<T>* tensor = new Tensor<T>(this->shape);
+
+		//for (size_t item_index = 0; item_index < this->size; item_index++) {
+		//	tensor->iterable[item_index] = this->iterable[item_index];
+		//}
+
+		return tensor;
 	}
 
 	template<typename T>
@@ -93,34 +141,21 @@ namespace Tensor {
 		return Tensor<T>(&this->iterable[new_index], output_shape);
 	}
 
-
 	template<typename T>
-	Tensor<T>::Tensor()
-		: size(1),
-		iterable(new T[1]),
-		shape(1) {
+	Tensor<T> Tensor<T>::transpose_() {
 
-		fill(T(0));
+		return Tensor();
 	}
 
 	template<typename T>
-	Tensor<T>::Tensor(size_t size)
-		: size(size),
-		iterable(new T[size]),
-		shape(size) {
+	Tensor<T> Tensor<T>::transpose_(size_t* target_transpositions) {
 
-		fill(T(0));
+		return Tensor();
 	}
 
-	template<typename T>
-	Tensor<T>::Tensor(Shape shape)
-		: size(shape.size),
-		iterable(new T[shape.size]),
-		shape(shape) {
-
-		fill(T(0));
-	}
-
+	// 
+	// modifiers 
+	// 
 	template<typename T>
 	void Tensor<T>::fill(T fill_contents) {
 
@@ -130,15 +165,8 @@ namespace Tensor {
 	}
 
 	template<typename T>
-	Tensor<T>* Tensor<T>::clone() {
-
-		Tensor<T>* tensor = new Tensor<T>(this->shape);
-
-		//for (size_t item_index = 0; item_index < this->size; item_index++) {
-		//	tensor->iterable[item_index] = this->iterable[item_index];
-		//}
-
-		return tensor;
+	void Tensor<T>::clear_iterable() {
+		fill(T(0));
 	}
 
 	// remove excess 1 dimentions from shape
@@ -192,6 +220,19 @@ namespace Tensor {
 	}
 
 	template<typename T>
+	void Tensor<T>::transpose() {
+	
+	}
+
+	template<typename T>
+	void Tensor<T>::transpose(size_t* target_trasnpositions) {
+	
+	}
+
+	// 
+	// getters
+	// 
+	template<typename T>
 	inline bool Tensor<T>::is_brodcastable(Tensor<T>& iterable) {
 		return this->shape.is_brodcastable(iterable.shape);
 	}
@@ -216,13 +257,13 @@ namespace Tensor {
 		return this->brodcast_iterable;
 	}
 
-
+	// 
 	// explicit Tensor instantiations
+	// 
 	template class Tensor<scalar_t>;
 	template class Tensor<unsigned int>;
 	template class Tensor<int>;
 	template class Tensor<float>;
 	template class Tensor<double>;
-
 
 } // namespace Tensor

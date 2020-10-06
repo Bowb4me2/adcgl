@@ -38,16 +38,16 @@ namespace Tensor {
 		Shape(size_t size);
 
 		// contructor with psuedo std::intializer_list
-		template<size_t N>
-		Shape(const size_t(&shape)[N])
+		template<typename ARG_T=size_t, size_t N>
+		Shape(const ARG_T(&shape)[N])
 			: size(1),
 			  shape(new size_t[N]),
 			  dims(N) {
 
 			for (size_t i = 0; i < N; i++) {
-				this->size *= shape[i];
+				this->size *= (size_t) shape[i];
 
-				this->shape[i] = shape[i];
+				this->shape[i] = (size_t) shape[i];
 			}
 		}
 

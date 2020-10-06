@@ -10,17 +10,17 @@
 
 #include <stdlib.h>
 
+#include <stdarg.h>
 
 int main() {
 
 	Graph::GraphBuilder settings;
 
-	scalar_t la1[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-	Tensor::Tensor<> lt1(la1);
+	Tensor::Tensor<> lt1({ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
 	Graph::Node::Constant input_layer(lt1);
 
-	size_t wa1[] = { 5, 10 };
-	Tensor::Shape ws1(wa1);
+
+	Tensor::Shape ws1({ 5, 10 });
 	Tensor::Tensor<> wt1(ws1);
 	Graph::Node::Constant weights(wt1);
 	wt1[0].fill(0.1);
@@ -29,18 +29,15 @@ int main() {
 	wt1[3].fill(0.4);
 	wt1[4].fill(0.5);
 
-	size_t la2[] = { 5 };
-	Tensor::Shape ls2(la2);
+	Tensor::Shape ls2({ 5 }); 
 	Tensor::Tensor<> lt2(ls2);
 	Graph::Node::Placeholder output_layer(lt2, Graph::Operator::Dot());
 
-	size_t la3[] = { 1 };
-	Tensor::Shape ls3(la3);
+	Tensor::Shape ls3({ 1 });
 	Tensor::Tensor<> lt3(ls3);
 	Graph::Node::Sink error(lt3, Graph::Operator::MSE());
 
-	scalar_t la4[] = { 1, 1, 1, 1, 1 };
-	Tensor::Tensor<> lt4(la4);
+	Tensor::Tensor<> lt4({ 1, 1, 1, 1, 1 });
 	Graph::Node::Constant desired(lt4);
 
 

@@ -17,15 +17,15 @@ namespace Tensor {
 
 			protected:
 				
-				void procedure(T* out, T* arg0, T* arg1, Shape out_shape, Shape arg0_shape, Shape arg1_shape) override;
+				void procedure(T* target, T* arg0, T* arg1, Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
 
-				void validate(Shape out_shape, Shape arg0_shape, Shape arg1_shape) override;
+				void validate(Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
 
-				bool requires_brodcast(Shape out_shape, Shape arg0_shape, Shape arg1_shape) override;
+				bool requires_brodcast(Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
 
-				bool brodcast_which(Shape out_shape, Shape arg0_shape, Shape arg1_shape) override;
+				bool brodcast_which(Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
 
-				Shape brodcast_shape(Shape out_shape, Shape arg0_shape, Shape arg1_shape, bool which) override;
+				Shape brodcast_shape(Shape target_shape, Shape arg0_shape, Shape arg1_shape, bool which) override;
 
 		}; // class Tensor::Operator::Add
 

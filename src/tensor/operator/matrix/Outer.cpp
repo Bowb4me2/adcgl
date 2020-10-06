@@ -10,41 +10,41 @@ namespace Tensor {
 	namespace Operator {
 	
 		template<typename T> 
-		void Outer<T>::procedure(T* out, T* arg0, T* arg1, Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
+		void Outer<T>::procedure(T* target, T* arg0, T* arg1, Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
 			for (size_t arg1_index = 0; arg1_index < arg1_shape.size; arg1_index++) {
 				for (size_t arg0_index = 0; arg0_index < arg0_shape.size; arg0_index++) {
-					out[arg1_index * arg0_shape.size + arg0_index] = arg0[arg0_index] * arg1[arg1_index];
+					target[arg1_index * arg0_shape.size + arg0_index] = arg0[arg0_index] * arg1[arg1_index];
 				}
 			}
 		}
 
 		template<typename T>
-		void Outer<T>::validate(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
+		void Outer<T>::validate(Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
 			
-			if (arg0_shape.dims + arg1_shape.dims > out_shape.dims) {
+			if (arg0_shape.dims + arg1_shape.dims > target_shape.dims) {
 				throw "too many dims";
 			}
 
-			if (arg0_shape.size * arg1_shape.size > out_shape.size) {
+			if (arg0_shape.size * arg1_shape.size > target_shape.size) {
 				throw "argument sizes are too large";
 			}
 
-			if (!out_shape.is_brodcastable(arg0_shape)) {
+			if (!target_shape.is_brodcastable(arg0_shape)) {
 				throw "arg0 is of incompatible shape";
 			}
 
-			if (!out_shape.is_brodcastable(arg1_shape)) {
+			if (!target_shape.is_brodcastable(arg1_shape)) {
 				throw "arg1 is of incompatible shape";
 			}
 		}
 
 		template<typename T>
-		bool Outer<T>::requires_brodcast(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
-			return !out_shape.is_equal(Shape::concatenate(arg0_shape, arg1_shape));
+		bool Outer<T>::requires_brodcast(Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
+			return !target_shape.is_equal(Shape::concatenate(arg0_shape, arg1_shape));
 		}
 
 		template<typename T>
-		bool Outer<T>::brodcast_which(Shape out_shape, Shape arg0_shape, Shape arg1_shape) {
+		bool Outer<T>::brodcast_which(Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
 			
 			if (arg0_shape.size < arg1_shape.size && arg0_shape.dims <= arg1_shape.dims) {
 				return true;
@@ -58,7 +58,7 @@ namespace Tensor {
 		}
 
 		template<typename T>
-		Shape Outer<T>::brodcast_shape(Shape out_shape, Shape arg0_shape, Shape arg1_shape, bool which) {
+		Shape Outer<T>::brodcast_shape(Shape target_shape, Shape arg0_shape, Shape arg1_shape, bool which) {
 			
 			Shape shape_to_brodcast_to;
 
@@ -68,22 +68,22 @@ namespace Tensor {
 
 			if (which) {
 				
-				dim_difference = out_shape.dims - arg1_shape.dims;
+				dim_difference = target_shape.dims - arg1_shape.dims;
 
 				shape = new size_t[dim_difference];
 
 				for (size_t shape_index = 0; shape_index < dim_difference; shape_index++) {
-					shape[shape_index] = out_shape[shape_index];
+					shape[shape_index] = target_shape[shape_index];
 				}
 			}
 			else {
 				
-				dim_difference = out_shape.dims - arg0_shape.dims;
+				dim_difference = target_shape.dims - arg0_shape.dims;
 
 				shape = new size_t[dim_difference];
 
 				for (size_t shape_index = 0; shape_index < dim_difference; shape_index++) {
-					shape[shape_index] = out_shape[shape_index + arg0_shape.dims];
+					shape[shape_index] = target_shape[shape_index + arg0_shape.dims];
 				}
 			}
 			
