@@ -148,6 +148,7 @@ namespace Tensor {
 		return os;
 	}
 	
+	// all this broken
 	static size_t indicies_to_index(size_t* indicies, Shape shape) {
 
 		size_t true_index = 0;
@@ -185,6 +186,15 @@ namespace Tensor {
 
 		return indicies;
 	}
+
+	static void reorder(size_t* target, size_t* arg0, size_t* order, size_t size) {
+	
+		for (size_t index = 0; index < size; index++) {
+			target[index] = arg0[order[index]];
+		}
+	}
+	// all this broke
+
 
 } // namespace Tensor
 

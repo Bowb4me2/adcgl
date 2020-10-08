@@ -28,6 +28,10 @@ int main() {
 	wt1[2].fill(0.3);
 	wt1[3].fill(0.4);
 	wt1[4].fill(0.5);
+	wt1.transpose();
+	wt1[3].fill(3);
+	wt1.transpose();
+
 
 	Tensor::Shape ls2({ 5 }); 
 	Tensor::Tensor<> lt2(ls2);
@@ -66,7 +70,7 @@ int main() {
 	std::cout << "Error Tensor: "   << lt3 << "\n";
 	std::cout << "Output Tensor: "  << lt2 << "\n";
 	std::cout << "Desired Tensor: " << lt4 << "\n";
-
+	
 	//// remember to remove print statements in graph/operators
 	return 0;
 }

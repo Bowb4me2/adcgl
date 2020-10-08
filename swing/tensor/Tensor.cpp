@@ -221,12 +221,57 @@ namespace Tensor {
 
 	template<typename T>
 	void Tensor<T>::transpose() {
-	
+		
+		size_t* reverse = new size_t[this->shape.dims];
+
+		for (size_t index = 0; index < this->shape.dims; index++) {
+		
+			reverse[this->shape.dims - index - 1] = index;
+		}
+
+		transpose(reverse);
+
+		delete[] reverse;
 	}
 
 	template<typename T>
 	void Tensor<T>::transpose(size_t* target_trasnpositions) {
-	
+		
+		size_t* indicies;
+
+		size_t* new_indicies = new size_t[this->shape.dims];
+
+		size_t new_index;
+
+		Shape new_shape(this->shape);
+
+		T temp;
+		
+		reorder(new_shape.shape, this->shape.shape, target_trasnpositions, this->shape.dims);
+
+		T* new_iterable = new T[this->size];
+
+		for (size_t index = 0; index < this->size; index++) {
+			
+			indicies = index_to_indicies(index, new_shape);
+
+			// reorder indicies
+			// likely something broken here
+
+			reorder(new_indicies, indicies, target_trasnpositions, this->shape.dims);
+			
+			new_index = indicies_to_index(new_indicies, this->shape);
+
+			// swap index and new_index
+			new_iterable[index] = this->iterable[new_index];
+			
+
+		}
+		delete[] this->iterable;
+
+		this->iterable = new_iterable;
+
+		this->shape = new_shape;
 	}
 
 	// 
