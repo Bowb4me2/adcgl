@@ -263,6 +263,7 @@ namespace Tensor {
 			new_index = indicies_to_index(new_indicies, this->shape);
 
 			// swap index and new_index
+
 			new_iterable[index] = this->iterable[new_index];
 			
 
@@ -272,6 +273,7 @@ namespace Tensor {
 		this->iterable = new_iterable;
 
 		this->shape = new_shape;
+
 	}
 
 	// 
