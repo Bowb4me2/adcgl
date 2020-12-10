@@ -12,7 +12,7 @@ namespace Graph {
 
 		void Dot::get_operation(Tensor::Tensor<scalar_t>& out) {
 			
-			Tensor::Operator::dot(out, this->inputs[0], this->inputs[1]);
+			Tensor::Operator::dot(out, { this->inputs[0], this->inputs[1] });
 			
 			//for (size_t input_index = 1; input_index < this->inputs.get_size(); input_index++) {
 
@@ -20,17 +20,12 @@ namespace Graph {
 			//}
 		}
 
-		void Dot::get_jacobians(Tensor::TensorArray<scalar_t>& out) {
+		void Dot::populate_local_grads() {
 
 		}
 
-		void Dot::init(Tensor::Shape operation_shape) {
+		void Dot::construct_constants() {
 			
-			this->operation_shape = operation_shape;
-
-			this->aggregate_grad = Tensor::Tensor<scalar_t>(operation_shape);
-
-			construct_jacobians();
 		}
 
 	} // namespace Graph::Operator

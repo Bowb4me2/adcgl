@@ -5,21 +5,23 @@
 #ifndef __GRAPH_OPERATOR_MUL_H__
 #define __GRAPH_OPERATOR_MUL_H__
 
-#include "../Operator.h"
+#include "../VectorOperator.h"
 
 namespace Graph {
 
 	namespace Operator {
 
-		class Mul : public Operator {
+		class Mul : public VectorOperator {
 
-		public:
+			protected:
 
-			void get_operation(Tensor::Tensor<scalar_t>& out) override;
+				void populate_local_grads() override;
 
-			void get_jacobians(Tensor::TensorArray<scalar_t>& out) override;
+				void construct_constants() override;
 
-			void init(Tensor::Shape operation_shape) override;
+			public:
+
+				void get_operation(Tensor::Tensor<scalar_t>& out) override;
 
 		}; // class Graph::Operator::Mul
 

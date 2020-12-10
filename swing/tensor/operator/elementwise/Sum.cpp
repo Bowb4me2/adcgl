@@ -13,38 +13,48 @@ namespace Tensor {
 	namespace Operator {
 
 		template<typename T>
-		void Sum<T>::procedure(T* target, T* arg0, T* arg1, Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
-			for (size_t index = 0; index < arg0_shape.size; index++) {
-				target[0] += arg0[index];
+		void Sum<T>::pointer_procedure(
+			T* target,
+			Shape target_shape,
+			T* tensor_pointers[1],
+			Shape shapes[1]
+		) {
+			for (int64_t i = 0; i < shapes[0].size; i++) {
+				target[0] += tensor_pointers[0][i];
 			}
 		}
 
 		template<typename T>
-		void Sum<T>::validate(Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
+		void Sum<T>::validate(
+			T* target_contents,
+			Shape target_shape,
+			T* tensor_contents[1],
+			Shape shapes[1]
+		) {
+
 			if (target_shape.size != 1) {
-				throw "targetput shape must be a scalar";
+				throw "sum must evaluate to to a scalar";
 			}
+
 		}
 
 		template<typename T>
-		bool Sum<T>::requires_brodcast(Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
-			return false;
-		}
+		void Sum<T>::settup_directives(
+			T* target_contents,
+			Shape target_shape,
+			T* tensor_contents[1],
+			Shape shapes[1],
+			T* (&modified_tensor_contents)[1],
+			Shape(&modified_shapes)[1]
+		) {
 
-		template<typename T>
-		bool Sum<T>::brodcast_which(Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
-			return false;
-		}
+			// no brodcast needed
+			modified_shapes[0] = shapes[0];
+			modified_shapes[1] = shapes[1];
 
-		template<typename T>
-		Shape Sum<T>::brodcast_shape(Shape target_shape, Shape arg0_shape, Shape arg1_shape, bool which) {
-			return target_shape;
-		}
+			modified_tensor_contents[0] = tensor_contents[0];
+			modified_tensor_contents[1] = tensor_contents[1];
 
-		template<typename T>
-		void Sum<T>::operator()(Tensor<T>& target, Tensor<T>& arg0) {
-
-			operation(target, arg0, Tensor<T>(0));
 		}
 
 		// explicit instantiations

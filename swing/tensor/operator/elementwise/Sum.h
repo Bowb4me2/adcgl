@@ -13,23 +13,33 @@ namespace Tensor {
 	namespace Operator {
 
 		template<typename T = scalar_t>
-		class Sum : public Operator<T> {
+		class Sum : public Operator<1, T> {
 
-		protected:
+			protected:
 
-			void procedure(T* target, T* arg0, T* arg1, Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
+				void pointer_procedure(
+					T* target,
+					Shape target_shape,
+					T* tensor_pointers[1],
+					Shape shapes[1]
+				) override;
 
-			void validate(Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
+				void validate(
+					T* target_contents,
+					Shape target_shape,
+					T* tensor_contents[1],
+					Shape shapes[1]
+				) override;
 
-			bool requires_brodcast(Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
+				void settup_directives(
+					T* target_contents,
+					Shape target_shape,
+					T* tensor_contents[1],
+					Shape shapes[1],
+					T* (&modified_tensor_contents)[1],
+					Shape(&modified_shapes)[1]
+				) override;
 
-			bool brodcast_which(Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
-
-			Shape brodcast_shape(Shape target_shape, Shape arg0_shape, Shape arg1_shape, bool which) override;
-
-		public:
-
-			void operator()(Tensor<T>& target, Tensor<T>& arg0);
 
 		}; // class Tensor::Operator::Sum
 

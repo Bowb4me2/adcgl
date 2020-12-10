@@ -18,7 +18,7 @@ namespace Tensor {
 
 	namespace Operator {
 		
-		template<typename T>
+		template<int64_t N_TENSORS, typename T, typename... ARGS>
 		class Operator;
 	}
 
@@ -41,7 +41,15 @@ namespace Tensor {
 			// 
 			// brodcast directives 
 			// 
-			void brodcast_to_mem_recursive(Tensor<T>& iterable, size_t depth, size_t dim_difference, size_t host_index, size_t iterable_index, Shape& shape);
+			static void brodcast_to_mem_recursive(
+				T* iterable,
+				Shape& host_shape, 
+				size_t depth, 
+				size_t dim_difference, 
+				size_t host_index, 
+				size_t iterable_index, 
+				Shape& shape
+			);
 
 			void brodcast_to_mem(Tensor<T>& iterable);
 
@@ -53,7 +61,7 @@ namespace Tensor {
 			template<typename T>
 			friend std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor);
 
-			template<typename T>
+			template<int64_t N_TENSORS, typename T, typename... ARGS>
 			friend class Operator::Operator;
 
 		public:
@@ -97,7 +105,7 @@ namespace Tensor {
 			void fill(T fill_contents);
 
 			template<size_t N>
-			void fill(const T(&iterable)[N]) {
+			void fill(const T (&iterable)[N]) {
 
 				for (size_t i = 0; i < N; i++) {
 					this->iterable[i] = iterable[i];
@@ -120,7 +128,7 @@ namespace Tensor {
 			// 
 			inline bool is_brodcastable(Tensor<T>& iterable);
 			
-			inline size_t get_size();
+			const inline size_t get_size();
 
 			inline Shape get_shape();
 
@@ -148,7 +156,7 @@ namespace Tensor {
 		return os;
 	}
 	
-	// all this broken
+	
 	static size_t indicies_to_index(size_t* indicies, Shape shape) {
 
 		size_t true_index = 0;

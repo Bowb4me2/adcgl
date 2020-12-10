@@ -6,21 +6,23 @@
 #ifndef __GRAPH_OPERATOR_SUM_H__
 #define __GRAPH_OPERATOR_SUM_H__
 
-#include "../Operator.h"
+#include "../ScalarOperator.h"
 
 namespace Graph {
 
 	namespace Operator {
 
-		class Sum : public Operator {
+		class Sum : public ScalarOperator {
 
-		public:
+			protected:
 
-			void get_operation(Tensor::Tensor<scalar_t>& out) override;
+				void populate_local_grads() override;
 
-			void get_jacobian(Tensor::TensorArray<scalar_t>& out) override;
+				void construct_constants() override;
 
-			void init(Tensor::Shape operation_shape) override;
+			public:
+
+				void get_operation(Tensor::Tensor<scalar_t>& out) override;
 
 		}; // class Graph::Operator::Sum
 

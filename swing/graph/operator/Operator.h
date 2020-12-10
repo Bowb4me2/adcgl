@@ -29,25 +29,31 @@ namespace Graph {
 
 			Tensor::TensorArray<scalar_t> constants;
 
-			Tensor::TensorArray<scalar_t> jacobians;
+			Tensor::TensorArray<scalar_t> local_grads;
 
-			void construct_jacobians();
+			virtual void construct_local_grads() = 0;
+
+			virtual void construct_constants() = 0;
+
+			virtual void populate_local_grads() = 0;
 
 		public:
 
-			virtual void get_operation(Tensor::Tensor<scalar_t>& out) = 0;
+			virtual void get_operation(Tensor::Tensor<scalar_t>& target) = 0;
 
-			virtual void get_jacobians(Tensor::TensorArray<scalar_t>& out) = 0;
+			void init(Tensor::Shape operation_shape);
 
-			virtual void aggregate_grads(Tensor::TensorArray<scalar_t>& out);
+			void aggregate_grads();
+
+			void differentiate(Tensor::TensorArray<scalar_t>& target);
+
+			virtual void calc_grad(Tensor::TensorArray<scalar_t>& target) = 0;
 
 			void add_input(Tensor::Tensor<scalar_t>& input);
 
 			void add_grad(Tensor::Tensor<scalar_t>& grad);
 
 			void clear();
-
-			virtual void init(Tensor::Shape operation_shape) = 0;
 
 		}; // class Graph::Node::Operator::Operator
 

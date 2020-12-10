@@ -41,7 +41,7 @@ int main() {
 	Tensor::Tensor<> lt3(ls3);
 	Graph::Node::Sink error(lt3, Graph::Operator::MSE());
 
-	Tensor::Tensor<> lt4({ 1, 1, 1, 1, 1 });
+	Tensor::Tensor<> lt4({ 3, 4, 5, 6, 7 });
 	Graph::Node::Constant desired(lt4);
 
 
@@ -65,12 +65,14 @@ int main() {
 
 	graph.backward();
 
+
 	std::cout << "Input Tensor: "   << lt1 << "\n";
 	std::cout << "Weight Tensor: "  << wt1 << "\n";
 	std::cout << "Error Tensor: "   << lt3 << "\n";
 	std::cout << "Output Tensor: "  << lt2 << "\n";
 	std::cout << "Desired Tensor: " << lt4 << "\n";
 	
+
 	//// remember to remove print statements in graph/operators
 	return 0;
 }

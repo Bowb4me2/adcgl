@@ -116,7 +116,7 @@ namespace Graph {
 
 				// perform operation here
 				
-				this->operation.aggregate_grads(this->grads);
+				this->operation.differentiate(this->grads);
 
 
 

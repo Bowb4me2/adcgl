@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 
-// performs an out product between two tensors and then a dot product uppon the result.
+// performs an outer product between two tensors and then a dot product uppon the result.
 
 
 int main() {

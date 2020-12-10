@@ -12,3 +12,6 @@ target_link_libraries(node_test_2 swing)
 
 add_executable(differentiation_test differentiation_test.cpp)
 target_link_libraries(differentiation_test swing)
+
+add_executable(operator_test operator_test.cpp)
+target_link_libraries(operator_test swing)

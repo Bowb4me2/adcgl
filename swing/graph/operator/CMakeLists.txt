@@ -1,6 +1,12 @@
 set(graph_operator_sources_list
+	"MatrixOperator.cpp"
+	"MatrixOperator.h"
 	"Operator.cpp"
 	"Operator.h"
+	"ScalarOperator.cpp"
+	"ScalarOperator.h"
+	"VectorOperator.cpp"
+	"VectorOperator.h"
 )
 
 # Add library

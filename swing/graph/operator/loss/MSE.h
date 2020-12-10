@@ -5,24 +5,24 @@
 #ifndef __GRAPH_OPERATOR_MSE_H__
 #define __GRAPH_OPERATOR_MSE_H__
 
-#include "../Operator.h"
+#include "../ScalarOperator.h"
 
 namespace Graph {
 
 	namespace Operator {
 
 		// mean squared error
-		class MSE : public Operator {
+		class MSE : public ScalarOperator {
 
-		public:
+			protected:
 
-			void get_operation(Tensor::Tensor<scalar_t>& out) override;
+				void populate_local_grads() override;
 
-			void get_jacobians(Tensor::TensorArray<scalar_t>& out) override;
+				void construct_constants() override;
 
-			void init(Tensor::Shape operation_shape) override;
+			public:
 
-			void aggregate_grads(Tensor::TensorArray<scalar_t>& out) override;
+				void get_operation(Tensor::Tensor<scalar_t>& out) override;
 
 		}; // class Graph::Operator::MSE
 

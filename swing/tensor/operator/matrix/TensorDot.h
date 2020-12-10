@@ -1,10 +1,10 @@
 //
-// Created by Carson Fricke on 8/14/2020 8:32pm PST
+// Created by Carson Fricke on 10/19/2020 3:36pm PST
 //
 
 
-#ifndef __TENSOR_OPERATOR_SUB__
-#define __TENSOR_OPERATOR_SUB__
+#ifndef __TENSOR_OPERATOR_TENSORDOT__
+#define __TENSOR_OPERATOR_TENSORDOT__
 
 #include "../Operator.h"
 
@@ -12,8 +12,9 @@ namespace Tensor {
 
 	namespace Operator {
 
+		// technically speaking this is a frobenius inner product, not a true dot product
 		template<typename T = scalar_t>
-		class Sub : public Operator<2, T> {
+		class TensorDot : public Operator<2, T> {
 
 			protected:
 
@@ -40,10 +41,9 @@ namespace Tensor {
 					Shape(&modified_shapes)[2]
 				) override;
 
+		}; // class Tensor::Operator::Add
 
-		}; // class Tensor::Operator::Sub
-
-		static Sub<> sub;
+		static TensorDot<> tensor_dot;
 
 	} // namespace Tensor::Operator
 

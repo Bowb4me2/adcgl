@@ -1,16 +1,15 @@
 //
-// Created by Carson Fricke on 8/14/2020 8:32pm PST
+// Created by Carson Fricke on 10/19/2020 3:36pm PST
 //
 
-
-#include "Outer.h"
+#include "TensorDot.h"
 
 namespace Tensor {
 
 	namespace Operator {
 	
 		template<typename T>
-		void Outer<T>::pointer_procedure(
+		void TensorDot<T>::pointer_procedure(
 			T* target,
 			Shape target_shape,
 			T* tensor_pointers[2],
@@ -22,7 +21,7 @@ namespace Tensor {
 		}
 
 		template<typename T>
-		void Outer<T>::validate(
+		void TensorDot<T>::validate(
 			T* target_contents,
 			Shape target_shape,
 			T* tensor_contents[2],
@@ -33,7 +32,7 @@ namespace Tensor {
 		}
 
 		template<typename T>
-		void Outer<T>::settup_directives(
+		void TensorDot<T>::settup_directives(
 			T* target_contents,
 			Shape target_shape,
 			T* tensor_contents[2],
@@ -41,7 +40,7 @@ namespace Tensor {
 			T* (&modified_tensor_contents)[2],
 			Shape(&modified_shapes)[2]
 		) {
-			
+
 			// no brodcast needed
 			modified_shapes[0] = shapes[0];
 			modified_shapes[1] = shapes[1];
@@ -52,10 +51,10 @@ namespace Tensor {
 		}
 
 		// explicit instantiations
-		template class Outer<int>;
-		template class Outer<float>;
-		template class Outer<double>;
-		template class Outer<unsigned int>;
+		template class TensorDot<int>;
+		template class TensorDot<float>;
+		template class TensorDot<double>;
+		template class TensorDot<unsigned int>;
 
 	} // namespace Tensor::Operator
 

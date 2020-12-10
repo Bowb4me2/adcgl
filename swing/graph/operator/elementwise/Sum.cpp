@@ -13,17 +13,12 @@ namespace Graph {
 
 		}
 
-		void Sum::get_jacobian(Tensor::TensorArray<scalar_t>& out) {
+		void Sum::populate_local_grads() {
 
 		}
 
-		void Sum::init(Tensor::Shape operation_shape) {
+		void Sum::construct_constants() {
 
-			this->operation_shape = operation_shape;
-
-			this->aggregate_grad = Tensor::Tensor<scalar_t>(operation_shape);
-
-			construct_jacobians();
 		}
 
 	}

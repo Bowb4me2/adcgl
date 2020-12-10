@@ -12,20 +12,34 @@ namespace Tensor {
 
 	namespace Operator {
 
-		template<typename T=scalar_t>
-		class Mul : public Operator<T> {
+		template<typename T = scalar_t>
+		class Mul : public Operator<2, T> {
 
 			protected:
 
-				void procedure(T* target, T* arg0, T* arg1, Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
+				void pointer_procedure(
+					T* target,
+					Shape target_shape,
+					T* tensor_pointers[2],
+					Shape shapes[2]
+				) override;
 
-				void validate(Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
+				void validate(
+					T* target_contents,
+					Shape target_shape,
+					T* tensor_contents[2],
+					Shape shapes[2]
+				) override;
 
-				bool requires_brodcast(Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
-			
-				bool brodcast_which(Shape target_shape, Shape arg0_shape, Shape arg1_shape) override;
+				void settup_directives(
+					T* target_contents,
+					Shape target_shape,
+					T* tensor_contents[2],
+					Shape shapes[2],
+					T* (&modified_tensor_contents)[2],
+					Shape(&modified_shapes)[2]
+				) override;
 
-				Shape brodcast_shape(Shape target_shape, Shape arg0_shape, Shape arg1_shape, bool which) override;
 
 		}; // class Tensor::Operator::Mul
 

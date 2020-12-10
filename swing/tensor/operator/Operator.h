@@ -6,6 +6,8 @@
 #define __TENSOR_OPERATOR_H__
 
 #include "../Tensor.h"
+#include <array>
+
 
 typedef double scalar_t;
 
@@ -14,117 +16,105 @@ namespace Tensor {
 
 	namespace Operator {
 	
-		template <typename T=scalar_t>
+		template<int64_t N_TENSORS, typename T=scalar_t, typename... ARGS>
 		class Operator {
 
 			protected:
 
-				virtual void procedure(T* target, T* arg0, T* arg1, Shape target_shape, Shape arg0_shape, Shape arg1_shape) = 0;
+				virtual void pointer_procedure(
+					T* target, 
+					Shape target_shape, 
+					T* tensor_pointers[N_TENSORS], 
+					Shape shapes[N_TENSORS], 
+					ARGS&&... args
+				) = 0;
 				
-				virtual void validate(Shape target_shape, Shape arg0_shape, Shape arg1_shape) = 0;
+				// will throw errors if args are not compatible
+				virtual void validate(
+					T* target_contents,
+					Shape target_shape,
+					T* tensor_contents[N_TENSORS],
+					Shape shapes[N_TENSORS],
+					ARGS&&... args
+				) = 0;
 
-				virtual bool requires_brodcast(Shape target_shape, Shape arg0_shape, Shape arg1_shape) = 0;
+				// inteded to include things like brodcasting, internal stuff
+				virtual void settup_directives(
+					T* target_contents,
+					Shape target_shape,
+					T* tensor_contents[N_TENSORS],
+					Shape shapes[N_TENSORS],
+					T* (&modified_tensor_contents)[N_TENSORS],
+					Shape (&modified_shapes)[N_TENSORS],
+					ARGS&&... args
+				) = 0;
 
-				virtual bool brodcast_which(Shape target_shape, Shape arg0_shape, Shape arg1_shape) = 0;
+				static T*  brodcast_pointer(
+					T* iterable, 
+					Shape& host_shape, 
+					Shape& target_shape
+				) {
+					Tensor<T>::brodcast_to_mem_recursive(
+						iterable,
+						host_shape, 
+						0, 
+						target_shape.dims - host_shape.dims, 
+						0,
+						0, 
+						target_shape
+					);
 
-				virtual Shape brodcast_shape(Shape target_shape, Shape arg0_shape, Shape arg1_shape, bool which) = 0;
-
-				// after validation, ensures all args are propperly brodcast to their respective shapes
-				void brodcast_pragma(
-					Tensor<T>& target,
-					Tensor<T>& arg0,
-					Tensor<T>& arg1,
-					T** target_iterable,
-					T** arg0_iterable,
-					T** arg1_iterable,
-					Shape& target_shape,
-					Shape& arg0_shape,
-					Shape& arg1_shape) {
-
-					if (!requires_brodcast(target.shape, arg0.shape, arg1.shape)) {
-						
-						*target_iterable = target.iterable;
-						*arg0_iterable = arg0.iterable;
-						*arg1_iterable = arg1.iterable;
-
-						target_shape = target.shape;
-						arg0_shape = arg0.shape;
-						arg1_shape = arg1.shape;
-					}
-					else {
-
-						bool which_arg_to_brodcast = brodcast_which(target.shape, arg0.shape, arg1.shape);
-
-						Shape brodcast_to_shape = brodcast_shape(target.shape, arg0.shape, arg1.shape, which_arg_to_brodcast);
-
-						if (which_arg_to_brodcast) {
-
-							target.brodcast_to_mem(arg0, brodcast_to_shape);
-
-							*target_iterable = target.iterable;
-							*arg0_iterable = target.brodcast_iterable;
-							*arg1_iterable = arg1.iterable;
-
-							target_shape = target.shape;
-							arg0_shape = brodcast_to_shape;
-							arg1_shape = arg1.shape;
-						}
-						else {
-
-							target.brodcast_to_mem(arg1, brodcast_to_shape);
-
-							*target_iterable = target.iterable;
-							*arg0_iterable = arg0.iterable;
-							*arg1_iterable = target.brodcast_iterable;
-
-							target_shape = target.shape;
-							arg0_shape = arg0.shape;
-							arg1_shape = brodcast_to_shape;
-						}
-					}
+					return Tensor<T>::brodcast_iterable;
 				}
-				
-				inline void operation(Tensor<T>& target, Tensor<T>& arg0, Tensor<T>& arg1) {
+
+				void operation_internal(
+					Tensor<T>& target, 
+					const Tensor<T>(&tensor_args)[N_TENSORS], 
+					ARGS&&... args
+				) {
 					
-					validate(target.shape, arg0.shape, arg1.shape);
 
-					T* target_iterable = nullptr;
-					T* arg0_iterable = nullptr;
-					T* arg1_iterable = nullptr;
+					T* tensor_contents[N_TENSORS];
+					Shape shapes[N_TENSORS];
 
+					T* tensor_contents_modified[N_TENSORS];
+					Shape shapes_modified[N_TENSORS];
 
-					Shape target_shape;
-					Shape arg0_shape;
-					Shape arg1_shape;
+					for (int64_t arg_index = 0; arg_index < N_TENSORS; arg_index++) {
+						tensor_contents[arg_index] = tensor_args[arg_index].iterable;
+						shapes[arg_index] = tensor_args[arg_index].shape;
+					}
 
-					brodcast_pragma(
-						target,
-						arg0,
-						arg1,
-						&target_iterable,
-						&arg0_iterable,
-						&arg1_iterable,
-						target_shape,
-						arg0_shape,
-						arg1_shape);
+					validate(
+						target.iterable,
+						target.shape,
+						tensor_contents,
+						shapes,
+						args...
+					);
 
-					procedure(
-						target_iterable,
-						arg0_iterable,
-						arg1_iterable,
-						target_shape,
-						arg0_shape,
-						arg1_shape);
+					settup_directives(
+						target.iterable, 
+						target.shape, 
+						tensor_contents,
+						shapes, 
+						tensor_contents_modified, 
+						shapes_modified, 
+						args...
+					);
+
+					pointer_procedure(target.iterable, target.shape, tensor_contents_modified, shapes_modified, args...);
 				}
+
 
 			public:
 
-				void operator()(Tensor<T>& target, Tensor<T>& arg0, Tensor<T>& arg1) {
-					operation(target, arg0, arg1);
+				void operator()(Tensor<T>& target, const Tensor<T>(&tensor_args)[N_TENSORS], ARGS&&... args) {
+					operation_internal(target, tensor_args, args...);
 				}
 
 		}; // class Tensor::Operators::TensorOperator
-		
+
 	} // namespace Tensor::Operators
 
 } // namespace Tensor

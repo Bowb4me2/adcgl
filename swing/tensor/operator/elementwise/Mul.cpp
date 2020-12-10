@@ -10,49 +10,71 @@ namespace Tensor {
 	namespace Operator {
 
 		template<typename T>
-		void Mul<T>::procedure(T* target, T* arg0, T* arg1, Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
-			for (size_t index = 0; index < target_shape.size; index++) {
-				target[index] = arg0[index] * arg1[index];
+		void Mul<T>::pointer_procedure(
+			T* target,
+			Shape target_shape,
+			T* tensor_pointers[2],
+			Shape shapes[2]
+		) {
+			for (int64_t i = 0; i < target_shape.size; i++) {
+				target[i] = tensor_pointers[0][i] * tensor_pointers[1][i];
 			}
 		}
 
 		template<typename T>
-		void Mul<T>::validate(Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
-			if (!(target_shape.is_brodcastable(arg0_shape) || target_shape.is_brodcastable(arg1_shape))) {
-				throw "input sizes are incompatible";
+		void Mul<T>::validate(
+			T* target_contents,
+			Shape target_shape,
+			T* tensor_contents[2],
+			Shape shapes[2]
+		) {
+
+			if (
+				!(target_shape.is_equal(shapes[0]) ||
+				target_shape.is_equal(shapes[1]))
+			) {
+				throw "tensor_arg shapes are incompatible with target shape";
 			}
+
 		}
 
 		template<typename T>
-		bool Mul<T>::requires_brodcast(Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
-			return !arg0_shape.is_equal(arg1_shape);
-		}
+		void Mul<T>::settup_directives(
+			T* target_contents,
+			Shape target_shape,
+			T* tensor_contents[2],
+			Shape shapes[2],
+			T* (&modified_tensor_contents)[2],
+			Shape(&modified_shapes)[2]
+		) {
 
-		template<typename T>
-		bool Mul<T>::brodcast_which(Shape target_shape, Shape arg0_shape, Shape arg1_shape) {
-			
-			if (target_shape.is_equal(arg1_shape)) {
-				if (target_shape.is_brodcastable(arg0_shape)) {
-					return true;
-				}
-				else {
-					throw "not brodcastable";
-				}
-			}
-			else if (target_shape.is_equal(arg0_shape)) {
-				if (target_shape.is_brodcastable(arg1_shape)) {
-					return false;
-				}
-				else {
-					throw "not brodcastable";
-				}
-			}
-		}
+			if (target_shape.is_equal(shapes[1]) && !target_shape.is_equal(shapes[0])) {
 
-		template<typename T>
-		Shape Mul<T>::brodcast_shape(Shape target_shape, Shape arg0_shape, Shape arg1_shape, bool which)
-		{
-			return target_shape;
+				modified_shapes[0] = shapes[1];
+				modified_shapes[1] = shapes[1];
+
+				modified_tensor_contents[0] = brodcast_pointer(tensor_contents[0], shapes[0], shapes[1]);
+				modified_tensor_contents[1] = tensor_contents[1];
+
+			}
+			else if (target_shape.is_equal(shapes[0]) && !target_shape.is_equal(shapes[1])) {
+
+				modified_shapes[0] = shapes[0];
+				modified_shapes[1] = shapes[0];
+
+				modified_tensor_contents[0] = tensor_contents[0];
+				modified_tensor_contents[1] = brodcast_pointer(tensor_contents[1], shapes[0], shapes[0]);
+			}
+			else {
+
+				// no brodcast needed
+				modified_shapes[0] = shapes[0];
+				modified_shapes[1] = shapes[1];
+
+				modified_tensor_contents[0] = tensor_contents[0];
+				modified_tensor_contents[1] = tensor_contents[1];
+			}
+
 		}
 
 		// explicit instantiations

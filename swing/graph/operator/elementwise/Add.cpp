@@ -14,27 +14,19 @@ namespace Graph {
 
 			for (size_t input_index = 1; input_index < this->inputs.get_size(); input_index++) {
 
-				Tensor::Operator::add(out, this->inputs[input_index - 1], this->inputs[input_index]);
+				Tensor::Operator::add(out, { this->inputs[input_index - 1], this->inputs[input_index] });
 			}
 		}
 
-		void Add::get_jacobians(Tensor::TensorArray<scalar_t>& out) {
+		void Add::populate_local_grads() {
 
 		}
 
-		void Add::init(Tensor::Shape operation_shape) {
+		void Add::construct_constants() {
 
-			this->operation_shape = operation_shape;
-
-			this->aggregate_grad = Tensor::Tensor<scalar_t>(operation_shape);
-
-			construct_jacobians();
-
-			//Tensor::Shape shape = Tensor::Shape::concatenate();
-
-			//Tensor::HTensor<float>& jacobian(shape);
-
-			//this->constants.push_back(jacobian);
+			for (size_t index = 0; index < this->local_grads.get_size(); index++) {
+				this->local_grads[index].fill(1);
+			}
 		}
 
 	} // namespace Graph::Operator

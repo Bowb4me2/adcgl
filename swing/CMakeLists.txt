@@ -13,13 +13,8 @@ target_include_directories ("swing" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 add_subdirectory("graph")
 add_subdirectory("tensor")
 
-# OpenCL
-# add opencl support for all operations
-find_package(OpenCL REQUIRED)
-
 
 target_link_libraries("swing" LINK_PUBLIC 
 	"graph" 
 	"tensor"
-	"OpenCL::OpenCL"
 )
