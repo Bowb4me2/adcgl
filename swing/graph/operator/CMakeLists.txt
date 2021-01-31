@@ -1,4 +1,4 @@
-set(graph_operator_sources_list
+set(swing_graph_operator_sources_list
 	"MatrixOperator.cpp"
 	"MatrixOperator.h"
 	"Operator.cpp"
@@ -10,9 +10,9 @@ set(graph_operator_sources_list
 )
 
 # Add library
-add_library("graph_operator" ${graph_operator_sources_list})
+add_library("swing_graph_operator" ${swing_graph_operator_sources_list})
 
-target_include_directories ("graph_operator" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories ("swing_graph_operator" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add subdirectories
 add_subdirectory("elementwise")
@@ -20,8 +20,8 @@ add_subdirectory("loss")
 add_subdirectory("matrix")
 
 
-target_link_libraries("graph_operator" LINK_PUBLIC 
-	"graph_operator_elementwise" 
-	"graph_operator_loss"
-	"graph_operator_matrix"
+target_link_libraries("swing_graph_operator" LINK_PUBLIC 
+	"swing_graph_operator_elementwise" 
+	"swing_graph_operator_loss"
+	"swing_graph_operator_matrix"
 )

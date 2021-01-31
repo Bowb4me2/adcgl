@@ -8,71 +8,75 @@
 #define __TENSOR_SHAPE_H__
 
 
-namespace Tensor {
+namespace swing {
 
-	struct Shape {
+	namespace tensor {
+
+		struct Shape {
 
 
-		// fields
-		size_t size;
-			 
-		size_t* shape;
+			// fields
+			size_t size;
 
-		size_t dims;			
+			size_t* shape;
 
-		// operator overloads
-		friend std::ostream& operator<<(std::ostream& os, const Shape& shape);
+			size_t dims;
 
-		// methods
-		bool is_equal(Shape shape);
+			// operator overloads
+			friend std::ostream& operator<<(std::ostream& os, const Shape& shape);
 
-		size_t& operator[](int index);
+			// methods
+			bool is_equal(Shape shape);
 
-		// default contructor
-		Shape();
+			size_t& operator[](int index);
 
-		// copy constructor
-		Shape(Shape& shape);
+			// default contructor
+			Shape();
 
-		// contructor with specified size
-		Shape(size_t size);
+			// copy constructor
+			Shape(Shape& shape);
 
-		// contructor with psuedo std::intializer_list
-		template<typename ARG_T=size_t, size_t N>
-		Shape(const ARG_T(&shape)[N])
-			: size(1),
-			  shape(new size_t[N]),
-			  dims(N) {
+			// contructor with specified size
+			Shape(size_t size);
 
-			for (size_t i = 0; i < N; i++) {
-				this->size *= (size_t) shape[i];
+			// contructor with psuedo std::intializer_list
+			template<typename ARG_T = size_t, size_t N>
+			Shape(const ARG_T(&shape)[N])
+				: size(1),
+				shape(new size_t[N]),
+				dims(N) {
 
-				this->shape[i] = (size_t) shape[i];
+				for (size_t i = 0; i < N; i++) {
+					this->size *= (size_t)shape[i];
+
+					this->shape[i] = (size_t)shape[i];
+				}
 			}
-		}
 
-		Shape(size_t* shape, size_t dims);
+			Shape(size_t* shape, size_t dims);
 
-		bool is_brodcastable(Shape shape);
+			bool is_brodcastable(Shape shape);
 
-		//template<size_t N>
-		//void reshape(const unsigned int(&shape)[N]) {
-		//
-		//}
+			//template<size_t N>
+			//void reshape(const unsigned int(&shape)[N]) {
+			//
+			//}
 
-		void reshape(Shape shape);
+			void reshape(Shape shape);
 
-		void collapse(size_t mac_collapseable);
+			void collapse(size_t mac_collapseable);
 
-		void collapse_left();
+			void collapse_left();
 
-		void collapse_right();
+			void collapse_right();
 
-		static Shape concatenate(Shape arg0, Shape arg1);
+			static Shape concatenate(Shape arg0, Shape arg1);
 
 
-	}; // class Tensor::Shape
+		}; // class swing::tensor::Shape
 
-} // namespace Tensor
+	} // namespace swing::tensor
+
+} // namespace swing
 
 #endif // end guards

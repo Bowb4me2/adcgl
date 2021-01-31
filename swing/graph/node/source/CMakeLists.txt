@@ -1,5 +1,5 @@
 # Add sources
-set(graph_node_source_sources_list
+set(swing_graph_node_source_sources_list
 	"Constant.cpp"
 	"Constant.h"
 	"Source.cpp"
@@ -9,6 +9,6 @@ set(graph_node_source_sources_list
 )
 
 # Add library
-add_library("graph_node_source" ${graph_node_source_sources_list})
+add_library("swing_graph_node_source" ${swing_graph_node_source_sources_list})
 
-target_include_directories ("graph_node_source" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories ("swing_graph_node_source" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

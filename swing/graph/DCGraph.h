@@ -11,18 +11,20 @@
 #include "node/source/Source.h"
 #include "GraphBuilder.h"
 
-namespace Graph {
+namespace swing {
 
-	// Differentiable Compute Graph
-	class DCGraph {
+	namespace graph {
+
+		// Differentiable Compute Graph
+		class DCGraph {
 
 		private:
 
-			Node::NodeArray nodes;
+			node::NodeArray nodes;
 
-			Node::NodeArray sources;
+			node::NodeArray sources;
 
-			Node::NodeArray sinks;
+			node::NodeArray sinks;
 
 			void init_inputs();
 
@@ -33,9 +35,9 @@ namespace Graph {
 		public:
 
 			DCGraph(GraphBuilder& pattern);
-			
+
 			void full_reset();
-			
+
 			void reset_visited();
 
 			void forward();
@@ -43,8 +45,10 @@ namespace Graph {
 			void backward();
 
 
-	}; // class DCGraph
+		}; // class swing::graph::DCGraph
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

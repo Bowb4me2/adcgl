@@ -16,12 +16,12 @@ int main() {
 
 	Graph::GraphBuilder settings;
 
-	Tensor::Tensor<> lt1({ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
+	swing::tensor::Tensor<> lt1({ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
 	Graph::Node::Constant input_layer(lt1);
 
 
-	Tensor::Shape ws1({ 5, 10 });
-	Tensor::Tensor<> wt1(ws1);
+	swing::tensor::Shape ws1({ 5, 10 });
+	swing::tensor::Tensor<> wt1(ws1);
 	Graph::Node::Constant weights(wt1);
 	wt1[0].fill(0.1);
 	wt1[1].fill(0.2);
@@ -33,15 +33,15 @@ int main() {
 	wt1.transpose();
 
 
-	Tensor::Shape ls2({ 5 }); 
-	Tensor::Tensor<> lt2(ls2);
+	swing::tensor::Shape ls2({ 5 }); 
+	swing::tensor::Tensor<> lt2(ls2);
 	Graph::Node::Placeholder output_layer(lt2, Graph::Operator::Dot());
 
-	Tensor::Shape ls3({ 1 });
-	Tensor::Tensor<> lt3(ls3);
+	swing::tensor::Shape ls3({ 1 });
+	swing::tensor::Tensor<> lt3(ls3);
 	Graph::Node::Sink error(lt3, Graph::Operator::MSE());
 
-	Tensor::Tensor<> lt4({ 3, 4, 5, 6, 7 });
+	swing::tensor::Tensor<> lt4({ 3, 4, 5, 6, 7 });
 	Graph::Node::Constant desired(lt4);
 
 

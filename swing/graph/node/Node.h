@@ -10,66 +10,67 @@
 #include "../../tensor/TensorArray.h"
 #include "NodeArray.h"
 
-using scalar_t = Tensor::scalar_t;
 
-namespace Graph {
+namespace swing {
 
-	namespace Node {
-	
-		class Node {
+	namespace graph {
 
-			protected:
+		namespace node {
 
-				bool visited;
+			class Node {
 
-				Tensor::Tensor<scalar_t>& contents;
+				protected:
 
-				// elements corospond to each parent of this node
-				// each element matches the shape of its respective parent
-				Tensor::TensorArray<scalar_t> grads;
+					bool visited;
 
-				NodeArray parents;
+					tensor::Tensor<scalar_t>& contents;
 
-				NodeArray children;
+					// elements corospond to each parent of this node
+					// each element matches the shape of its respective parent
+					tensor::TensorArray<scalar_t> grads;
 
-				friend void link(Node& parent, Node& child);
+					NodeArray parents;
 
-			public:
+					NodeArray children;
 
-				Node(Tensor::Tensor<scalar_t>& contents);
+					friend void link(Node& parent, Node& child);
 
-				virtual void init_input() = 0;
+				public:
 
-				virtual void init_grad() = 0;
+					Node(tensor::Tensor<scalar_t>& contents);
 
-				
+					virtual void init_input() = 0;
 
-				void reset_visited();
+					virtual void init_grad() = 0;
 
-				virtual void add_input(Tensor::Tensor<scalar_t>& input) = 0;
+					void reset_visited();
 
-				virtual void add_in_grad(Tensor::Tensor<scalar_t>& grad) = 0;
+					virtual void add_input(tensor::Tensor<scalar_t>& input) = 0;
 
-				virtual void add_out_grad(Tensor::Tensor<scalar_t>& grad) = 0;
+					virtual void add_in_grad(tensor::Tensor<scalar_t>& grad) = 0;
 
-				virtual void forward() = 0;
+					virtual void add_out_grad(tensor::Tensor<scalar_t>& grad) = 0;
 
-				virtual void backward() = 0;
+					virtual void forward() = 0;
 
-				bool is_visited();
+					virtual void backward() = 0;
 
-				Tensor::Tensor<scalar_t>& get_contents();
+					bool is_visited();
 
-				NodeArray& get_parents();
+					tensor::Tensor<scalar_t>& get_contents();
 
-				NodeArray& get_children();
+					NodeArray& get_parents();
 
-		}; // class Node
+					NodeArray& get_children();
 
-		void link(Node& parent, Node& child);
+			}; // class swing::graph::node::Node
 
-	} // namespace Graph::Node
-	
-} // namespace Graph
+			void link(Node& parent, Node& child);
+
+		} // namespace swing::graph::node
+
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

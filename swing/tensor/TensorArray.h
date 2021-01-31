@@ -8,11 +8,13 @@
 
 #include "Tensor.h"
 
-namespace Tensor {
+namespace swing {
 
-	template<typename T>
-	class TensorArray {
-		
+	namespace tensor {
+
+		template<typename T>
+		class TensorArray {
+
 		private:
 
 			size_t size;
@@ -31,15 +33,15 @@ namespace Tensor {
 				return this->iterable[index];
 			}
 
-			TensorArray() 
+			TensorArray()
 				: size(0),
-				  max(0),
-				  iterable() {
-				
+				max(0),
+				iterable() {
+
 			}
 
 			void push_back(Tensor<T>& item) {
-				
+
 				if (this->size == this->max) {
 
 					Tensor<T>* placeholder_array;
@@ -53,7 +55,8 @@ namespace Tensor {
 
 					if (this->max == 0) {
 						this->max++;
-					} else {
+					}
+					else {
 						this->max *= 2;
 					}
 
@@ -66,7 +69,7 @@ namespace Tensor {
 					}
 
 					delete[] placeholder_array;
-					
+
 				}
 
 
@@ -93,8 +96,10 @@ namespace Tensor {
 				return this->size;
 			}
 
-	}; // class Tensor::TensorArray
+		}; // class swing::tensor::TensorArray
 
-} // namespace Tensor
+	} // namespace swing::tensor
+
+} // namespace swing
 
 #endif // end guards

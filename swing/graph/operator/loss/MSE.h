@@ -7,12 +7,14 @@
 
 #include "../ScalarOperator.h"
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
 
-		// mean squared error
-		class MSE : public ScalarOperator {
+		namespace oper {
+
+			// mean squared error
+			class MSE : public ScalarOperator {
 
 			protected:
 
@@ -22,12 +24,14 @@ namespace Graph {
 
 			public:
 
-				void get_operation(Tensor::Tensor<scalar_t>& out) override;
+				void get_operation(tensor::Tensor<scalar_t>& out) override;
 
-		}; // class Graph::Operator::MSE
+			}; // class swing::graph::oper::MSE
 
-	} // namespace Graph::Operator
+		} // namespace swing::graph::oper
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

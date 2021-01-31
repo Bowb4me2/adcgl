@@ -7,15 +7,17 @@
 #ifndef __GRAPH_OPERATOR_VECTOROPERATOR__
 #define __GRAPH_OPERATOR_VECTOROPERATOR__
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
-		
-		class VectorOperator : public Operator {
+	namespace graph {
+
+		namespace oper {
+
+			class VectorOperator : public Operator {
 
 			private:
 
-				Tensor::TensorArray<scalar_t> downsampled_aggregate_grads;
+				tensor::TensorArray<scalar_t> downsampled_aggregate_grads;
 
 			protected:
 
@@ -23,13 +25,15 @@ namespace Graph {
 
 			public:
 
-				void calc_grad(Tensor::TensorArray<scalar_t>& target) override;
+				void calc_grad(tensor::TensorArray<scalar_t>& target) override;
 
-		}; // class Graph::Operator::VectorOperator
+			}; // class swing::graph::oper::VectorOperator
 
 
-	} // namespace Graph::Operator
+		} // namespace swing::graph::oper
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

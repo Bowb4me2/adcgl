@@ -9,56 +9,61 @@
 #include "../../tensor/TensorArray.h"
 #include <iostream>
 
-using scalar_t = Tensor::scalar_t;
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
 
-		class Operator {
+		namespace oper {
 
-		protected:
+			class Operator {
 
-			Tensor::Shape operation_shape;
+			protected:
 
-			Tensor::TensorArray<scalar_t> inputs;
+				tensor::Shape operation_shape;
 
-			Tensor::TensorArray<scalar_t> grads;
+				tensor::TensorArray<scalar_t> inputs;
 
-			Tensor::Tensor<scalar_t> aggregate_grad;
 
-			Tensor::TensorArray<scalar_t> constants;
+				// the grad of each child with respect to this op.
+				tensor::TensorArray<scalar_t> grads;
 
-			Tensor::TensorArray<scalar_t> local_grads;
+				tensor::Tensor<scalar_t> aggregate_grad;
 
-			virtual void construct_local_grads() = 0;
+				tensor::TensorArray<scalar_t> constants;
 
-			virtual void construct_constants() = 0;
+				tensor::TensorArray<scalar_t> local_grads;
 
-			virtual void populate_local_grads() = 0;
+				virtual void construct_local_grads() = 0;
 
-		public:
+				virtual void construct_constants() = 0;
 
-			virtual void get_operation(Tensor::Tensor<scalar_t>& target) = 0;
+				virtual void populate_local_grads() = 0;
 
-			void init(Tensor::Shape operation_shape);
+			public:
 
-			void aggregate_grads();
+				virtual void get_operation(tensor::Tensor<scalar_t>& target) = 0;
 
-			void differentiate(Tensor::TensorArray<scalar_t>& target);
+				void init(tensor::Shape operation_shape);
 
-			virtual void calc_grad(Tensor::TensorArray<scalar_t>& target) = 0;
+				void aggregate_grads();
 
-			void add_input(Tensor::Tensor<scalar_t>& input);
+				void differentiate(tensor::TensorArray<scalar_t>& target);
 
-			void add_grad(Tensor::Tensor<scalar_t>& grad);
+				virtual void calc_grad(tensor::TensorArray<scalar_t>& target) = 0;
 
-			void clear();
+				void add_input(tensor::Tensor<scalar_t>& input);
 
-		}; // class Graph::Node::Operator::Operator
+				void add_grad(tensor::Tensor<scalar_t>& grad);
 
-	} // namespace Graph::Node::Operator
+				void clear();
 
-}  // namespace Graph
+			}; // class swing::graph::node::oper::Operator
+
+		} // namespace swing::graph::node::oper
+
+	}  // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

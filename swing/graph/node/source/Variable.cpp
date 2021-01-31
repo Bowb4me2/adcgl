@@ -5,16 +5,20 @@
 #include "Variable.h"
 
 
-namespace Graph {
+namespace swing {
 
-	namespace Node {
+	namespace graph {
 
-		Variable::Variable(Tensor::Tensor<scalar_t>& contents)
-			: Source(contents) {
+		namespace node {
 
-		}
+			Variable::Variable(tensor::Tensor<scalar_t>& contents)
+				: Source(contents) {
+
+			}
 
 
-	}
+		} // namespace swing::graph::node
 
-}
+	} // namespace swing::graph
+
+} // namespace swing

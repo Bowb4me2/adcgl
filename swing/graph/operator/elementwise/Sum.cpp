@@ -4,22 +4,27 @@
 
 #include "Sum.h"
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
+
+		namespace oper {
 
 
-		void Sum::get_operation(Tensor::Tensor<scalar_t>& out) {
+			void Sum::get_operation(tensor::Tensor<scalar_t>& out) {
 
-		}
+			}
 
-		void Sum::populate_local_grads() {
+			void Sum::populate_local_grads() {
 
-		}
+			}
 
-		void Sum::construct_constants() {
+			void Sum::construct_constants() {
 
-		}
+			}
 
-	}
-}
+		} // namespace swing::graph::oper
+	
+	} // namespace swing::graph
+
+} // namespace swing

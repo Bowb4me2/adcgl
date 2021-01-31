@@ -5,13 +5,15 @@
 #ifndef __GRAPH_NODE_NODEARRAY_H__
 #define __GRAPH_NODE_NODEARRAY_H__
 
-namespace Graph {
+namespace swing {
 
-	namespace Node {
+	namespace graph {
 
-		class Node;
+		namespace node {
 
-		class NodeArray {
+			class Node;
+
+			class NodeArray {
 
 			private:
 
@@ -20,7 +22,7 @@ namespace Graph {
 				size_t max;
 
 				Node** iterable;
-				
+
 			public:
 
 				Node& operator[](size_t index);
@@ -35,10 +37,12 @@ namespace Graph {
 
 				size_t get_size();
 
-		}; // class Graph::Node::NodeArray
+			}; // class swing::graph::node::NodeArray
 
-	} // namespace Graph::Node
+		} // namespace swing::graph::node
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

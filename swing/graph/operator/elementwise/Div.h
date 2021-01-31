@@ -7,11 +7,13 @@
 
 #include "../VectorOperator.h"
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
 
-		class Div : public VectorOperator {
+		namespace oper {
+
+			class Div : public VectorOperator {
 
 			protected:
 
@@ -21,12 +23,14 @@ namespace Graph {
 
 			public:
 
-				void get_operation(Tensor::Tensor<scalar_t>& out) override;
+				void get_operation(tensor::Tensor<scalar_t>& out) override;
 
-		}; // class Graph::Operator::Div
+			}; // class swing::graph::oper::Div
 
-	} // namespace Graph::Operator
+		} // namespace swing::graph::oper
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

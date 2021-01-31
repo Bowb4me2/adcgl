@@ -8,13 +8,15 @@
 
 #include "../Operator.h"
 
-namespace Tensor {
+namespace swing {
 
-	namespace Operator {
-		
-		// technically speaking this is a frobenius inner product, not a true dot product
-		template<typename T=scalar_t>
-		class Dot : public Operator<2, T> {
+	namespace tensor {
+
+		namespace oper {
+
+			// technically speaking this is a frobenius inner product, not a true dot product
+			template<typename T = scalar_t>
+			class Dot : public Operator<2, T> {
 
 			protected:
 
@@ -42,12 +44,14 @@ namespace Tensor {
 				) override;
 
 
-		}; // class Tensor::Operator::Add
+			}; // class swing::tensor::oper::Add
 
-		static Dot<> dot;
+			static Dot<> dot;
 
-	} // namespace Tensor::Operator
+		} // namespace swing::tensor::oper
 
-} // namespace Tensor
+	} // namespace swing::tensor
+
+} // namespace swing
 
 #endif // end guards

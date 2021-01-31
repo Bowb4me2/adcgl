@@ -13,16 +13,16 @@ int main() {
 
 	size_t b[5] = { 1, 2, 3, 4, 5 };
 
-	Tensor::Tensor<scalar_t> tensor1(a);
+	swing::tensor::Tensor<scalar_t> tensor1(a);
 
-	Tensor::Shape shape2(b);
+	swing::tensor::Shape shape2(b);
 
-	Tensor::Tensor<scalar_t> tensor2(shape2);
+	swing::tensor::Tensor<scalar_t> tensor2(shape2);
 
 	std::cout << tensor2 << "\n";
 
 	// bugfix this
-	Tensor::Operator::add(tensor2, tensor2, tensor1);
+	swing::tensor::oper::add(tensor2, { tensor2, tensor1 });
 
 	std::cout << "Tensor brodcast_iterable[0]: " << tensor2.get_brodcast_iterable()[0] << "\n";
 	std::cout << "t2  " << tensor2 << "\n";

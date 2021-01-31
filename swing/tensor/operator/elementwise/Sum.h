@@ -3,17 +3,21 @@
 //
 
 
+// refactor this badboy to include dimentions to sum over
+
 #ifndef __TENSOR_OPERATOR_SUM__
 #define __TENSOR_OPERATOR_SUM__
 
 #include "../Operator.h"
 
-namespace Tensor {
+namespace swing {
 
-	namespace Operator {
+	namespace tensor {
 
-		template<typename T = scalar_t>
-		class Sum : public Operator<1, T> {
+		namespace oper {
+
+			template<typename T = scalar_t>
+			class Sum : public Operator<1, T> {
 
 			protected:
 
@@ -41,12 +45,14 @@ namespace Tensor {
 				) override;
 
 
-		}; // class Tensor::Operator::Sum
+			}; // class swing::tensor::oper::Sum
 
-		static Sum<> sum;
+			static Sum<> sum;
 
-	} // namespace Tensor::Operator
+		} // namespace swing::tensor::oper
 
-} // namespace Tensor
+	} // namespace swing::tensor
+
+} // namespace swing
 
 #endif // end guards

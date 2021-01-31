@@ -10,9 +10,9 @@ int main() {
 
 	unsigned int a[5] = { 1, 2, 3, 4, 5 };
 
-	Tensor::Tensor<unsigned int> tensor(a);
+	swing::tensor::Tensor<unsigned int> tensor(a);
 
-	Tensor::TensorArray<unsigned int> tensor_array;
+	swing::tensor::TensorArray<unsigned int> tensor_array;
 	tensor_array.push_back(tensor);
 	
 	std::cout << tensor[2] << " " << tensor_array[0][2] << "\n";

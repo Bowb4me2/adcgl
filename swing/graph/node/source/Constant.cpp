@@ -5,16 +5,20 @@
 #include "Constant.h"
 
 
-namespace Graph {
+namespace swing {
 
-	namespace Node {
-	
-		Constant::Constant(Tensor::Tensor<scalar_t>& contents)
-			: Source(contents) {
+	namespace graph {
 
-		}
-	
-	
-	}
+		namespace node {
 
-}
+			Constant::Constant(tensor::Tensor<scalar_t>& contents)
+				: Source(contents) {
+
+			}
+
+
+		} // namespace swing::graph::node
+
+	} // namespace swing::graph
+
+} // namespace swing

@@ -1,21 +1,22 @@
 # Add sources
-set(tensor_sources_list
+set(swing_tensor_sources_list
 	
 	"Shape.cpp"
 	"Shape.h"
 	"Tensor.cpp"
 	"Tensor.h"
 	"TensorArray.h"
+	"TensorStorage.cpp"
+	"TensorStorage.h"
 )
 
 # Add Library
-add_library("tensor" ${tensor_sources_list})
+add_library("swing_tensor" ${swing_tensor_sources_list})
 
-target_include_directories ("tensor" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories ("swing_tensor" PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add subdirectories
-add_subdirectory("device")
 add_subdirectory("operator")
 
 # Link libraries
-target_link_libraries("tensor" LINK_PUBLIC "tensor_device" "tensor_operator")
+target_link_libraries("swing_tensor" LINK_PUBLIC  "swing_tensor_operator")

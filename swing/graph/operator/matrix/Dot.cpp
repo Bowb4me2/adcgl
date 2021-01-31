@@ -6,28 +6,32 @@
 
 #include "../../../tensor/operator/matrix/Dot.h"
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
 
-		void Dot::get_operation(Tensor::Tensor<scalar_t>& out) {
-			
-			Tensor::Operator::dot(out, { this->inputs[0], this->inputs[1] });
-			
-			//for (size_t input_index = 1; input_index < this->inputs.get_size(); input_index++) {
+		namespace oper {
 
-			//	Tensor::Operator::dot(out, this->inputs[input_index - 1], this->inputs[input_index]);
-			//}
-		}
+			void Dot::get_operation(tensor::Tensor<scalar_t>& out) {
 
-		void Dot::populate_local_grads() {
+				tensor::oper::dot(out, { this->inputs[0], this->inputs[1] });
 
-		}
+				//for (size_t input_index = 1; input_index < this->inputs.get_size(); input_index++) {
 
-		void Dot::construct_constants() {
-			
-		}
+				//	Tensor::Operator::dot(out, this->inputs[input_index - 1], this->inputs[input_index]);
+				//}
+			}
 
-	} // namespace Graph::Operator
+			void Dot::populate_local_grads() {
 
-} // namespace Graph
+			}
+
+			void Dot::construct_constants() {
+
+			}
+
+		} // namespace swing::graph::oper
+
+	} // namespace swing::graph
+
+} // namespace swing

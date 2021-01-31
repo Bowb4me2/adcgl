@@ -7,38 +7,41 @@
 
 #include "..\Node.h"
 
-using scalar_t = Tensor::scalar_t;
 
-namespace Graph {
+namespace swing {
 
-	namespace Node {
+	namespace graph {
 
-		class Source : public Node {
+		namespace node {
+
+			class Source : public Node {
 
 			protected:
 
 			public:
 
-				Source(Tensor::Tensor<scalar_t>& contents);
+				Source(tensor::Tensor<scalar_t>& contents);
 
 				void init_input() override;
 
 				void init_grad() override;
 
-				void add_input(Tensor::Tensor<scalar_t>& input) override;
+				void add_input(tensor::Tensor<scalar_t>& input) override;
 
-				void add_in_grad(Tensor::Tensor<scalar_t>& grad) override;
+				void add_in_grad(tensor::Tensor<scalar_t>& grad) override;
 
-				void add_out_grad(Tensor::Tensor<scalar_t>& grad) override;
+				void add_out_grad(tensor::Tensor<scalar_t>& grad) override;
 
 				void forward() override;
 
 				void backward() override;
 
-		}; // class Source
+			}; // class swing::graph::node::Source
 
-	} // namespace Graph::Node
+		} // namespace swing::graph::node
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

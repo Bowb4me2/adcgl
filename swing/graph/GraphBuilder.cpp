@@ -4,18 +4,26 @@
 
 #include "GraphBuilder.h"
 
-void Graph::GraphBuilder::add_node(Node::Placeholder& node) {
-	this->nodes.push_back(node);
-}
+namespace swing {
 
-void Graph::GraphBuilder::add_node(Node::Sink& node) {
-	this->nodes.push_back(node);
+	namespace graph {
 
-	this->sinks.push_back(node);
-}
+		void GraphBuilder::add_node(node::Placeholder& node) {
+			this->nodes.push_back(node);
+		}
 
-void Graph::GraphBuilder::add_node(Node::Source& node) {
-	this->nodes.push_back(node);
+		void GraphBuilder::add_node(node::Sink& node) {
+			this->nodes.push_back(node);
 
-	this->sources.push_back(node);
-}
+			this->sinks.push_back(node);
+		}
+
+		void GraphBuilder::add_node(node::Source& node) {
+			this->nodes.push_back(node);
+
+			this->sources.push_back(node);
+		}
+
+	} // namespace swing::graph
+
+} // namespace swing

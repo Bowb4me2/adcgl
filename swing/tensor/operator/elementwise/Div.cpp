@@ -5,84 +5,88 @@
 
 #include "Div.h"
 
-namespace Tensor {
+namespace swing {
 
-	namespace Operator {
+	namespace tensor {
 
-		template<typename T>
-		void Div<T>::pointer_procedure(
-			T* target,
-			Shape target_shape,
-			T* tensor_pointers[2],
-			Shape shapes[2]
-		) {
-			for (int64_t i = 0; i < target_shape.size; i++) {
-				target[i] = tensor_pointers[0][i] / tensor_pointers[1][i];
-			}
-		}
+		namespace oper {
 
-		template<typename T>
-		void Div<T>::validate(
-			T* target_contents,
-			Shape target_shape,
-			T* tensor_contents[2],
-			Shape shapes[2]
-		) {
-
-			if (
-				!(target_shape.is_equal(shapes[0]) ||
-				target_shape.is_equal(shapes[1]))
+			template<typename T>
+			void Div<T>::pointer_procedure(
+				T* target,
+				Shape target_shape,
+				T* tensor_pointers[2],
+				Shape shapes[2]
 			) {
-				throw "tensor_arg shapes are incompatible with target shape";
+				for (int64_t i = 0; i < target_shape.size; i++) {
+					target[i] = tensor_pointers[0][i] / tensor_pointers[1][i];
+				}
 			}
 
-		}
+			template<typename T>
+			void Div<T>::validate(
+				T* target_contents,
+				Shape target_shape,
+				T* tensor_contents[2],
+				Shape shapes[2]
+			) {
 
-		template<typename T>
-		void Div<T>::settup_directives(
-			T* target_contents,
-			Shape target_shape,
-			T* tensor_contents[2],
-			Shape shapes[2],
-			T* (&modified_tensor_contents)[2],
-			Shape(&modified_shapes)[2]
-		) {
-
-			if (target_shape.is_equal(shapes[1]) && !target_shape.is_equal(shapes[0])) {
-
-				modified_shapes[0] = shapes[1];
-				modified_shapes[1] = shapes[1];
-
-				modified_tensor_contents[0] = brodcast_pointer(tensor_contents[0], shapes[0], shapes[1]);
-				modified_tensor_contents[1] = tensor_contents[1];
+				if (
+					!(target_shape.is_equal(shapes[0]) ||
+						target_shape.is_equal(shapes[1]))
+					) {
+					throw "tensor_arg shapes are incompatible with target shape";
+				}
 
 			}
-			else if (target_shape.is_equal(shapes[0]) && !target_shape.is_equal(shapes[1])) {
 
-				modified_shapes[0] = shapes[0];
-				modified_shapes[1] = shapes[0];
+			template<typename T>
+			void Div<T>::settup_directives(
+				T* target_contents,
+				Shape target_shape,
+				T* tensor_contents[2],
+				Shape shapes[2],
+				T* (&modified_tensor_contents)[2],
+				Shape(&modified_shapes)[2]
+			) {
 
-				modified_tensor_contents[0] = tensor_contents[0];
-				modified_tensor_contents[1] = brodcast_pointer(tensor_contents[1], shapes[0], shapes[0]);
+				if (target_shape.is_equal(shapes[1]) && !target_shape.is_equal(shapes[0])) {
+
+					modified_shapes[0] = shapes[1];
+					modified_shapes[1] = shapes[1];
+
+					modified_tensor_contents[0] = brodcast_pointer(tensor_contents[0], shapes[0], shapes[1]);
+					modified_tensor_contents[1] = tensor_contents[1];
+
+				}
+				else if (target_shape.is_equal(shapes[0]) && !target_shape.is_equal(shapes[1])) {
+
+					modified_shapes[0] = shapes[0];
+					modified_shapes[1] = shapes[0];
+
+					modified_tensor_contents[0] = tensor_contents[0];
+					modified_tensor_contents[1] = brodcast_pointer(tensor_contents[1], shapes[0], shapes[0]);
+				}
+				else {
+
+					// no brodcast needed
+					modified_shapes[0] = shapes[0];
+					modified_shapes[1] = shapes[1];
+
+					modified_tensor_contents[0] = tensor_contents[0];
+					modified_tensor_contents[1] = tensor_contents[1];
+				}
+
 			}
-			else {
 
-				// no brodcast needed
-				modified_shapes[0] = shapes[0];
-				modified_shapes[1] = shapes[1];
+			// explicit instantiations
+			template class Div<int>;
+			template class Div<float>;
+			template class Div<double>;
+			template class Div<unsigned int>;
 
-				modified_tensor_contents[0] = tensor_contents[0];
-				modified_tensor_contents[1] = tensor_contents[1];
-			}
+		} // namespace swing::tensor::oper
 
-		}
+	} // namespace swing::tensor
 
-		// explicit instantiations
-		template class Div<int>;
-		template class Div<float>;
-		template class Div<double>;
-		template class Div<unsigned int>;
-
-	} // namespace Tensor::Operator
-
-} // namespace Tensor
+} // namespace swing

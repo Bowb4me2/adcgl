@@ -8,11 +8,13 @@
 
 #include "../ScalarOperator.h"
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
 
-		class Sum : public ScalarOperator {
+		namespace oper {
+
+			class Sum : public ScalarOperator {
 
 			protected:
 
@@ -22,12 +24,14 @@ namespace Graph {
 
 			public:
 
-				void get_operation(Tensor::Tensor<scalar_t>& out) override;
+				void get_operation(tensor::Tensor<scalar_t>& out) override;
 
-		}; // class Graph::Operator::Sum
+			}; // class swing::graph::oper::Sum
 
-	} // namespace Graph::Operator
+		} // namespace swing::graph::oper
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

@@ -7,11 +7,13 @@
 
 #include "../MatrixOperator.h"
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
 
-		class Dot : public MatrixOperator {
+		namespace oper {
+
+			class Dot : public MatrixOperator {
 
 			protected:
 
@@ -21,12 +23,14 @@ namespace Graph {
 
 			public:
 
-				void get_operation(Tensor::Tensor<scalar_t>& out) override;
+				void get_operation(tensor::Tensor<scalar_t>& out) override;
 
-		}; // class Graph::Operator::Dot
+			}; // class swing::graph::oper::Dot
 
-	} // namespace Graph::Operator
+		} // namespace swing::graph::oper
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

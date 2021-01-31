@@ -12,23 +12,25 @@
 typedef double scalar_t;
 
 
-namespace Tensor {
+namespace swing {
 
-	namespace Operator {
-	
-		template<int64_t N_TENSORS, typename T=scalar_t, typename... ARGS>
-		class Operator {
+	namespace tensor {
+
+		namespace oper {
+
+			template<int64_t N_TENSORS, typename T = scalar_t, typename... ARGS>
+			class Operator {
 
 			protected:
 
 				virtual void pointer_procedure(
-					T* target, 
-					Shape target_shape, 
-					T* tensor_pointers[N_TENSORS], 
-					Shape shapes[N_TENSORS], 
+					T* target,
+					Shape target_shape,
+					T* tensor_pointers[N_TENSORS],
+					Shape shapes[N_TENSORS],
 					ARGS&&... args
 				) = 0;
-				
+
 				// will throw errors if args are not compatible
 				virtual void validate(
 					T* target_contents,
@@ -45,22 +47,22 @@ namespace Tensor {
 					T* tensor_contents[N_TENSORS],
 					Shape shapes[N_TENSORS],
 					T* (&modified_tensor_contents)[N_TENSORS],
-					Shape (&modified_shapes)[N_TENSORS],
+					Shape(&modified_shapes)[N_TENSORS],
 					ARGS&&... args
 				) = 0;
 
-				static T*  brodcast_pointer(
-					T* iterable, 
-					Shape& host_shape, 
+				static T* brodcast_pointer(
+					T* iterable,
+					Shape& host_shape,
 					Shape& target_shape
 				) {
 					Tensor<T>::brodcast_to_mem_recursive(
 						iterable,
-						host_shape, 
-						0, 
-						target_shape.dims - host_shape.dims, 
+						host_shape,
 						0,
-						0, 
+						target_shape.dims - host_shape.dims,
+						0,
+						0,
 						target_shape
 					);
 
@@ -68,11 +70,11 @@ namespace Tensor {
 				}
 
 				void operation_internal(
-					Tensor<T>& target, 
-					const Tensor<T>(&tensor_args)[N_TENSORS], 
+					Tensor<T>& target,
+					const Tensor<T>(&tensor_args)[N_TENSORS],
 					ARGS&&... args
 				) {
-					
+
 
 					T* tensor_contents[N_TENSORS];
 					Shape shapes[N_TENSORS];
@@ -94,12 +96,12 @@ namespace Tensor {
 					);
 
 					settup_directives(
-						target.iterable, 
-						target.shape, 
+						target.iterable,
+						target.shape,
 						tensor_contents,
-						shapes, 
-						tensor_contents_modified, 
-						shapes_modified, 
+						shapes,
+						tensor_contents_modified,
+						shapes_modified,
 						args...
 					);
 
@@ -113,11 +115,13 @@ namespace Tensor {
 					operation_internal(target, tensor_args, args...);
 				}
 
-		}; // class Tensor::Operators::TensorOperator
+			}; // class swing::tensor::oper::Operator
 
-	} // namespace Tensor::Operators
+		} // namespace swing::tensor::oper
 
-} // namespace Tensor
+	} // namespace swing::tensor
+
+} // namespace swing
 
 
 #endif // end guards

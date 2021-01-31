@@ -7,22 +7,25 @@
 
 #include "Source.h"
 
-using scalar_t = Tensor::scalar_t;
 
-namespace Graph {
+namespace swing {
 
-	namespace Node {
+	namespace graph {
 
-		class Variable : public Source {
+		namespace node {
+
+			class Variable : public Source {
 
 			public:
 
-				Variable(Tensor::Tensor<scalar_t>& contents);
+				Variable(tensor::Tensor<scalar_t>& contents);
 
-		}; // class Source
+			}; // class swing::graph::node::source
 
-	} // namespace Graph::Node
+		} // namespace swing::graph::node
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

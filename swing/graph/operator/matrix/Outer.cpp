@@ -6,28 +6,32 @@
 
 #include "../../../tensor/operator/matrix/Outer.h"
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
 
-		void Outer::get_operation(Tensor::Tensor<scalar_t>& out) {
+		namespace oper {
 
-			for (size_t input_index = 1; input_index < this->inputs.get_size(); input_index++) {
+			void Outer::get_operation(tensor::Tensor<scalar_t>& out) {
 
-				Tensor::Operator::outer(out, { this->inputs[input_index - 1], this->inputs[input_index] });
+				for (size_t input_index = 1; input_index < this->inputs.get_size(); input_index++) {
 
-				//Tensor::operate<float>(out, this->inputs[input_index - 1], this->inputs[input_index], Tensor::Operators::add<float>);
+					tensor::oper::outer(out, { this->inputs[input_index - 1], this->inputs[input_index] });
+
+					//Tensor::operate<float>(out, this->inputs[input_index - 1], this->inputs[input_index], Tensor::Operators::add<float>);
+				}
 			}
-		}
 
-		void Outer::populate_local_grads() {
+			void Outer::populate_local_grads() {
 
-		}
+			}
 
-		void Outer::construct_constants() {
+			void Outer::construct_constants() {
 
-		}
+			}
 
-	} // namespace Graph::Operator
+		} // namespace swing::graph::oper
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing

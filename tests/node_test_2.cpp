@@ -20,16 +20,16 @@ int main() {
 	scalar_t a2[] = { 1.0f, 2.0f, 3.0f};
 
 	size_t a3[] = { 1, 3 };
-	Tensor::Shape s3(a3);
+	swing::tensor::Shape s3(a3);
 
 	scalar_t a4[] = { 1, 1, 0.5 };
 	scalar_t a5[] = { 0 };
 
-	Tensor::Tensor<> source_contents1(    a1);
-	Tensor::Tensor<> source_contents2(    a2);
-	Tensor::Tensor<> source_contents3(    a4);
-	Tensor::Tensor<> placeholder_contents(s3);
-	Tensor::Tensor<> sink_contents(       a5);
+	swing::tensor::Tensor<> source_contents1(    a1);
+	swing::tensor::Tensor<> source_contents2(    a2);
+	swing::tensor::Tensor<> source_contents3(    a4);
+	swing::tensor::Tensor<> placeholder_contents(s3);
+	swing::tensor::Tensor<> sink_contents(       a5);
 
 	Graph::Node::Constant constant1(     source_contents1);
 	Graph::Node::Constant constant2(     source_contents2);

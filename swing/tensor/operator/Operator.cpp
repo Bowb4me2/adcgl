@@ -4,13 +4,17 @@
 
 #include "Operator.h"
 
-namespace Tensor {
+namespace swing {
 
-	namespace Operator {
+	namespace Tensor {
+
+		namespace oper {
 
 
-		
 
-	} // namespace Tensor::Operators
 
-} // namespace Tensor
+		} // namespace swing::tensor::oper
+
+	} // namespace swing::tensor
+
+} // namespace swing

@@ -18,4 +18,6 @@
 #include <graph/node/source/Constant.h>
 #include <graph/node/source/Variable.h>
 
+#include <common/common.h>
+
 // Graph::Operator Libs

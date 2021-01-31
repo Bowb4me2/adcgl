@@ -7,25 +7,28 @@
 #ifndef __GRAPH_OPERATOR_SCALAROPERATOR__
 #define __GRAPH_OPERATOR_SCALAROPERATOR__
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
 
-		class ScalarOperator : public Operator {
+		namespace oper {
 
-		protected:
+			class ScalarOperator : public Operator {
 
-			void construct_local_grads() override;
+			protected:
 
-		public:
+				void construct_local_grads() override;
 
-			void calc_grad(Tensor::TensorArray<scalar_t>& target) override;
+			public:
 
-		}; // class Graph::Operator::ScalarOperator
+				void calc_grad(tensor::TensorArray<scalar_t>& target) override;
 
+			}; // class swing::graph::oper::ScalarOperator
 
-	} // namespace Graph::Operator
+		} // namespace swing::graph::oper
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

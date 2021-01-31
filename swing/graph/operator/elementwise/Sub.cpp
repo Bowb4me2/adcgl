@@ -6,26 +6,33 @@
 
 #include "../../../tensor/operator/elementwise/Sub.h"
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
 
-		void Sub::get_operation(Tensor::Tensor<scalar_t>& out) {
+		namespace oper {
 
-			for (size_t input_index = 1; input_index < this->inputs.get_size(); input_index++) {
+			void Sub::get_operation(tensor::Tensor<scalar_t>& out) {
 
-				Tensor::Operator::sub(out, { this->inputs[input_index - 1], this->inputs[input_index] });
+				for (size_t input_index = 1; input_index < this->inputs.get_size(); input_index++) {
+
+					tensor::oper::sub(out, { this->inputs[input_index - 1], this->inputs[input_index] });
+				}
 			}
-		}
 
-		void Sub::populate_local_grads() {
+			void Sub::populate_local_grads() {
 
-		}
+				this->local_grads[0].fill(1);
 
-		void Sub::construct_constants() {
+				this->local_grads[1].fill(-1);
+			}
 
-		}
+			void Sub::construct_constants() {
 
-	} // namespace Graph::Operator
+			}
 
-} // namespace Graph
+		} // namespace swing::graph::oper
+
+	} // namespace swing::graph
+
+} // namespace swing

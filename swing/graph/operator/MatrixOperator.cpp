@@ -5,35 +5,39 @@
 #include "MatrixOperator.h"
 #include "../../tensor/operator/matrix/Dot.h"
 
-namespace Graph {
+namespace swing {
 
-	namespace Operator {
+	namespace graph {
 
-		void MatrixOperator::construct_local_grads() {
+		namespace oper {
 
-			Tensor::Shape jacobian_shape;
+			void MatrixOperator::construct_local_grads() {
 
-			Tensor::Tensor<scalar_t>* jacobian;
+				tensor::Shape jacobian_shape;
 
-			for (size_t jacobian_index = 0; jacobian_index < this->inputs.get_size(); jacobian_index++) {
+				tensor::Tensor<scalar_t>* jacobian;
 
-				jacobian_shape = Tensor::Shape::concatenate(this->operation_shape, this->inputs[jacobian_index].get_shape());
+				for (size_t jacobian_index = 0; jacobian_index < this->inputs.get_size(); jacobian_index++) {
 
-				jacobian = new Tensor::Tensor<scalar_t>(jacobian_shape);
+					jacobian_shape = tensor::Shape::concatenate(this->operation_shape, this->inputs[jacobian_index].get_shape());
 
-				this->local_grads.push_back(*jacobian);
+					jacobian = new tensor::Tensor<scalar_t>(jacobian_shape);
 
+					this->local_grads.push_back(*jacobian);
+
+				}
 			}
-		}
 
-		void MatrixOperator::calc_grad(Tensor::TensorArray<scalar_t>& target) {
-			
-			// multiply via dot product the aggregate gradiant by the jacobian for each input tensor, and return that to the out array
-			for (size_t jacobian_index = 0; jacobian_index < this->local_grads.get_size(); jacobian_index++) {
-				Tensor::Operator::dot(target[jacobian_index], { this->aggregate_grad, this->local_grads[jacobian_index] });
+			void MatrixOperator::calc_grad(tensor::TensorArray<scalar_t>& target) {
+
+				// multiply via dot product the aggregate gradiant by the jacobian for each input tensor, and return that to the out array
+				for (size_t jacobian_index = 0; jacobian_index < this->local_grads.get_size(); jacobian_index++) {
+					tensor::oper::dot(target[jacobian_index], { this->aggregate_grad, this->local_grads[jacobian_index] });
+				}
 			}
-		}
 
-	} // namespace Graph::Operator
+		} // namespace swing::graph::oper
 
-} // namespace Graph
+	} // namespace swing::graph
+
+} // namespace swing

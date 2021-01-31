@@ -11,30 +11,34 @@
 #include "node/sink/Sink.h"
 #include "node/source/Source.h"
 
-namespace Graph {
+namespace swing {
 
-	class GraphBuilder {
+	namespace graph {
 
-	private:
+		class GraphBuilder {
 
-		Node::NodeArray nodes;
+		private:
 
-		Node::NodeArray sources;
+			node::NodeArray nodes;
 
-		Node::NodeArray sinks;
+			node::NodeArray sources;
 
-	public:
+			node::NodeArray sinks;
 
-		friend class DCGraph;
+		public:
 
-		void add_node(Node::Placeholder& node);
+			friend class DCGraph;
 
-		void add_node(Node::Sink& node);
+			void add_node(node::Placeholder& node);
 
-		void add_node(Node::Source& node);
+			void add_node(node::Sink& node);
 
-	}; // class GraphBuilder
+			void add_node(node::Source& node);
 
-} // namespace Graph
+		}; // class swing::graph::GraphBuilder
+
+	} // namespace swing::graph
+
+} // namespace swing
 
 #endif // end guards

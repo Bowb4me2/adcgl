@@ -8,12 +8,14 @@
 
 #include "../Operator.h"
 
-namespace Tensor {
+namespace swing {
 
-	namespace Operator {
-		
-		template<typename T=scalar_t>
-		class Outer : public Operator<2, T> {
+	namespace tensor {
+
+		namespace oper {
+
+			template<typename T = scalar_t>
+			class Outer : public Operator<2, T> {
 
 			protected:
 
@@ -41,12 +43,14 @@ namespace Tensor {
 				) override;
 
 
-		}; // class Tensor::Operator::Add
+			}; // class swing::tensor::oper::Add
 
-		static Outer<> outer;
+			static Outer<> outer;
 
-	} // namespace Tensor::Operator
+		} // namespace swing::tensor::oper
 
-} // namespace Tensor
+	} // namespace swing::tensor
+
+} // namespace swing
 
 #endif // end guards
