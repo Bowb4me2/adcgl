@@ -24,6 +24,7 @@ namespace swing {
 
 
 		public:
+	
 
 			constexpr RefArray() :
 				_data(nullptr),
@@ -77,6 +78,10 @@ namespace swing {
 
 			std::vector<T> vec() const {
 				return std::vector<T>(_data, _data + _numel);
+			}
+
+			void free() {
+				delete[] _data;
 			}
 			
 	};

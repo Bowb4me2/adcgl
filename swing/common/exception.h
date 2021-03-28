@@ -11,10 +11,10 @@
 
 namespace swing {
 
-	void swing_assert(bool condition, std::string err_msg) {
+	static void swing_assert(bool condition, std::string err_msg) {
 	
 		if (!condition) {
-			std::cout << "Assertion failed: " + err_msg;
+			std::cout << "Assertion failed: " << err_msg << std::endl;
 
 			throw err_msg;
 		}

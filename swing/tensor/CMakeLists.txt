@@ -8,6 +8,8 @@ set(swing_tensor_sources_list
 	"TensorArray.h"
 	"TensorStorage.cpp"
 	"TensorStorage.h"
+	"TensorData.h"
+	
 )
 
 # Add Library

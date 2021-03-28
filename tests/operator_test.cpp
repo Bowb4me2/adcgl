@@ -18,8 +18,13 @@
 
 int main() {
 
-	swing::tensor::TensorStorage<float> test_storage({ 2, 2, 2 });
+	swing::tensor::TensorStorage test_storage({ 2, 3, 4 });
 
+	auto x = test_storage.as_strided({ 4, 3, 2 }, {1, 4, 12});
+
+	
+
+	x.enforce_internal_contiguity();
 
 
 	swing::tensor::Tensor<> target_tensor({ 1, 1, 1 });

@@ -2,25 +2,26 @@
 // Created by Carson Fricke on 1/17/2021 12:25am PST
 //
 
-#ifndef __TENSOR_TENSORSTORAGE_H__
-#define __TENSOR_TENSORSTORAGE_H__
+#ifndef __SWING_TENSOR_TENSORSTORAGE_H__
+#define __SWING_TENSOR_TENSORSTORAGE_H__
 
 #include "../common/common.h"
 #include "../common/exception.h"
+#include "TensorData.h"
 
 
 namespace swing {
 
 	namespace tensor {
 
-		template<typename T>
+
 		class TensorStorage {
 
 			private:
 
 				// data
 				// pointers to references for permutation
-				T** _data;
+				TensorData<float> _data;
 		
 				// sizes
 				vector_t<int64_t> _sizes;
@@ -28,141 +29,65 @@ namespace swing {
 				// strides
 				vector_t<int64_t> _strides;
 
-				// dims
+				// the storage offset, ie what is treated as
+				// the start of this tensor
+				size_t _data_offset;
+
+				// dims, number of dimentions
 				int64_t _dims;
 
-				int64_t _data_offset;
-
-				// numel
+				// numel, total tensor elements
 				size_t _numel;
 
-				// is contiguous, effectively whether or not the tensor elements are adjacent in memory
+				// if the tensor storage is contiguous, 
+				// ie whether or not strides access elements 
+				// in order that are concentric in memory.
+				// ie, all the elements are next to each other
+				// when accessed with strides
 				bool _contiguous;
 
-
 			protected:
-
 				
-				static int64_t compute_numel(IntRefArray sizes) {
-					
-					int64_t n = 1;
+				static int64_t compute_numel(IntRefArray sizes);
 
-					for (auto s : sizes) {
-						n *= s;
-					}
+				static int64_t compute_storage_size(IntRefArray sizes, IntRefArray strides);
 
-					return n;
-				}
+				static bool compute_contiguous(IntRefArray sizes, IntRefArray strides);
 
-				bool compute_contiguous() {
+				TensorStorage(TensorData<float>& data);
 
-					// include something here about a tensor being empty
+				void refresh_numel();
 
-					for (int64_t dim_index = _dims - 1; dim_index >= 0; dim_index--) {
+				void refresh_contiguous();
 
-						int64_t stride = 1;
-
-						if (_sizes[dim_index] != 1) {
-
-							if (_stride[dim_index] == stride) {
-								stride *= _sizes[dim_index];
-							}
-							else {
-								return false;
-							}
-
-						}
-
-					}
-
-					return true;
-				}
-
-				void refresh_numel() {
-					_numel = compute_numel(_sizes);
-				}
-
-				void refresh_contiguous() {
-					_contiguous = compute_contiguous();
-				}
-
-				void refresh_strides() {
-					
-					int64_t stride = 1;
-					
-					for (int64_t stride_index = _dims - 1; stride_index >= 0; stride_index--) {
-						
-						_strides[stride_index] = stride;
-
-						stride *= _sizes[stride_index];
-					}
-				}
+				// populates strides with standard contiguous strides
+				void empty_tensor_refresh_strides();
 
 			public:
 				
-				TensorStorage(IntRefArray sizes, T fill=0) :
-					_data(new T*[compute_numel(sizes)]),
-					_sizes(sizes.vec()),
-					_strides(sizes.numel()),
-					_dims(sizes.numel()),
-					_data_offset(0),
-					_numel(compute_numel(sizes)),
-					_contiguous(true) {
+				// modifies internal TensorData
+				void enforce_internal_contiguity();
 
-						T* underlying_memory = new T[_numel];
+				TensorStorage();
 
-						for (size_t memory_index = 0; memory_index < _numel; memory_index++) {
-							_data[memory_index] = &(underlying_memory[memory_index]);
-						}
+				TensorStorage(IntRefArray sizes);
 
-						refresh_strides();
+				void set_sizes_and_strides(IntRefArray new_sizes, IntRefArray new_strides, size_t data_offset = 0);
+
+				TensorStorage as_strided(IntRefArray new_sizes, IntRefArray new_strides, int64_t storage_offset = 0);
+
+				IntRefArray sizes();
+
+				IntRefArray strides();
+
+				int64_t dims();
+
+				int64_t numel();
 				
-				
-				}
+				int64_t size(int64_t index);
 
-				void set_sizes_and_strides(IntRefArray new_sizes, IntRefArray new_strides) {
+				int64_t stride(int64_t index);
 
-					swing_assert(new_sizes.size() == new_strides.size(), "size of new_sizes and new_strides must match");
-
-					auto new_dims = new_sizes.size();
-
-					_sizes.resize(new_dims);
-
-					for (size_t dim_index = 0; dim_index < new_dims; dim_index++) {
-						_sizes[dim_index] = new_sizes[dim_index];
-					}
-				
-					_strides.resize(new_dims);
-
-					for (int64_t dim_index = new_dims - 1; dim_index >= 0; dim_index--) {
-						// finish
-					}
-
-				}
-
-				IntRefArray sizes() {
-					return IntRefArray(_sizes);
-				}
-
-				IntRefArray strides() {
-					return IntRefArray(_strides);
-				}
-
-				int64_t dims() {
-					return _dims;
-				}
-
-				int64_t numel() {
-					return _numel;
-				}
-				
-				int64_t size(int64_t index) {
-					return _sizes[index];
-				}
-
-				int64_t stride(int64_t index) {
-					return _strides[index];
-				}
 		};
 
 	} // namespace swing::tensor
