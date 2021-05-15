@@ -19,26 +19,33 @@ namespace swing {
 
 			private:
 
+				//
 				// data
 				// pointers to references for permutation
 				TensorData<float> _data;
 		
+				// 
 				// sizes
 				vector_t<int64_t> _sizes;
 
+				// 
 				// strides
 				vector_t<int64_t> _strides;
 
+				//
 				// the storage offset, ie what is treated as
 				// the start of this tensor
 				size_t _data_offset;
 
+				// 
 				// dims, number of dimentions
 				int64_t _dims;
 
+				// 
 				// numel, total tensor elements
 				size_t _numel;
 
+				//
 				// if the tensor storage is contiguous, 
 				// ie whether or not strides access elements 
 				// in order that are concentric in memory.
@@ -54,27 +61,41 @@ namespace swing {
 
 				static bool compute_contiguous(IntRefArray sizes, IntRefArray strides);
 
+
 				TensorStorage(TensorData<float>& data);
 
+				// 
+				// populates the _numel property with the correct value
 				void refresh_numel();
 
+				// 
+				// populates the _contiguous property with the correct value
 				void refresh_contiguous();
 
+				// 
 				// populates strides with standard contiguous strides
 				void empty_tensor_refresh_strides();
 
 			public:
 				
-				// modifies internal TensorData
+				//
+				// resets strides to be contiguous, and 
+				// permutes internal memory to be consistent
 				void enforce_internal_contiguity();
 
+				//
+				// defualt constructor
 				TensorStorage();
 
+				//
+				// constructs a Tensor to size specifications
 				TensorStorage(IntRefArray sizes);
 
+				//
+				// modifies sizes and strides
 				void set_sizes_and_strides(IntRefArray new_sizes, IntRefArray new_strides, size_t data_offset = 0);
 
-				TensorStorage as_strided(IntRefArray new_sizes, IntRefArray new_strides, int64_t storage_offset = 0);
+				TensorStorage as_strided(IntRefArray new_sizes, IntRefArray new_strides, size_t data_offset = 0);
 
 				IntRefArray sizes();
 

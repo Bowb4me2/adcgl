@@ -71,7 +71,7 @@ int main() {
 
 	model.forward();
 
-	std::cout << "error " << error_tensor << "\n";
+	std::cout << "error " << error_tensor << std::endl;
 
 	std::cout << "target " << target_tensor << "\n";
 

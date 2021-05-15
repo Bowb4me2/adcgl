@@ -19,16 +19,32 @@ namespace swing {
 				
 				friend class TensorStorage;
 
+				//
+				// the potentially permuted data
 				T** _data;
 
+				//
+				// the origenal, allocated data
+				T* _alloc;
+
+				//
+				// number of items
 				size_t _numel;
 
-				bool _contiguous;	
+				//
+				// whether or not this items elements are in order
+				bool _contiguous;
 
-				TensorData(T** data, int numel, bool contiguous) :
+				//
+				// this tensor's parent, if nullptr then this tensor is origenal.
+				TensorData<T>* _parent;
+
+				TensorData(T** data, T* alloc, size_t numel, bool contiguous, TensorData<T>* parent) :
 					_data(new T* [numel]),
+					_alloc(alloc),
 					_numel(numel),
-					_contiguous(contiguous) {
+					_contiguous(contiguous),
+					_parent(parent) {
 
 					for (size_t index = 0; index < _numel; index++) {
 
@@ -109,46 +125,46 @@ namespace swing {
 
 				TensorData wrap() {
 
-					return TensorData(_data, _numel, _contiguous);
+					return TensorData(_data, _alloc, _numel, _contiguous, this);
 				}
 
 				TensorData() :
 					_data(nullptr), 
+					_alloc(nullptr),
 					_numel(0), 
-					_contiguous(true) {
-
-
+					_contiguous(true),
+					_parent(nullptr) {
 				
 				}
 
 				TensorData(const size_t numel) :
-					_data(new T*[numel]), 
+					_data(new T*[numel]),
+					_alloc(new T[numel]),
 					_numel(numel), 
-					_contiguous(true) {
-
-					T* underlying_memory = new T[_numel];
+					_contiguous(true), 
+					_parent(nullptr) {
 
 					for (size_t index = 0; index < _numel; index++) {
 
-						underlying_memory[index] = 0;
+						_alloc[index] = 0;
 
-						_data[index] = &(underlying_memory[index]);
+						_data[index] = &(_alloc[index]);
 					}
 				
 				}
 
 				TensorData(size_t numel, T fill) :
 					_data(new T*[numel]),
+					_alloc(new T[numel]),
 					_numel(numel),
-					_contiguous(true) {
-
-					T* underlying_memory = new T[_numel];
+					_contiguous(true),
+					_parent(nullptr) {
 
 					for (size_t index = 0; index < _numel; index++) {
 						
-						underlying_memory[index] = fill;
+						_alloc[index] = fill;
 						
-						_data[index] = &(underlying_memory[index]);
+						_data[index] = &(_alloc[index]);
 					}
 
 				}
@@ -157,6 +173,21 @@ namespace swing {
 					return _numel;
 				}
 
+				
+				~TensorData() {
+					
+					if (_parent == nullptr) {
+						if (_alloc) {
+							delete[] _alloc;
+						}
+					} else {
+						_parent = nullptr;
+					}
+
+					if (_data) {
+						delete[] _data;
+					}
+				}
 
 		}; // class swing::tensor::TensorData
 	

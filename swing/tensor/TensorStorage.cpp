@@ -69,6 +69,7 @@ namespace swing {
 			return true;
 		}
 
+		// TODO: re-evaluate whether wrap is the intended behavior here, creating a new tensordata or using an already created one?
 		TensorStorage::TensorStorage(TensorData<float>& data) : 
 			_data(data.wrap()), 
 			_sizes(data._numel),
@@ -77,7 +78,7 @@ namespace swing {
 			_data_offset(0), 
 			_numel(data._numel),
 			_contiguous(true) {
-		
+		 
 		}
 
 		void TensorStorage::refresh_numel() {
@@ -104,7 +105,7 @@ namespace swing {
 
 			swing_assert(!_contiguous, "tensor cannot be contiguous");
 
-			swing_assert(_data_offset == 0, "tensor must have a storage offset of 0");
+			swing_assert(_data_offset == 0, "tensor must have a data offset of 0");
 
 			swing_assert(_data.numel() == _numel, "sizes must match");
 
@@ -187,7 +188,7 @@ namespace swing {
 
 		}
 
-		TensorStorage TensorStorage::as_strided(IntRefArray new_sizes, IntRefArray new_strides, int64_t data_offset) {
+		TensorStorage TensorStorage::as_strided(IntRefArray new_sizes, IntRefArray new_strides, size_t data_offset) {
 		
 			TensorStorage x(_data);
 
@@ -219,9 +220,6 @@ namespace swing {
 		int64_t TensorStorage::stride(int64_t index) {
 			return _strides[index];
 		}
-
-
-
 
 	} // namespace swing::tensor
 
